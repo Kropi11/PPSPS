@@ -105,7 +105,7 @@ namespace PPSPS.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Potvrďte svůj email.",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Potvrďte prosím svůj účet <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknutím na tento odkaz</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

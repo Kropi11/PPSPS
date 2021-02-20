@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PPSPS.Areas.Identity.Data
+
+@inject SignInManager<PPSPSUser> SignInManager
+@inject UserManager<PPSPSUser> UserManager
+
+<link rel="stylesheet" href="~/css/site.css" />
+<div id="wrapper">
+    <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+        <ul class="nav sidebar-nav">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <img src="https://www.sps-pi.cz/upload/sablona/logo2.png" alt="SPŠ a VOŠ Písek" width="auto" height="95%">
+                </div>
+            </div>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Domovská stránka</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Profil uživatele</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Moje práce</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Přehled tříd</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Přehled uživatelů</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Přehled prací</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Vytvořit zadání</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Přihlášení</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Registrace</a></li>
+        </ul>
+    </nav>
+
+    <div id="page-content-wrapper">
+        <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+            <span class="hamb-top"></span>
+            <span class="hamb-middle"></span>
+            <span class="hamb-bottom"></span>
+        </button>
+    </div>
+</div>

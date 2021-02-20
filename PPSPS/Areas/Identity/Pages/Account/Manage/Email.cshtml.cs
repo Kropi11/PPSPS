@@ -32,6 +32,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -46,7 +47,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nový e-mail")]
             public string NewEmail { get; set; }
         }
 
@@ -68,7 +69,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nelze načíst uživatele s ID '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -80,7 +81,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nelze načíst uživatele s ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -101,14 +102,14 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Potvrzení e-mailové adresy",
+                    $"Pro potvrzení emailové adresy prosím <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>klikněte na tento odkaz</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Ověřovací e-mail pro změnu e-mailové adresy byl odeslán. Prosím zkontrolujte svou e-mailovou schránku.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Váš e-mail nebylo možné změnit.";
             return RedirectToPage();
         }
 
@@ -117,7 +118,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nelze načíst uživatele s ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -137,10 +138,10 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Potvrzení e-mailové adresy",
+                $"Pro potvrzení emailové adresy prosím <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>klikněte na tento odkaz</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Ověřovací e-mail pro změnu e-mailové adresy byl odeslán. Prosím zkontrolujte svou e-mailovou schránku.";
             return RedirectToPage();
         }
     }

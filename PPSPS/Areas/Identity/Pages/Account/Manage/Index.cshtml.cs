@@ -23,7 +23,14 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Display(Name = "E-mail / Uživatelské jméno")]
         public string Username { get; set; }
+
+        [Display(Name = "Jméno")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Příjmení")]
+        public string LastName { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -34,7 +41,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefonní číslo")]
             public string PhoneNumber { get; set; }
         }
 
@@ -42,8 +49,13 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var firstName = await _userManager.GetUserNameAsync(user);
+            var lastName = await _userManager.GetUserNameAsync(user);
+
 
             Username = userName;
+            FirstName = firstName;
+            LastName = lastName;
 
             Input = new InputModel
             {
@@ -56,7 +68,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nelze načíst uživatele s ID '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -68,7 +80,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nelze načíst uživatele s ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -83,13 +95,13 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Při pokusu o nastavení telefonního čísla došlo k neočekávané chybě.";
                     return RedirectToPage();
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Váš profil byl aktualizován";
             return RedirectToPage();
         }
     }
