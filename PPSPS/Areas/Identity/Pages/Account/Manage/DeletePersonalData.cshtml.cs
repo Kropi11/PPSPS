@@ -32,6 +32,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Heslo")]
             public string Password { get; set; }
         }
 

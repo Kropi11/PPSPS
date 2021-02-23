@@ -27,10 +27,10 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         public string Username { get; set; }
 
         [Display(Name = "Jméno")]
-        public string FirstName { get; set; }
+        public string Firstname { get; set; }
 
         [Display(Name = "Příjmení")]
-        public string LastName { get; set; }
+        public string Lastname { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -49,13 +49,12 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var firstName = await _userManager.GetUserNameAsync(user);
-            var lastName = await _userManager.GetUserNameAsync(user);
+            var firstName = "Richard";
+            var lastName = "Kropáček";
 
 
             Username = userName;
-            FirstName = firstName;
-            LastName = lastName;
+            Lastname = lastName;
 
             Input = new InputModel
             {
