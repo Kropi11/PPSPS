@@ -55,6 +55,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
             Lastname = lastName;
+            Firstname = firstName;
 
             Input = new InputModel
             {

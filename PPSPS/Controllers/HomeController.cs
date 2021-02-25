@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PPSPS.Areas.Identity.Data;
 using PPSPS.Models;
 
 namespace PPSPS.Controllers
@@ -14,10 +15,12 @@ namespace PPSPS.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly PPSPSUser _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, PPSPSUser dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -25,9 +28,10 @@ namespace PPSPS.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult UserOverview()
         {
-            return View();
+            var useroverview = "f";
+            return View(useroverview);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

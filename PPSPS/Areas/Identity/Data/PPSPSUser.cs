@@ -18,5 +18,12 @@ namespace PPSPS.Areas.Identity.Data
         [Column(TypeName = "nvarchar(100)")]
         public string LastName { get; set; }
 
+        [PersonalData]
+        [Column(TypeName = "nvarchar(737)")]
+        public string Class { get; set; }
+
+        [PersonalData]
+        [Column(TypeName = "nvarchar(767)")]
+        public string Role { get; set; }
     }
 }
