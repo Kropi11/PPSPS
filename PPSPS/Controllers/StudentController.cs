@@ -11,16 +11,14 @@ using PPSPS.Models;
 
 namespace PPSPS.Controllers
 {
-    [Authorize]
-    public class HomeController : Controller
+    [Authorize/*(Roles = "Student")*/]
+    public class StudentController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly PPSPSUser _dbContext;
+        private readonly ILogger<StudentController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, PPSPSUser dbContext)
+        public StudentController(ILogger<StudentController> logger)
         {
             _logger = logger;
-            _dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -28,10 +26,9 @@ namespace PPSPS.Controllers
             return View();
         }
 
-        public IActionResult UserOverview()
+        public IActionResult UsersOverview()
         {
-            var useroverview = "f";
-            return View(useroverview);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

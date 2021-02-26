@@ -16,7 +16,7 @@
     <div class="col-sm-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title" onclick="location.href = '@(Url.Action("", "Home"))'"><span role="button" tabindex="0">Moje práce</span></h5>
+          <h5 class="card-title" onclick="location.href = '@(Url.Action("", "Student"))'"><span role="button" tabindex="0">Moje práce</span></h5>
           <p class="card-text">
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -39,7 +39,7 @@
                   @{
                     for (int i = 0; i < NameOfWork.Count; i++)
                     {
-                      <tr onclick="location.href = '@(Url.Action("", "Home"))'">
+                      <tr onclick="location.href = '@(Url.Action("", "Student"))'">
                         <td class="nameOfWork">@NameOfWork[i]</td>
                         <td class="textCenter">@Subject[i]</td>
                         <td class="textCenter">@Deadline[i]</td>
@@ -92,7 +92,7 @@
                   @{
                     for (int i = 0; i < (NameOfWork.Count-1); i++)
                     {
-                      <tr onclick="location.href = '@(Url.Action("", "Home", new {Class = 1 }))'">
+                      <tr onclick="location.href = '@(Url.Action("", "Student", new {Class = 1 }))'">
                         <td class="nameOfWork">@NameOfWork[i]</td>
                         <td class="textCenter">@Subject[i]</td>
                         <th class="textCenter">@Score[i]</th>
