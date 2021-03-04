@@ -26,12 +26,6 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         [Display(Name = "E-mail / Uživatelské jméno")]
         public string Username { get; set; }
 
-        [Display(Name = "Jméno")]
-        public string Firstname { get; set; }
-
-        [Display(Name = "Příjmení")]
-        public string Lastname { get; set; }
-
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -40,6 +34,12 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "Jméno")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Příjmení")]
+            public string LastName { get; set; }
+
             [Phone]
             [Display(Name = "Telefonní číslo")]
             public string PhoneNumber { get; set; }
@@ -49,16 +49,14 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var firstName = "Richard";
-            var lastName = "Kropáček";
 
 
             Username = userName;
-            Lastname = lastName;
-            Firstname = firstName;
 
             Input = new InputModel
             {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 PhoneNumber = phoneNumber
             };
         }
@@ -99,6 +97,17 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            if (Input.FirstName != user.FirstName)
+                    {
+                        user.FirstName = Input.FirstName;
+                    }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Váš profil byl aktualizován";

@@ -1,11 +1,12 @@
 ﻿@using System;
 @using System.Linq;
+@using PPSPS.Views.Administration
 
-@model List<char>
 @{
     ViewData["Title"] = "Přehled uživatelů";
 }
 
+@model IEnumerable<PPSPS.Areas.Identity.Data.PPSPSUser>
     <!-- Obsah stránky -->
 <div class="container">
     <div class="row">
@@ -22,22 +23,21 @@
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Příjmení</th>
                         <th scope="col">Jméno</th>
+                        <th scope="col">E-mail</th>
                         <th scope="col" class="textCenter">Profil</th>
                         <th scope="col" class="textCenter">Editovat</th>
                     </tr>
                     </thead>
                     <tbody id="myTable">
-
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <th scope="row">Html.DisplayFor(modelItem => item.Id)</th>
-                            <td>Html.DisplayFor(modelItem => item.LastName)</td>
-                            <td>Html.DisplayFor(modelItem => item.FirstName)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("", "",new {id = 1}))'">
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("UserOverview", "Administration",new {id = item.Id}))'">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
                                     <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
@@ -45,7 +45,7 @@
                                     <path d="M8 12c4 0 5 1.755 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12z"/>
                                 </svg>
                             </td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("", "",new {id = 2}))'">
+                            <td class="textCenter" onclick="location.href = '@Url.Action("", "Administration",new {id = item.Id})'">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
