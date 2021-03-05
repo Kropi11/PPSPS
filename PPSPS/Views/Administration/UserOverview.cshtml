@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Student LSláma";
+    ViewData["Title"] = "Profil uživatele";
 }
 @model PPSPS.Areas.Identity.Data.PPSPSUser
 
@@ -13,10 +13,10 @@
       <p class="font-weight-bolder">Třída:</p>
     </div>
     <div class="col-5 col-sm-5">
-      <p class="font-weight-normal">@Html.DisplayNameFor(model => model.FirstName)</p>
-      <p class="font-weight-normal">Sláma</p>
-      <p class="font-weight-normal">LSlama@sps-pi.cz</p>
-      <p class="font-weight-normal">C3</p>
+      <p class="font-weight-normal">@Html.DisplayFor(model => model.FirstName)</p>
+      <p class="font-weight-normal">@Html.DisplayFor(model => model.LastName)</p>
+      <p class="font-weight-normal">@Html.DisplayFor(model => model.Email)</p>
+      <p class="font-weight-normal">-</p>
     </div>
   </div>
   <hr>

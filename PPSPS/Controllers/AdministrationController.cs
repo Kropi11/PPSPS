@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,15 +34,46 @@ namespace PPSPS.Controllers
         {
             return View();
         }
-
-        public async Task<IActionResult> UserOverview(int? id)
-        {
-            return View();
-        }
-
         public async Task<IActionResult> UsersOVerview()
         {
             return View(await _context.Users.ToListAsync());
         }
+        public async Task<IActionResult> UserOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+        public async Task<IActionResult> UserEdit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
     }
 }
