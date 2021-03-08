@@ -98,9 +98,9 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                 }
             }
             if (Input.FirstName != user.FirstName)
-                    {
+            {
                         user.FirstName = Input.FirstName;
-                    }
+            }
 
             if (Input.LastName != user.LastName)
             {

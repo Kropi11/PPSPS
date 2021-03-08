@@ -13,7 +13,7 @@ using PPSPS.Data;
 
 namespace PPSPS.Controllers
 {
-    [Authorize/*(Roles = "Administrator")*/]
+    [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {
         private readonly ILogger<AdministrationController> _logger;
@@ -56,23 +56,12 @@ namespace PPSPS.Controllers
 
             return View(user);
         }
-        public async Task<IActionResult> UserEdit(string? id)
+
+        [HttpPost, ActionName("UserEdit")]
+        [ValidateAntiForgeryToken]
+        public IActionResult UserEdit(string? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
+            return View();
         }
 
     }

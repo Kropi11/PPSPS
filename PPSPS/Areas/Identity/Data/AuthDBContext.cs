@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PPSPS.Areas.Identity.Data;
+using PPSPS.Models;
 
 namespace PPSPS.Data
 {
@@ -18,7 +19,8 @@ namespace PPSPS.Data
 
         public DbSet<PPSPSUser> Users { get; set; }
 
-                protected override void OnModelCreating(ModelBuilder builder)
+
+        protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

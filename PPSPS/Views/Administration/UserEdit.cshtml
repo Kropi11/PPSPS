@@ -1,66 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Upravit profil uživatele";
+    ViewData["Title"] = "Profil uživatele";
 }
-    <!-- Obsah stránky -->
+
+<!-- Obsah stránky -->
 <div class="container">
-    <div class="row">
-        <form class="col">
-            <div class="row form-group">
-                <label for="firstname" class="font-weight-bolder col-form-label col-sm-3 col-md-3">Jméno:</label>
-                <input type="text" class="form-control font-weight-normal col-sm-4 offset-sm-1 col-md-5 offset-md-0" id="firstname" placeholder="Lubomír">
-            </div>
-            <div class="row form-group">
-                <label for="lastname" class="font-weight-bolder col-form-label col-sm-3 col-md-3">Příjmení:</label>
-                <input type="text" class="form-control font-weight-normal col-sm-4 offset-sm-1 col-md-5 offset-md-0" id="lastname" placeholder="Sláma">
-            </div>
-            <div class="row form-group">
-                <label for="email" class="font-weight-bolder col-form-label col-sm-3 col-md-3">E-mail:</label>
-                <input type="email" class="form-control font-weight-normal col-sm-4 offset-sm-1 col-md-5 offset-md-0" id="email" placeholder="lslama@sps-pi.cz">
-            </div>
-            <div class="row form-group">
-                <label for="class" class="font-weight-bolder col-form-label col-sm-3 col-md-3">Třída:</label>
-                <select id="class" class="form-control font-weight-normal col-sm-4 offset-sm-1 col-md-5 offset-md-0">
-                    <option>A1</option>
-                    <option>A2</option>
-                    <option>A3</option>
-                    <option>A4</option>
-                    <option>B1</option>
-                    <option>B2</option>
-                    <option>B3</option>
-                    <option>B4</option>
-                    <option>C1</option>
-                    <option>C2</option>
-                    <option>C3</option>
-                    <option>C4</option>
-                    <option>D1</option>
-                    <option>D2</option>
-                    <option>D3</option>
-                    <option>D4</option>
-                </select>
-            </div>
-            <div class="row form-group">
-                <label for="autority" class="font-weight-bolder col-form-label col-sm-3 col-md-3">Oprávnění:</label>
-                <select id="autority" class="form-control font-weight-normal col-sm-4 offset-sm-1 col-md-5 offset-md-0">
-                    <option>Student</option>
-                    <option>Učitel</option>
-                    <option>Ředitelství</option>
-                    <option>Administrator</option>
-                </select>
-            </div>
-            <div class="row btn-group" role="group" aria-label="Interaction">
-                <button type="submit" class="btn btn-secondary" style="background: darkblue" asp-area="" asp-controller="" asp-action="">Uložit</button>
-                <button type="reset" class="btn btn-secondary" asp-area="" asp-controller="" asp-action="">Zrušit</button>
-            </div>
-        </form>
-        <div class="col">
-            <div class="col-s rounded float-right">
-                <div class="card align-items-center" style="width: 18rem;">
-                    <img src="https://img.icons8.com/pastel-glyph/2x/person-male.png" for="userimg" id="userimg" class="card-img-top img-thumbnail" alt="User">
-                    <div class="card-body">
-                        <input type="file" class="form-control-file btn-primary" id="userimg" accept="image/*">
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-2 col-sm-2">
+      <p class="font-weight-bolder">Jméno:</p>
+      <p class="font-weight-bolder">Příjmení:</p>
+      <p class="font-weight-bolder">E-mail:</p>
+      <p class="font-weight-bolder">Třída:</p>
     </div>
+    <div class="col-5 col-sm-5">
+      <p class="font-weight-normal">Html.DisplayFor(model => model.FirstName)</p>
+      <p class="font-weight-normal">Html.DisplayFor(model => model.LastName)</p>
+      <p class="font-weight-normal">Html.DisplayFor(model => model.Email)</p>
+      <p class="font-weight-normal">-</p>
+    </div>
+  </div>
+  <hr>
+  <div class="accordion" id="accordionExample">
+  </div>
 </div>
