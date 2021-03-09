@@ -1,24 +1,43 @@
-﻿@{
-    ViewData["Title"] = "Profil uživatele";
+﻿@model PPSPS.Areas.Identity.Data.PPSPSUser
+
+@{
+    ViewData["Title"] = "Úpravit profil";
 }
 
-<!-- Obsah stránky -->
-<div class="container">
-  <div class="row">
-    <div class="col-2 col-sm-2">
-      <p class="font-weight-bolder">Jméno:</p>
-      <p class="font-weight-bolder">Příjmení:</p>
-      <p class="font-weight-bolder">E-mail:</p>
-      <p class="font-weight-bolder">Třída:</p>
+<h1>Upravit profil uživatele</h1>
+<h4>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="UserEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Příjmení</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Křestní jméno</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">E-mail</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <input type="submit" value="Uložit" class="btn btn-primary" />
+                </div>
+            </form>
     </div>
-    <div class="col-5 col-sm-5">
-      <p class="font-weight-normal">Html.DisplayFor(model => model.FirstName)</p>
-      <p class="font-weight-normal">Html.DisplayFor(model => model.LastName)</p>
-      <p class="font-weight-normal">Html.DisplayFor(model => model.Email)</p>
-      <p class="font-weight-normal">-</p>
-    </div>
-  </div>
-  <hr>
-  <div class="accordion" id="accordionExample">
-  </div>
 </div>
+
+<div>
+    <a asp-action="UsersOverview">Zpět na seznam</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

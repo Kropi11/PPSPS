@@ -14,7 +14,7 @@ using PPSPS.Models;
 
 namespace PPSPS.Controllers
 {
-    [Authorize/*(Roles = "Student")*/]
+    [Authorize(Roles = "Student")]
     public class StudentController : Controller
     {
         private readonly ILogger<StudentController> _logger;

@@ -34,7 +34,7 @@ namespace PPSPS.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> UsersOVerview()
+        public async Task<IActionResult> UsersOverview()
         {
             return View(await _context.Users.ToListAsync());
         }
@@ -57,12 +57,51 @@ namespace PPSPS.Controllers
             return View(user);
         }
 
-        [HttpPost, ActionName("UserEdit")]
-        [ValidateAntiForgeryToken]
-        public IActionResult UserEdit(string? id)
+         public async Task<IActionResult> UserEdit(string? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
         }
 
+        [HttpPost, ActionName("UserEdit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserEdit_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var studentToUpdate = await _context.Users.FirstOrDefaultAsync(s => s.Id == id);
+            if (await TryUpdateModelAsync<PPSPSUser>(
+                studentToUpdate,
+                "",
+                s => s.FirstName, s => s.LastName, s => s.Email))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(UsersOverview));
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později, pokud problém přetrvává, " +
+                                                 "zkontaktujte svého správce systému.");
+                }
+            }
+
+            return View(studentToUpdate);
+        }
     }
 }

@@ -6,11 +6,11 @@ namespace PPSPS.Models
     public class aspnetuserroles
     {
         [ForeignKey("UserId")]
-        [Column(TypeName = "nvarchar(767)")]
+        [Column(TypeName = "varchar(767)")]
         public string UserId { get; set; }
 
         [ForeignKey("RoleId")]
-        [Column(TypeName = "nvarchar(737)")]
+        [Column(TypeName = "varchar(767)")]
         public string RoleId { get; set; }
     }
 }

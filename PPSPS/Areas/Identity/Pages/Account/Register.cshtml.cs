@@ -96,6 +96,7 @@ namespace PPSPS.Areas.Identity.Pages.Account
             {
                 var user = new PPSPSUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName};
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Uživatel vytvořil nový účet s heslem.");
