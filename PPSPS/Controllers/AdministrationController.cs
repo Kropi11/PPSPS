@@ -57,7 +57,7 @@ namespace PPSPS.Controllers
             return View(user);
         }
 
-         public async Task<IActionResult> UserEdit(string? id)
+        public async Task<IActionResult> UserEdit(string? id)
         {
             if (id == null)
             {

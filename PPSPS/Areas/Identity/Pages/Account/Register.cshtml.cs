@@ -23,14 +23,12 @@ namespace PPSPS.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<PPSPSUser> _signInManager;
         private readonly UserManager<PPSPSUser> _userManager;
-        private readonly RoleManager<PPSPSUser> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<PPSPSUser> userManager,
             SignInManager<PPSPSUser> signInManager,
-            RoleManager<PPSPSUser> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -38,7 +36,6 @@ namespace PPSPS.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
         }
 
         [BindProperty]

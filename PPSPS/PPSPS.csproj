@@ -17,4 +17,7 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="SendGrid" Version="9.22.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Teacher" />
+  </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,21 +20,37 @@ namespace PPSPS.Controllers
     {
         private readonly ILogger<StudentController> _logger;
         private readonly AuthDBContext _context;
+        private readonly UserManager<PPSPSUser> _userManager;
 
-        public StudentController(ILogger<StudentController> logger, AuthDBContext context)
+        public StudentController(ILogger<StudentController> logger, AuthDBContext context, UserManager<PPSPSUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
-        public async Task<IActionResult> UsersOVerview()
+        public async Task<IActionResult> UserOverview()
         {
-            return View(await _context.Users.ToListAsync());
+            string id = _userManager.GetUserId(User);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
