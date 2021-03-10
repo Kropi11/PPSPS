@@ -1,66 +1,77 @@
-﻿@{
+﻿@model PPSPS.Models.PPSPSTask
+
+@{
     ViewData["Title"] = "Vytvořit zadání";
 }
 
 <div class="container">
-  <form class="needs-validation">
-  <fieldset class="form-group">
-    <div class="form-group row">
-      <label for="inputEmail3" class="font-weight-bolder col-sm-2 col-form-label">Jméno práce</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputEmail3" required>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="zadani" class="font-weight-bolder col-sm-2 col-form-label">Zadání</label>
-      <div class="col-sm-10">
-        <textarea class="form-control" id="Zadani" rows="3"></textarea>
-      </div>
-    </div>
-    <div class="row">
-      <label for="inputPassword3" class="font-weight-bolder col-sm-2 col-form-label">Třída</label>
-      <div class="col-auto my-1 form-inline">
-        <select class="custom-select mr-sm-2" id="Class" required>
-          <option disabled selected>Třída</option>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="A3">A3</option>
-          <option value="A4">A4</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="B3">B3</option>
-          <option value="B4">B4</option>
-        </select>
-        <select class="custom-select mr-sm-2" id="Groupe" required>
-          <option value="all" selected>Celá třída</option>
-          <option value="1">1. skupina</option>
-          <option value="2">2. skupina</option>
-          <option value="3">3. skupina</option>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <label for="date" class="font-weight-bolder col-sm-2 col-form-label">Odevzdat</label>
-      <div class="col-auto my-1 form-inline">
-        <label for="date" class="col-sm-1 col-form-label">Od</label>
-        <input type="date" class="custom-select mr-sm-2" id="formGroupExampleInput" required>
-        <label for="date" class="col-sm-1 col-form-label">Do</label>
-        <input type="date" class="custom-select mr-sm-2" id="formGroupExampleInput" required>
-      </div>
-    </div>
-    <div class="row">
-      <label for="priloha" class="font-weight-bolder col-sm-2 col-form-label">Příloha</label>
-      <div class="col-auto my-1 form-inline">
-        <div class="input-group mb-3">
-          <input type="file" class="btn" id="inputGroupFile02" multiple>
+  <form asp-action="CreateTask" class="needs-validation">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset class="form-group">
+      <div class="form-group row">
+        <label asp-for="TaskName" class="font-weight-bolder col-sm-2 col-form-label">Jméno práce</label>
+        <div class="col-sm-10">
+          <input asp-for="TaskName" type="text" class="form-control" required>
+          <span asp-validation-for="TaskName" class="text-danger"></span>
         </div>
       </div>
+      <div class="form-group row">
+        <label asp-for="Description" class="font-weight-bolder col-sm-2 col-form-label">Zadání</label>
+        <div class="col-sm-10">
+          <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+          <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row">
+        <label for="inputPassword3" class="font-weight-bolder col-sm-2 col-form-label">Třída</label>
+        <div class="col-auto my-1 form-inline">
+          <select class="custom-select mr-sm-2" required>
+            <option disabled selected>Třída</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="A3">A3</option>
+            <option value="A4">A4</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="B3">B3</option>
+            <option value="B4">B4</option>
+          </select>
+          <select class="custom-select mr-sm-2" required>
+            <option value="all" selected>Celá třída</option>
+            <option value="1">1. skupina</option>
+            <option value="2">2. skupina</option>
+            <option value="3">3. skupina</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <label for="DateTime" class="font-weight-bolder col-sm-2 col-form-label">Odevzdat</label>
+        <div class="col-auto my-1 form-inline">
+          <label asp-for="DateStart" class="col-sm-1 col-form-label">Od</label>
+          <input asp-for="DateStart" class="custom-select mr-sm-2" required>
+          <span asp-validation-for="DateStart" class="text-danger"></span>
+          <label asp-for="DateDeadline" class="col-sm-1 col-form-label">Do</label>
+          <input asp-for="DateDeadline" type="date" class="custom-select mr-sm-2" required>
+          <span asp-validation-for="DateDeadline" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="row">
+        <label for="priloha" class="font-weight-bolder col-sm-2 col-form-label">Příloha</label>
+        <div class="col-auto my-1 form-inline">
+          <div class="input-group mb-3">
+            <input type="file" class="btn" multiple>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-group row">
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Vytvořit zadání</button>
+      </div>
     </div>
-  </fieldset>
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Vytvořit zadání</button>
-    </div>
-  </div>
   </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

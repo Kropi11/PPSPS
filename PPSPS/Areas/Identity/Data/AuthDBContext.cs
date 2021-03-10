@@ -18,6 +18,7 @@ namespace PPSPS.Data
         }
 
         public DbSet<PPSPSUser> Users { get; set; }
+        public DbSet<PPSPSTask> Tasks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

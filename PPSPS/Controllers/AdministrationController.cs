@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PPSPS.Areas.Identity.Data;
 using PPSPS.Data;
+using PPSPS.Models;
 
 namespace PPSPS.Controllers
 {
@@ -26,11 +28,6 @@ namespace PPSPS.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult CreateTask()
         {
             return View();
         }
@@ -102,6 +99,40 @@ namespace PPSPS.Controllers
             }
 
             return View(studentToUpdate);
+        }
+        public async Task<IActionResult> TasksOverview()
+        {
+            return View(await _context.Tasks.ToListAsync());
+        }
+
+        public IActionResult CreateTask()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateTask([Bind("TaskName,Description,DateStart,DateDeadline")] PPSPSTask task)
+        {
+            task.Id = Guid.NewGuid().ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(task);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+
+            return View(task);
         }
     }
 }
