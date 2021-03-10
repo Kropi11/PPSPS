@@ -29,30 +29,6 @@ namespace PPSPS.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public async Task<IActionResult> UserOverview()
-        {
-            string id = _userManager.GetUserId(User);
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

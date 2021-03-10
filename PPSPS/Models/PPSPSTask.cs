@@ -17,7 +17,7 @@ namespace PPSPS.Models
         public string Description { get; set; }
 
         [Column(TypeName = "datetime")]
-        public DateTime DateStart { get; set; }
+        public DateTime DateEntered { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime DateDeadline { get; set; }

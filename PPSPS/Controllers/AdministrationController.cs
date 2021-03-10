@@ -27,14 +27,11 @@ namespace PPSPS.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
         public async Task<IActionResult> UsersOverview()
         {
             return View(await _context.Users.ToListAsync());
         }
+
         public async Task<IActionResult> UserOverview(string? id)
         {
             if (id == null)
@@ -66,6 +63,7 @@ namespace PPSPS.Controllers
             {
                 return NotFound();
             }
+
             return View(user);
         }
 
@@ -100,39 +98,58 @@ namespace PPSPS.Controllers
 
             return View(studentToUpdate);
         }
+
         public async Task<IActionResult> TasksOverview()
         {
             return View(await _context.Tasks.ToListAsync());
         }
 
-        public IActionResult CreateTask()
+        public async Task<IActionResult> TaskEdit(string? id)
         {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTask([Bind("TaskName,Description,DateStart,DateDeadline")] PPSPSTask task)
-        {
-            task.Id = Guid.NewGuid().ToString();
-            try
+            if (id == null)
             {
-                if (ModelState.IsValid)
-                {
-                    _context.Add(task);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
+                return NotFound();
             }
-            catch (DbUpdateException /* ex */)
+
+            var task = await _context.Tasks.FindAsync(id);
+            if (task == null)
             {
-                //Log the error (uncomment ex variable name and write a log.
-                ModelState.AddModelError("", "Unable to save changes. " +
-                                             "Try again, and if the problem persists " +
-                                             "see your system administrator.");
+                return NotFound();
             }
 
             return View(task);
+        }
+
+        [HttpPost, ActionName("TaskEdit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskEdit_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taskToUpdate = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+            if (await TryUpdateModelAsync<PPSPSTask>(
+                taskToUpdate,
+                "",
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(TasksOverview));
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později, pokud problém přetrvává, " +
+                                                 "zkontaktujte svého správce systému.");
+                }
+            }
+
+            return View(taskToUpdate);
         }
     }
 }

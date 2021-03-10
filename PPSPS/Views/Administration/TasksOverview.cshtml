@@ -31,10 +31,10 @@
                     <tbody id="myTable">
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr onclick="location.href = '@(Url.Action("TaskEdit", "Administration",new {id = item.Id}))'">
                             <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DateStart)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
                         </tr>
                     }
