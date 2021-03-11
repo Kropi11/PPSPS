@@ -1,0 +1,38 @@
+﻿@model PPSPS.Models.PPSPSClass
+
+@{
+    ViewData["Title"] = "Přidat třídu";
+}
+
+<h1>Přidat</h1>
+
+<h4>Třídu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateClass">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ClassName" class="control-label">Název třídy</label>
+                <input asp-for="ClassName" maxlength="5" class="form-control" />
+                <span asp-validation-for="ClassName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassTeacher" class="control-label">Třídní učitel</label>
+                <input asp-for="ClassTeacher" maxlength="100" class="form-control" />
+                <span asp-validation-for="ClassTeacher" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Přidat" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ClassesOverview">Zpět na přehled</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -34,7 +34,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Display(Name = "Jméno")]
+            [Display(Name = "Křestní jméno")]
             public string FirstName { get; set; }
 
             [Display(Name = "Příjmení")]
@@ -97,16 +97,6 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-            if (Input.FirstName != user.FirstName)
-            {
-                        user.FirstName = Input.FirstName;
-            }
-
-            if (Input.LastName != user.LastName)
-            {
-                user.LastName = Input.LastName;
-            }
-
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);

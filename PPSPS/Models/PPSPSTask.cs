@@ -10,10 +10,10 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string Id { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "varchar(100)")]
         public string TaskName { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "varchar(250)")]
         public string Description { get; set; }
 
         [Column(TypeName = "datetime")]
@@ -22,5 +22,7 @@ namespace PPSPS.Models
         [Column(TypeName = "datetime")]
         public DateTime DateDeadline { get; set; }
 
+        [Column(TypeName = "varchar(100)")]
+        public string Class { get; set; }
     }
 }

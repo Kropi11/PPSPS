@@ -1,0 +1,42 @@
+﻿@model IEnumerable<PPSPS.Models.PPSPSClass>
+
+@{
+    ViewData["Title"] = "Přehled uživatelů";
+}
+
+    <!-- Obsah stránky -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 text-center">
+            <form class="form-inline justify-content-center">
+                <div class="form-group">
+                    <input class="form-control" id="tableSearch" type="text" placeholder="Hledat ... ">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <br/>
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Název třídy</th>
+                        <th scope="col">Třídní učitel</th>
+                    </tr>
+                    </thead>
+                    <tbody id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr onclick="location.href = '@(Url.Action("Index", "Home",new {id = item.Id}))'">
+                            <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ClassTeacher)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
