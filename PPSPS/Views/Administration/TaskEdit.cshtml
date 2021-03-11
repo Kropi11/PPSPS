@@ -14,21 +14,21 @@
       <div class="form-group row">
         <label asp-for="TaskName" class="font-weight-bolder col-sm-2 col-form-label">Jméno práce</label>
         <div class="col-sm-10">
-          <input asp-for="TaskName" type="text" class="form-control" required>
+          <input asp-for="TaskName" type="text" maxlength="100" class="form-control" required>
           <span asp-validation-for="TaskName" class="text-danger"></span>
         </div>
       </div>
       <div class="form-group row">
         <label asp-for="Description" class="font-weight-bolder col-sm-2 col-form-label">Zadání</label>
         <div class="col-sm-10">
-          <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+          <textarea asp-for="Description" maxlength="250" class="form-control" rows="3"></textarea>
           <span asp-validation-for="Description" class="text-danger"></span>
         </div>
       </div>
       <div class="row">
-        <label for="inputPassword3" class="font-weight-bolder col-sm-2 col-form-label">Třída</label>
+        <label asp-for="Class" class="font-weight-bolder col-sm-2 col-form-label">Třída</label>
         <div class="col-auto my-1 form-inline">
-          <select class="custom-select mr-sm-2" required>
+          <select asp-for="Class" class="custom-select mr-sm-2" required>
             <option disabled selected>Třída</option>
             <option value="A1">A1</option>
             <option value="A2">A2</option>
@@ -39,6 +39,7 @@
             <option value="B3">B3</option>
             <option value="B4">B4</option>
           </select>
+          <span asp-validation-for="Description" class="text-danger"></span>
           <select class="custom-select mr-sm-2" required>
             <option value="all" selected>Celá třída</option>
             <option value="1">1. skupina</option>
@@ -48,7 +49,7 @@
         </div>
       </div>
       <div class="row">
-        <label for="DateTime" class="font-weight-bolder col-sm-2 col-form-label">Odevzdat</label>
+        <label class="font-weight-bolder col-sm-2 col-form-label">Odevzdat</label>
         <div class="col-auto my-1 form-inline">
           <label asp-for="DateEntered" class="col-sm-1 col-form-label">Od</label>
           <input asp-for="DateEntered" class="custom-select mr-sm-2" required>
@@ -59,10 +60,11 @@
         </div>
       </div>
       <div class="row">
-        <label for="priloha" class="font-weight-bolder col-sm-2 col-form-label">Příloha</label>
+        <label for="File" class="font-weight-bolder col-sm-2 col-form-label">Příloha</label>
         <div class="col-auto my-1 form-inline">
           <div class="input-group mb-3">
-            <input type="file" class="btn" multiple>
+            <input for="File" type="file" class="btn" multiple>
+            <span validation-for="File" class="text-danger"></span>
           </div>
         </div>
       </div>
@@ -75,7 +77,7 @@
   </form>
 
   <div>
-    <a asp-action="TasksOverview">Zpět na seznam</a>
+    <a asp-action="TasksOverview">Zpět na přehled</a>
   </div>
 </div>
 

@@ -133,7 +133,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.Class))
             {
                 try
                 {
@@ -150,6 +150,41 @@ namespace PPSPS.Controllers
             }
 
             return View(taskToUpdate);
+        }
+
+        public async Task<IActionResult> ClassesOverview()
+        {
+            return View(await _context.Classes.ToListAsync());
+        }
+
+        public IActionResult CreateClass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateClass([Bind("ClassName, ClassTeacher")] PPSPSClass classes)
+        {
+            classes.Id = Guid.NewGuid().ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(classes);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(CreateClass));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                             "Zkuste to znovu později, pokud problém přetrvává, " +
+                                             "zkontaktujte svého správce systému.");
+            }
+
+            return View(classes);
         }
     }
 }
