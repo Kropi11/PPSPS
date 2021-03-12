@@ -27,8 +27,7 @@
                 @if (User.IsInRole("Administrator")){
                     <li><a asp-area="" asp-controller="Administration" asp-action="UsersOverview">Přehled uživatelů</a></li>
                     <li><a asp-area="" asp-controller="Administration" asp-action="TasksOverview">Přehled prací</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Přehled tříd</a></li>
-                    <li><a asp-area="" asp-controller="Administration" asp-action="CreateClass">Přidat třídu</a></li>
+                    <li><a asp-area="" asp-controller="Administration" asp-action="ClassesOverview">Přehled tříd</a></li>
                 }
             </ul>
         </nav>

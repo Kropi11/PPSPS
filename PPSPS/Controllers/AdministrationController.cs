@@ -186,5 +186,56 @@ namespace PPSPS.Controllers
 
             return View(classes);
         }
+        public async Task<IActionResult> ClassEdit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var classes = await _context.Classes.FindAsync(id);
+            if (classes == null)
+            {
+                return NotFound();
+            }
+
+            return View(classes);
+        }
+
+        [HttpPost, ActionName("ClassEdit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ClassEdit_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var classToUpdate = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
+            if (await TryUpdateModelAsync<PPSPSClass>(
+                classToUpdate,
+                "",
+                c => c.ClassName, c => c.ClassTeacher))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(ClassesOverview));
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později, pokud problém přetrvává, " +
+                                                 "zkontaktujte svého správce systému.");
+                }
+            }
+
+            return View(classToUpdate);
+        }
+        public IActionResult TaskOverview()
+        {
+            return View();
+        }
     }
 }

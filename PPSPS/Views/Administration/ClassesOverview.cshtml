@@ -13,7 +13,7 @@
                     <input class="form-control" id="tableSearch" type="text" placeholder="Hledat ... ">
                 </div>
             </form>
-        </div>
+           </div>
     </div>
     <div class="row d-flex justify-content-center">
         <div class="tab-content" id="myTabContent">
@@ -24,14 +24,24 @@
                     <tr>
                         <th scope="col">Název třídy</th>
                         <th scope="col">Třídní učitel</th>
+                        <th colspan="3" scope="col"><button type="submit" class="btn btn-primary" onclick="location.href = '@(Url.Action("CreateClass", "Administration"))'">Přidat třídu</button></th>
                     </tr>
                     </thead>
                     <tbody id="myTable">
                     @foreach (var item in Model)
                     {
-                        <tr onclick="location.href = '@(Url.Action("Index", "Home",new {id = item.Id}))'">
+                        <tr>
                             <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
                             <td>@Html.DisplayFor(modelItem => item.ClassTeacher)</td>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("ClassesOverview", "Administration",new {id = item.Id}))'">
+                                <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
+                            </td>
+                            <td class="textCenter" onclick="location.href = '@Url.Action("ClassEdit", "Administration",new {id = item.Id})'">
+                                <i class="bi bi-pencil-square" style="color: #0056b3"></i>
+                            </td>
+                            <td>
+                                <i class="bi bi-trash" style="color: #b21f2d"></i>
+                            </td>
                         </tr>
                     }
                     </tbody>
