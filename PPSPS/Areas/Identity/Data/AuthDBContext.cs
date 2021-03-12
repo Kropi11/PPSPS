@@ -21,7 +21,6 @@ namespace PPSPS.Data
         public DbSet<PPSPSTask> Tasks { get; set; }
         public DbSet<PPSPSClass> Classes { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

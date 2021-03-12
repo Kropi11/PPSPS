@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Hodnocení LSlama";
+}
+
+<!-- Obsah stránky -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <p class="font-weight-bolder col-sm-2 col-md-2">Jméno:</p>
+                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">Lubomír</p>
+            </div>
+            <div class="row">
+                <p class="font-weight-bolder col-sm-2 col-md-2">Příjmení:</p>
+                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">Sláma</p>
+            </div>
+            <div class="row">
+
+                <p class="font-weight-bolder col-sm-2 col-md-2">E-mail:</p>
+                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">LSlama@sps-pi.cz</p>
+            </div>
+            <div class="row">
+                <p class="font-weight-bolder col-sm-2 col-md-2">Třída:</p>
+                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">C3</p>
+            </div>
+            <div class="row">
+                <p class="font-weight-bolder col-sm-2 col-md-2">Známka:</p>
+                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">1</p>
+            </div>
+            <div class="row">
+                <p class="font-weight-bolder col-sm-2 col-md-2">Poznámky:</p>
+                <div class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">
+                    <p class="notes">13. 11. 2020, 23:52, Kropáček - <i>Práce splňuje požadavky.</i></p>
+                    <p class="notes">14. 11. 2020, 00:02, Kropáček - <i>Stažení práce.</i></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4">
+            <p class="font-weight-bolder" style="margin: auto; padding-top: 2%">Hodnocení</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary" style="background-color: #70C27C; color: #000000">
+                    <input type="radio" name="options" id="option1" autocomplete="off">1
+                </label>
+                <label class="btn btn-secondary" style="background-color: #C6DB81; color: #000000">
+                    <input type="radio" name="options" id="option2" autocomplete="off">2
+                </label>
+                <label class="btn btn-secondary" style="background-color: #FEDE81; color: #000000">
+                    <input type="radio" name="options" id="option3" autocomplete="off">3
+                </label>
+                <label class="btn btn-secondary" style="background-color: #F98A71; color: #000000">
+                    <input type="radio" name="options" id="option4" autocomplete="off">4
+                </label>
+                <label class="btn btn-secondary" style="background-color: #F8696B; color: #000000">
+                    <input type="radio" name="options" id="option5" autocomplete="off">5
+                </label>
+            </div>
+            <p class="font-weight-bolder" style="margin: auto; padding-top: 2%;">Poznámka</p>
+            <textarea class="form-control" id="Poznamka" rows="3"></textarea>
+            <div class="btn-group" role="group" aria-label="Interaction">
+                <button type="button" class="btn btn-secondary" style="background: darkblue" asp-area="" asp-controller="Home" action="User">Uložit</button>
+                <button type="button" class="btn btn-secondary" asp-area="" asp-controller="Home" action="User">Zrušit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="text-align: center;">
+    <hr>
+    <div class="btn-group" role="group" aria-label="Interaction">
+        <a class="btn btn-secondary" style="background-color: dodgerblue" data-toggle="collapse" href="#collapsePDF" role="button" aria-expanded="false" aria-controls="collapsePDF">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            </svg>
+            Zobrazit/Skrýt PDF
+        </a>
+        <a type="button" class="btn btn-secondary" asp-area="" asp-controller="Home" action="User" download="~/B2_Kropacek_Richard_SLO.pdf">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+            Stáhnout
+        </a>
+    </div>
+    <div class="collapse" id="collapsePDF">
+        <div class="card card-body">
+            <embed src="" style="text-align: center;" type="application/pdf" width="100%" height="750px">
+        </div>
+    </div>
+</div>

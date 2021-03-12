@@ -76,9 +76,9 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
-            var studentToUpdate = await _context.Users.FirstOrDefaultAsync(s => s.Id == id);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(s => s.Id == id);
             if (await TryUpdateModelAsync<PPSPSUser>(
-                studentToUpdate,
+                userToUpdate,
                 "",
                 s => s.FirstName, s => s.LastName, s => s.Email))
             {
@@ -91,12 +91,60 @@ namespace PPSPS.Controllers
                 {
                     //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
-                                                 "Zkuste to znovu později, pokud problém přetrvává, " +
-                                                 "zkontaktujte svého správce systému.");
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "obraťte se na správce systému.");
                 }
             }
 
-            return View(studentToUpdate);
+            return View(userToUpdate);
+        }
+
+        public async Task<IActionResult> UserDelete(string? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
+                    "obraťte se na správce systému.";
+            }
+
+            return View(user);
+        }
+
+        [HttpPost, ActionName("UserDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserDelete_Post(string? id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return RedirectToAction(nameof(UsersOverview));
+            }
+
+            try
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(UsersOverview));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(UserDelete), new { id = id, saveChangesError = true });
+            }
         }
 
         public async Task<IActionResult> TasksOverview()
@@ -144,7 +192,7 @@ namespace PPSPS.Controllers
                 {
                     //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
-                                                 "Zkuste to znovu později, pokud problém přetrvává, " +
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "zkontaktujte svého správce systému.");
                 }
             }
@@ -180,8 +228,8 @@ namespace PPSPS.Controllers
             {
                 //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Nebylo možné uložit změny. " +
-                                             "Zkuste to znovu později, pokud problém přetrvává, " +
-                                             "zkontaktujte svého správce systému.");
+                                             "Zkuste to znovu později a pokud problém přetrvává, " +
+                                             "obraťte se na správce systému.");
             }
 
             return View(classes);
@@ -226,16 +274,144 @@ namespace PPSPS.Controllers
                 {
                     //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
-                                                 "Zkuste to znovu později, pokud problém přetrvává, " +
-                                                 "zkontaktujte svého správce systému.");
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "obraťte se na správce systému.");
                 }
             }
 
             return View(classToUpdate);
         }
-        public IActionResult TaskOverview()
+        public async Task<IActionResult> TaskOverview(string? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.Tasks
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return View(task);
+        }
+
+        public async Task<IActionResult> ClassDelete(string? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var classes = await _context.Classes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (classes == null)
+            {
+                return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
+                    "obraťte se na správce systému.";;
+            }
+
+            return View(classes);
+        }
+        // POST: Students/Delete/5
+        [HttpPost, ActionName("ClassDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ClassDelete(string? id)
+        {
+            var student = await _context.Classes.FindAsync(id);
+            if (student == null)
+            {
+                return RedirectToAction(nameof(ClassesOverview));
+            }
+
+            try
+            {
+                _context.Classes.Remove(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ClassesOverview));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(ClassDelete), new { id = id, saveChangesError = true });
+            }
+        }
+
+        public async Task<IActionResult> TaskDelete(string? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.Tasks
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
+                    "obraťte se na správce systému.";;
+            }
+
+            return View(task);
+        }
+        // POST: Students/Delete/5
+        [HttpPost, ActionName("TaskDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskDelete(string? id)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task == null)
+            {
+                return RedirectToAction(nameof(TasksOverview));
+            }
+
+            try
+            {
+                _context.Tasks.Remove(task);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(TasksOverview));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(TaskDelete), new { id = id, saveChangesError = true });
+            }
+        }
+        public async Task<IActionResult> ClassOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var classes = await _context.Classes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (classes == null)
+            {
+                return NotFound();
+            }
+
+            return View(classes);
         }
     }
 }

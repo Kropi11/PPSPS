@@ -41,7 +41,7 @@
                             <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Administration",new {id = item.Id})'">
                                 <i class="bi bi-pencil-square" style="color: #0056b3"></i>
                             </td>
-                            <td>
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserDelete", "Administration",new {id = item.Id})'">
                                 <i class="bi bi-trash" style="color: #b21f2d"></i>
                             </td>
                         </tr>

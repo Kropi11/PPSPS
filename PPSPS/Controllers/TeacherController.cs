@@ -29,7 +29,7 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTask([Bind("TaskName,Description,DateStart,DateDeadline")] PPSPSTask task)
+        public async Task<IActionResult> CreateTask([Bind("TaskName,Description,DateEntered,DateDeadline,Class")] PPSPSTask task)
         {
             task.Id = Guid.NewGuid().ToString();
             try
@@ -50,6 +50,10 @@ namespace PPSPS.Controllers
             }
 
             return View(task);
+        }
+        public IActionResult TaskOverview()
+        {
+            return View();
         }
     }
 }

@@ -4,23 +4,46 @@
     ViewData["Title"] = "Profil uživatele";
 }
 
-<!-- Obsah stránky -->
-<div class="container">
-  <div class="row">
-    <div class="col-2 col-sm-2">
-      <p class="font-weight-bolder">Jméno:</p>
-      <p class="font-weight-bolder">Příjmení:</p>
-      <p class="font-weight-bolder">E-mail:</p>
-      <p class="font-weight-bolder">Třída:</p>
-    </div>
-    <div class="col-5 col-sm-5">
-      <p class="font-weight-normal">@Html.DisplayFor(model => model.FirstName)</p>
-      <p class="font-weight-normal">@Html.DisplayFor(model => model.LastName)</p>
-      <p class="font-weight-normal">@Html.DisplayFor(model => model.Email)</p>
-      <p class="font-weight-normal">-</p>
-    </div>
-  </div>
-  <hr>
-  <div class="accordion" id="accordionExample">
-  </div>
+<h1>Profil uživatele</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Křestní jméno
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            Příjmení
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            E-mail
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            Třída
+        </dt>
+        <dd class="col-sm-10">
+            B4.I
+        </dd>
+    </dl>
+    <dl>
+        <hr />
+        <dt class="col-sm-2">
+            Práce
+        </dt>
+    </dl>
+    <hr />
+
+</div>
+<div>
+    <a asp-action="UsersOverview">Zpět na přehled</a>
 </div>

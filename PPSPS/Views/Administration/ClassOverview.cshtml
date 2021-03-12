@@ -1,0 +1,37 @@
+﻿@model PPSPS.Models.PPSPSClass
+
+@{
+    ViewData["Title"] = "Detail třídy";
+}
+
+<h1>Detail třídy</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.ClassName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Třída
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClassName)
+        </dd>
+        <dt class="col-sm-2">
+            Třídní učitel
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClassTeacher) (email@sps-pi.cz)
+        </dd>
+    </dl>
+    <dl>
+        <hr />
+        <dt class="col-sm-2">
+            Žáci
+        </dt>
+    </dl>
+    <hr />
+
+</div>
+<div>
+    <a asp-action="ClassesOverview">Zpět na přehled</a>
+</div>
