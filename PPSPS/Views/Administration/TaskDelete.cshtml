@@ -37,10 +37,9 @@
     </dl>
     <hr />
 
+    <form asp-action="TaskDelete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Odstranit" class="btn btn-danger" /> |
+        <a asp-action="TasksOverview">Zpět na přehled</a>
+    </form>
 </div>
-
-<form asp-action="TaskDelete">
-    <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Odstranit" class="btn btn-danger" /> |
-    <a asp-action="TasksOverview">Zpět na přehled</a>
-</form>

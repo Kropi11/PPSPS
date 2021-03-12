@@ -22,14 +22,14 @@ namespace PPSPS.Controllers
         }
 
         // GET
-        public IActionResult CreateTask()
+        public IActionResult TaskCreate()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTask([Bind("TaskName,Description,DateEntered,DateDeadline,Class")] PPSPSTask task)
+        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,Class")] PPSPSTask task)
         {
             task.Id = Guid.NewGuid().ToString();
             try
@@ -38,7 +38,7 @@ namespace PPSPS.Controllers
                 {
                     _context.Add(task);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(CreateTask));
+                    return RedirectToAction(nameof(TaskCreate));
                 }
             }
             catch (DbUpdateException /* ex */)

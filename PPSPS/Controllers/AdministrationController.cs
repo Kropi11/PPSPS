@@ -205,14 +205,14 @@ namespace PPSPS.Controllers
             return View(await _context.Classes.ToListAsync());
         }
 
-        public IActionResult CreateClass()
+        public IActionResult ClassCreate()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateClass([Bind("ClassName, ClassTeacher")] PPSPSClass classes)
+        public async Task<IActionResult> ClassCreate([Bind("ClassName, ClassTeacher")] PPSPSClass classes)
         {
             classes.Id = Guid.NewGuid().ToString();
             try
@@ -221,7 +221,7 @@ namespace PPSPS.Controllers
                 {
                     _context.Add(classes);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(CreateClass));
+                    return RedirectToAction(nameof(ClassCreate));
                 }
             }
             catch (DbUpdateException /* ex */)
@@ -412,6 +412,153 @@ namespace PPSPS.Controllers
             }
 
             return View(classes);
+        }
+        public async Task<IActionResult> SubjectsOverview()
+        {
+            return View(await _context.Subjects.ToListAsync());
+        }
+
+        public IActionResult SubjectCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubjectCreate([Bind("SubjectName, SubjectAbbreviation")] PPSPSSubject subject)
+        {
+            subject.Id = Guid.NewGuid().ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(subject);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(SubjectsOverview));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                             "Zkuste to znovu později a pokud problém přetrvává, " +
+                                             "obraťte se na správce systému.");
+            }
+
+            return View(subject);
+        }
+
+        public async Task<IActionResult> SubjectDelete(string? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await _context.Subjects
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
+                    "obraťte se na správce systému.";;
+            }
+
+            return View(subject);
+        }
+        // POST: Students/Delete/5
+        [HttpPost, ActionName("SubjectDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubjectDelete(string? id)
+        {
+            var subject = await _context.Subjects.FindAsync(id);
+            if (subject == null)
+            {
+                return RedirectToAction(nameof(SubjectsOverview));
+            }
+
+            try
+            {
+                _context.Subjects.Remove(subject);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(SubjectsOverview));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(SubjectDelete), new { id = id, saveChangesError = true });
+            }
+        }
+        public async Task<IActionResult> SubjectEdit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await _context.Subjects.FindAsync(id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
+            return View(subject);
+        }
+
+        [HttpPost, ActionName("SubjectEdit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubjectEdit_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subjectToUpdate = await _context.Subjects.FirstOrDefaultAsync(s => s.Id == id);
+            if (await TryUpdateModelAsync<PPSPSSubject>(
+                subjectToUpdate,
+                "",
+                s => s.SubjectName, s => s.SubjectAbbreviation))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(SubjectsOverview));
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "obraťte se na správce systému.");
+                }
+            }
+
+            return View(subjectToUpdate);
+        }
+        public async Task<IActionResult> SubjectOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await _context.Subjects
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
+            return View(subject);
         }
     }
 }

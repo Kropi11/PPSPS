@@ -20,6 +20,7 @@ namespace PPSPS.Data
         public DbSet<PPSPSUser> Users { get; set; }
         public DbSet<PPSPSTask> Tasks { get; set; }
         public DbSet<PPSPSClass> Classes { get; set; }
+        public DbSet<PPSPSSubject> Subjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<PPSPS.Models.PPSPSTask>
+﻿@model IEnumerable<PPSPS.Models.PPSPSSubject>
 
 @{
-    ViewData["Title"] = "Přehled uživatelů";
+    ViewData["Title"] = "Přehled předmětů";
 }
 
     <!-- Obsah stránky -->
@@ -13,37 +13,33 @@
                     <input class="form-control" id="tableSearch" type="text" placeholder="Hledat ... ">
                 </div>
             </form>
-        </div>
+           </div>
     </div>
     <div class="row d-flex justify-content-center">
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <br/>
-                <table id="TasksOverview" class="table table-hover table-striped">
+                <table id="SubjectsOverview" class="table table-hover table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Jméno práce</th>
-                        <th scope="col">Třída</th>
-                        <th scope="col">Datum zadání</th>
-                        <th scope="col">Datum odevzdání</th>
-                        <th colspan="3" scope="col" />
+                        <th scope="col">Zkratka</th>
+                        <th scope="col">Název předmětu</th>
+                        <th colspan="3" scope="col"><button type="submit" class="btn btn-primary" onclick="location.href = '@(Url.Action("SubjectCreate", "Administration"))'">Přidat předmět</button></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Class)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Administration",new {id = item.Id}))'">
+                            <td>@Html.DisplayFor(modelItem => item.SubjectAbbreviation)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SubjectName)</td>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("SubjectOverview", "Administration",new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
                             </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("TaskEdit", "Administration",new {id = item.Id})'">
+                            <td class="textCenter" onclick="location.href = '@Url.Action("SubjectEdit", "Administration",new {id = item.Id})'">
                                 <i class="bi bi-pencil-square" style="color: #0056b3"></i>
                             </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("TaskDelete", "Administration",new {id = item.Id})'">
+                            <td class="textCenter" onclick="location.href = '@Url.Action("SubjectDelete", "Administration",new {id = item.Id})'">
                                 <i class="bi bi-trash" style="color: #b21f2d"></i>
                             </td>
                         </tr>
