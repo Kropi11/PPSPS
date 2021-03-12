@@ -24,13 +24,14 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        @if (!User.IsInRole("Administrator"))
+        @if (!User.IsInRole("Administrator") || true)
+
         {
             <dt class="col-sm-2">
                 Třída
             </dt>
             <dd class="col-sm-10">
-                B4.I
+                @Html.DisplayFor(model => model.Class)
             </dd>
         }
     </dl>

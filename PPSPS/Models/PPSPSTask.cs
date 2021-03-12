@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace PPSPS.Models
 {
@@ -10,9 +11,11 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string Id { get; set; }
 
+        [StringLength(100)]
         [Column(TypeName = "varchar(100)")]
         public string TaskName { get; set; }
 
+        [StringLength(250)]
         [Column(TypeName = "varchar(250)")]
         public string Description { get; set; }
 
@@ -22,7 +25,7 @@ namespace PPSPS.Models
         [Column(TypeName = "datetime")]
         public DateTime DateDeadline { get; set; }
 
-        [Column(TypeName = "varchar(100)")]
+        [Column(TypeName = "varchar(767)")]
         public string Class { get; set; }
     }
 }

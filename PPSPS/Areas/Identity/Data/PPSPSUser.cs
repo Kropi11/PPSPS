@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PPSPS.Models;
 
 namespace PPSPS.Areas.Identity.Data
 {
@@ -18,5 +19,9 @@ namespace PPSPS.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "nvarchar(100)")]
         public string LastName { get; set; }
+
+        [PersonalData]
+        [Column(TypeName = "nvarchar(767)")]
+        public string Class { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string Id { get; set; }
 
+        [StringLength(5)]
         [Column(TypeName = "varchar(5)")]
         public string ClassName { get; set; }
 
