@@ -20,9 +20,11 @@ namespace PPSPS.Models
         public string Description { get; set; }
 
         [Column(TypeName = "datetime")]
+        [DisplayFormat(DataFormatString = "{0:dd. MM. yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateEntered { get; set; }
 
         [Column(TypeName = "datetime")]
+        [DisplayFormat(DataFormatString = "{0:dd. MM. yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateDeadline { get; set; }
 
         [Column(TypeName = "varchar(767)")]
