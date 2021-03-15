@@ -9,7 +9,7 @@ using PPSPS.Data;
 namespace PPSPS.Migrations
 {
     [DbContext(typeof(AuthDBContext))]
-    [Migration("20210216205805_InitialCreate")]
+    [Migration("20210314204012_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,9 @@ namespace PPSPS.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(767)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -219,6 +222,68 @@ namespace PPSPS.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSClass", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("ClassName")
+                        .HasColumnType("varchar(5)")
+                        .HasMaxLength(5);
+
+                    b.Property<string>("ClassTeacher")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSSubject", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("SubjectAbbreviation")
+                        .HasColumnType("varchar(5)")
+                        .HasMaxLength(5);
+
+                    b.Property<string>("SubjectName")
+                        .HasColumnType("varchar(45)")
+                        .HasMaxLength(45);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSTask", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("Class")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<DateTime>("DateDeadline")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("DateEntered")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("TaskName")
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

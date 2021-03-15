@@ -27,7 +27,7 @@
                         <th colspan="3" scope="col"><button type="submit" class="btn btn-primary" onclick="location.href = '@(Url.Action("SubjectCreate", "Administration"))'">Přidat předmět</button></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="Table">
                     @foreach (var item in Model)
                     {
                         <tr>

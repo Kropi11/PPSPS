@@ -29,7 +29,7 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,Class")] PPSPSTask task)
+        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,ClassId,File")] PPSPSTask task)
         {
             task.Id = Guid.NewGuid().ToString();
             try

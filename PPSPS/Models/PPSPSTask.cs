@@ -28,6 +28,12 @@ namespace PPSPS.Models
         public DateTime DateDeadline { get; set; }
 
         [Column(TypeName = "varchar(767)")]
-        public string Class { get; set; }
+        public string ClassId { get; set; }
+
+        [Column(TypeName = "varchar(767)")]
+        public string SubjectId { get; set; }
+
+        [Column(TypeName = "longblob")]
+        public string File { get; set; }
     }
 }

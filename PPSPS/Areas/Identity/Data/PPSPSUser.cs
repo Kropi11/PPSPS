@@ -22,6 +22,6 @@ namespace PPSPS.Areas.Identity.Data
 
         [PersonalData]
         [Column(TypeName = "nvarchar(767)")]
-        public string Class { get; set; }
+        public string ClassId { get; set; }
     }
 }
