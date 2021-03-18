@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
+using PPSPS.Areas.Identity.Data;
 
 namespace PPSPS.Models
 {
@@ -33,7 +34,15 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string SubjectId { get; set; }
 
+        [Column(TypeName = "varchar(767)")]
+        public string TeacherId { get; set; }
+
         [Column(TypeName = "longblob")]
         public string File { get; set; }
+
+        public PPSPSUser Teacher { get; set; }
+        public PPSPSClass Class { get; set; }
+        public PPSPSSubject Subject { get; set; }
+
     }
 }

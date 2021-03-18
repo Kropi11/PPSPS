@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PPSPS.Areas.Identity.Data;
 
 namespace PPSPS.Models
 {
@@ -15,6 +16,8 @@ namespace PPSPS.Models
         public string ClassName { get; set; }
 
         [Column(TypeName = "varchar(767)")]
-        public string ClassTeacher { get; set; }
+        public string ClassTeacherId { get; set; }
+
+        ///public PPSPSUser ClassTeacher { get; set; }
     }
 }

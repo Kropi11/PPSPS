@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PPSPS.Areas.Identity.Data;
@@ -29,7 +30,10 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> UsersOverview()
         {
-            return View(await _context.Users.ToListAsync());
+            var users = _context.Users
+                .Include(c => c.Class)
+                .AsNoTracking();
+            return View(await users.ToListAsync());
         }
 
         public async Task<IActionResult> UserOverview(string? id)
@@ -40,9 +44,9 @@ namespace PPSPS.Controllers
             }
 
             var user = await _context.Users
+                .Include(c => c.Class)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+                .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -80,7 +84,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSUser>(
                 userToUpdate,
                 "",
-                s => s.FirstName, s => s.LastName, s => s.Email, s => s.EmailConfirmed))
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.EmailConfirmed, c => c.ClassId))
             {
                 try
                 {
@@ -149,7 +153,11 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> TasksOverview()
         {
-            return View(await _context.Tasks.ToListAsync());
+            var users = _context.Tasks
+                .Include(c => c.Class)
+                .Include(s => s.Subject)
+                .AsNoTracking();
+            return View(await users.ToListAsync());
         }
 
         public async Task<IActionResult> TaskEdit(string? id)
@@ -202,7 +210,10 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> ClassesOverview()
         {
-            return View(await _context.Classes.ToListAsync());
+            var classes = _context.Classes
+                //.Include(u => u.ClassTeacher)
+                .AsNoTracking();
+            return View(await classes.ToListAsync());
         }
 
         public IActionResult ClassCreate()
@@ -263,7 +274,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSClass>(
                 classToUpdate,
                 "",
-                c => c.ClassName, c => c.ClassTeacher))
+                c => c.ClassName, c => c.ClassTeacherId))
             {
                 try
                 {
@@ -289,8 +300,11 @@ namespace PPSPS.Controllers
             }
 
             var task = await _context.Tasks
+                .Include(u => u.Teacher)
+                .Include(c => c.Class)
+                .Include(s => s.Subject)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             if (task == null)
             {

@@ -32,7 +32,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.ClassTeacher)</td>
+                            <td>Html.DisplayFor(modelItem => item.ClassTeacher.LastName) Html.DisplayFor(modelItem => item.ClassTeacher.FirstName)</td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("ClassOverview", "Administration",new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
                             </td>

@@ -39,14 +39,11 @@
                             <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Administration",new {id = item.Id}))'">
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Teacher",new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
                             </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("TaskEdit", "Administration",new {id = item.Id})'">
+                            <td class="textCenter" onclick="location.href = '@Url.Action("TaskEdit", "Teacher",new {id = item.Id})'">
                                 <i class="bi bi-pencil-square" style="color: #0056b3"></i>
-                            </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("TaskDelete", "Administration",new {id = item.Id})'">
-                                <i class="bi bi-trash" style="color: #b21f2d"></i>
                             </td>
                         </tr>
                     }

@@ -1,7 +1,7 @@
 ﻿@model PPSPS.Models.PPSPSTask
 
 @{
-    ViewData["Title"] = "Detail práce";
+    ViewData["Title"] = "Detail zadání";
 }
 
 <h1>Detail práce</h1>
@@ -26,7 +26,19 @@
             Třída
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClassId)
+            @Html.DisplayFor(model => model.Class.ClassName)
+        </dd>
+        <dt class="col-sm-2">
+            Předmět
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Subject.SubjectName) (@Html.DisplayFor(model => model.Subject.SubjectAbbreviation))
+        </dd>
+        <dt class="col-sm-2">
+            Vyučující
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.LastName) @Html.DisplayFor(model => model.Teacher.FirstName)
         </dd>
         <dt class="col-sm-2">
             Termín
