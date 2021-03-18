@@ -80,7 +80,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSUser>(
                 userToUpdate,
                 "",
-                s => s.FirstName, s => s.LastName, s => s.Email))
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.EmailConfirmed))
             {
                 try
                 {

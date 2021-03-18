@@ -24,18 +24,35 @@
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label">E-mail</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClassId" class="control-label">Třída</label>
-                <input asp-for="ClassId" type="checkbox" class="form-control" />
-                <span asp-validation-for="ClassId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                @if (Model.EmailConfirmed)
+                {
+                    <div class="input-group">
+                        <input asp-for="Email" class="form-control" />
+                        <div class="input-group-append">
+                            <span asp-validation-for="EmailConfirmed" class="input-group-text text-success font-weight-bold">✓</span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="input-group">
+                        <input asp-for="Email" class="form-control" />
+                        <div class="input-group-append">
+                            <span asp-validation-for="EmailConfirmed" class="input-group-text text-danger font-weight-bold">X</span>
+                        </div>
+                    </div>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Zaslat ověřovací e-mail.</button>
+                }
+                <div class="form-group">
+                    <label asp-for="ClassId" class="control-label">Třída</label>
+                    <input asp-for="ClassId" type="text" class="form-control" />
+                    <span asp-validation-for="ClassId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <input type="submit" value="Uložit" class="btn btn-primary" />
                 </div>
-            </form>
+            </div>
+        </form>
     </div>
 </div>
 

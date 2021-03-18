@@ -16,6 +16,7 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string TaskId { get; set; }
 
+        [Range(0, 5)]
         [Column(TypeName = "int")]
         public int Grade { get; set; }
 
