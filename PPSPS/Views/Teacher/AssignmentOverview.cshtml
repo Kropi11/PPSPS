@@ -1,39 +1,43 @@
-﻿@{
-    ViewData["Title"] = "Hodnocení LSlama";
+﻿@model PPSPS.Models.PPSPSAssignment
+
+@{
+    ViewData["Title"] = "Hodnocení práce";
 }
 
 <!-- Obsah stránky -->
 <div class="container">
     <div class="row">
         <div class="col">
-            <div class="row">
-                <p class="font-weight-bolder col-sm-2 col-md-2">Jméno:</p>
-                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">Lubomír</p>
-            </div>
-            <div class="row">
-                <p class="font-weight-bolder col-sm-2 col-md-2">Příjmení:</p>
-                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">Sláma</p>
-            </div>
-            <div class="row">
-
-                <p class="font-weight-bolder col-sm-2 col-md-2">E-mail:</p>
-                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">LSlama@sps-pi.cz</p>
-            </div>
-            <div class="row">
-                <p class="font-weight-bolder col-sm-2 col-md-2">Třída:</p>
-                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">C3</p>
-            </div>
-            <div class="row">
-                <p class="font-weight-bolder col-sm-2 col-md-2">Známka:</p>
-                <p class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">1</p>
-            </div>
-            <div class="row">
-                <p class="font-weight-bolder col-sm-2 col-md-2">Poznámky:</p>
-                <div class="font-weight-normal col-sm-5 offset-sm-2 col-md-6 offset-md-0">
-                    <p class="notes">13. 11. 2020, 23:52, Kropáček - <i>Práce splňuje požadavky.</i></p>
-                    <p class="notes">14. 11. 2020, 00:02, Kropáček - <i>Stažení práce.</i></p>
-                </div>
-            </div>
+            <dt class="col-sm-2">
+                Jméno
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
+            <dt class="col-sm-2">
+                Příjmení
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.LastName)
+            </dd>
+            <dt class="col-sm-2">
+                E-mail
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.Email)
+            </dd>
+            <dt class="col-sm-2">
+                Třída
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.ClassId)
+            </dd>
+            <dt class="col-sm-2">
+                Známka
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Grade)
+            </dd>
         </div>
         <div class="col-6 col-md-4">
             <p class="font-weight-bolder" style="margin: auto; padding-top: 2%">Hodnocení</p>

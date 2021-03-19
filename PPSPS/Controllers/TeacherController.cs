@@ -111,9 +111,34 @@ namespace PPSPS.Controllers
             return View(taskToUpdate);
         }
 
-        public IActionResult TaskOverview()
+        public async Task<IActionResult> AssignmentsOverview()
         {
-            return View();
+            var assignment = _context.Assignments
+                .Include(u => u.User)
+                .Include(t => t.Task)
+                .AsNoTracking();
+            return View(await assignment.ToListAsync());
+        }
+
+        public async Task<IActionResult> AssignmentOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var assignment = await _context.Assignments
+                .Include(u => u.User)
+                .Include(t => t.Task)
+
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            return View(assignment);
         }
     }
 }

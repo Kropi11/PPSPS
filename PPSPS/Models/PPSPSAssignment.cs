@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PPSPS.Areas.Identity.Data;
 
 namespace PPSPS.Models
 {
@@ -23,5 +24,8 @@ namespace PPSPS.Models
         [Column(TypeName = "datetime")]
         [DisplayFormat(DataFormatString = "{0:dd. MM. yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateSubmission { get; set; }
+
+        public PPSPSUser User { get; set; }
+        public PPSPSTask Task { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<PPSPS.Models.PPSPSTask>
+﻿@model IEnumerable<PPSPS.Models.PPSPSAssignment>
 
 @{
-    ViewData["Title"] = "Přehled zadání";
+    ViewData["Title"] = "Přehled splněných zadání";
 }
 
     <!-- Obsah stránky -->
@@ -22,11 +22,10 @@
                 <table id="TasksOverview" class="table table-hover table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Název práce</th>
-                        <th scope="col">Třída</th>
-                        <th scope="col">Předmět</th>
-                        <th scope="col">Datum zadání</th>
+                        <th scope="col">Příjmení</th>
+                        <th scope="col">Jméno</th>
                         <th scope="col">Datum odevzdání</th>
+                        <th scope="col">Známka</th>
                         <th colspan="3" scope="col" />
                     </tr>
                     </thead>
@@ -34,16 +33,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Class.ClassName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentsOverview", "Teacher",new {id = item.Id}))'">
+                            <td>@Html.DisplayFor(modelItem => item.User.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.User.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DateSubmission)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Grade)</td>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Teacher",new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
-                            </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("TaskEdit", "Teacher",new {id = item.Id})'">
-                                <i class="bi bi-pencil-square" style="color: #0056b3"></i>
                             </td>
                         </tr>
                     }
