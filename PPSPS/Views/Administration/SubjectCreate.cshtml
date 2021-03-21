@@ -12,12 +12,12 @@
         <form asp-action="SubjectCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SubjectName" class="control-label">Celý název předmětu</label>
+                <label asp-for="SubjectName" class="control-label"></label>
                 <input asp-for="SubjectName" maxlength="45" class="form-control" />
                 <span asp-validation-for="SubjectName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SubjectAbbreviation" class="control-label">Zkratka předmětu</label>
+                <label asp-for="SubjectAbbreviation" class="control-label"></label>
                 <input asp-for="SubjectAbbreviation" maxlength="5" class="form-control" />
                 <span asp-validation-for="SubjectAbbreviation" class="text-danger"></span>
             </div>

@@ -18,6 +18,7 @@ namespace PPSPS.Models
         public string TaskId { get; set; }
 
         [Range(0, 5)]
+        [Display(Name = "Známka")]
         [Column(TypeName = "int")]
         public int Grade { get; set; }
 

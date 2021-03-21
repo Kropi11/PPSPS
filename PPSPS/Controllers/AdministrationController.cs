@@ -574,5 +574,156 @@ namespace PPSPS.Controllers
 
             return View(subject);
         }
+        public async Task<IActionResult> YearsOfStudiesOverview()
+        {
+            var years = _context.YearsOfStudies
+                .AsNoTracking();
+            return View(await years.ToListAsync());
+        }
+
+        public IActionResult YearOfStudiesCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> YearOfStudiesCreate([Bind("FirstSemester, SecondSemester")] PPSPSYearsOfStudies years)
+        {
+            years.Id = Guid.NewGuid().ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(years);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(YearsOfStudiesOverview));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                             "Zkuste to znovu později a pokud problém přetrvává, " +
+                                             "obraťte se na správce systému.");
+            }
+
+            return View(years);
+        }
+
+        public async Task<IActionResult> YearOfStudiesEdit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var years = await _context.YearsOfStudies.FindAsync(id);
+            if (years == null)
+            {
+                return NotFound();
+            }
+
+            return View(years);
+        }
+
+        [HttpPost, ActionName("YearOfStudiesEdit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> YearOfStudiesEdit_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var yearsToUpdate = await _context.YearsOfStudies.FirstOrDefaultAsync(y => y.Id == id);
+            if (await TryUpdateModelAsync<PPSPSYearsOfStudies>(
+                yearsToUpdate,
+                "",
+                y => y.FirstSemester, y => y.SecondSemester))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(YearsOfStudiesOverview));
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "obraťte se na správce systému.");
+                }
+            }
+
+            return View(yearsToUpdate);
+        }
+
+        public async Task<IActionResult> YearOfStudiesDelete(string? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var years = await _context.YearsOfStudies
+                .AsNoTracking()
+                .FirstOrDefaultAsync(y => y.Id == id);
+            if (years == null)
+            {
+                return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
+                    "obraťte se na správce systému.";;
+            }
+
+            return View(years);
+        }
+        // POST: Students/Delete/5
+        [HttpPost, ActionName("YearOfStudiesDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> YearOfStudiesDelete(string? id)
+        {
+            var years = await _context.YearsOfStudies.FindAsync(id);
+            if (years == null)
+            {
+                return RedirectToAction(nameof(YearsOfStudiesOverview));
+            }
+
+            try
+            {
+                _context.YearsOfStudies.Remove(years);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(YearsOfStudiesOverview));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(YearOfStudiesDelete), new { id = id, saveChangesError = true });
+            }
+        }
+
+        public async Task<IActionResult> YearOfStudiesOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var years = await _context.YearsOfStudies
+                .AsNoTracking()
+                .FirstOrDefaultAsync(y => y.Id == id);
+
+            if (years == null)
+            {
+                return NotFound();
+            }
+
+            return View(years);
+        }
     }
 }

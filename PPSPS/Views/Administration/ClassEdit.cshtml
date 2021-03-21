@@ -12,12 +12,12 @@
         <form asp-action="ClassEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ClassName" class="control-label">Název třídy</label>
+                <label asp-for="ClassName" class="control-label"></label>
                 <input asp-for="ClassName" maxlength="5" class="form-control" />
                 <span asp-validation-for="ClassName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClassTeacherId" class="control-label">Třídní učitel</label>
+                <label asp-for="ClassTeacherId" class="control-label"></label>
                 <input asp-for="ClassTeacherId" maxlength="100" class="form-control" />
                 <span asp-validation-for="ClassTeacherId" class="text-danger"></span>
             </div>

@@ -1,0 +1,36 @@
+﻿@model PPSPS.Models.PPSPSYearsOfStudies
+@{
+    ViewData["Title"] = "Upravit ročník";
+}
+
+<h1>Upravit ročník</h1>
+
+<h4>@Html.DisplayFor(model => model.Years)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="YearOfStudiesEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="input-group mb-3">
+                <input asp-for="FirstSemester" maxlength="4" class="form-control"  />
+                <span asp-validation-for="FirstSemester" class="text-danger"></span>
+
+                <span class="input-group-text">/</span>
+
+                <input asp-for="SecondSemester" maxlength="4" class="form-control"  />
+                <span asp-validation-for="SecondSemester" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Uložit změny" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="YearsOfStudiesOverview">Zpět na přehled</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

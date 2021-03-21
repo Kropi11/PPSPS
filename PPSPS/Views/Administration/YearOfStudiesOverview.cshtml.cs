@@ -2,7 +2,7 @@
 
 namespace PPSPS.Views.Administration
 {
-    public class ClassCreate : PageModel
+    public class YearOfStudiesOverview : PageModel
     {
         public void OnGet()
         {

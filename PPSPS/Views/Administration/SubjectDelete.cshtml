@@ -11,13 +11,13 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            Název předmětu
+            <label asp-for="SubjectName" class="control-label"></label>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SubjectName)
         </dd>
         <dt class = "col-sm-2">
-            Zkratka předmětu
+            <label asp-for="SubjectAbbreviation" class="control-label"></label>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SubjectAbbreviation)

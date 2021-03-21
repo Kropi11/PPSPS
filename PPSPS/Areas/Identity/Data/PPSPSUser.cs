@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,14 +14,21 @@ namespace PPSPS.Areas.Identity.Data
     public class PPSPSUser : IdentityUser
     {
         [PersonalData]
+        [Display(Name = "Křestní jméno")]
         [Column(TypeName = "nvarchar(100)")]
         public string FirstName { get; set; }
 
         [PersonalData]
+        [Display(Name = "Příjmení")]
         [Column(TypeName = "nvarchar(100)")]
         public string LastName { get; set; }
 
         [PersonalData]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
+
+        [PersonalData]
+        [Display(Name = "Třída")]
         [Column(TypeName = "nvarchar(767)")]
         public string ClassId { get; set; }
 

@@ -22,6 +22,7 @@ namespace PPSPS.Data
         public DbSet<PPSPSAssignment> Assignments { get; set; }
         public DbSet<PPSPSClass> Classes { get; set; }
         public DbSet<PPSPSSubject> Subjects { get; set; }
+        public DbSet<PPSPSYearsOfStudies> YearsOfStudies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

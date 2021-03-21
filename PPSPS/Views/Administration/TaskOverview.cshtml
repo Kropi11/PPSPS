@@ -11,31 +11,31 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Název práce
+            <label asp-for="TaskName" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TaskName)
         </dd>
         <dt class="col-sm-2">
-            Zadání
+            <label asp-for="Description" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            Třída
+            <label asp-for="ClassId" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Class.ClassName)
         </dd>
         <dt class="col-sm-2">
-            Předmět
+            <label asp-for="SubjectId" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Subject.SubjectName) (@Html.DisplayFor(model => model.Subject.SubjectAbbreviation))
         </dd>
         <dt class="col-sm-2">
-            Vyučující
+            <label asp-for="TeacherId" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Teacher.LastName) @Html.DisplayFor(model => model.Teacher.FirstName)
@@ -47,7 +47,7 @@
             @Html.DisplayFor(model => model.DateEntered) - @Html.DisplayFor(model => model.DateDeadline)
         </dd>
         <dt class="col-sm-2">
-            Přílohy
+            <label asp-for="File" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.File)
