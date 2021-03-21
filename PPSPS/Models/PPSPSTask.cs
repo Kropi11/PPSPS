@@ -44,6 +44,9 @@ namespace PPSPS.Models
         [Display(Name = "Vyučující")]
         public string TeacherId { get; set; }
 
+        [Column(TypeName = "varchar(767)")]
+        public string YearsOfStudiesId { get; set; }
+
         [Column(TypeName = "longblob")]
         [Display(Name = "Přílohy")]
         public string File { get; set; }
@@ -51,6 +54,7 @@ namespace PPSPS.Models
         public PPSPSUser Teacher { get; set; }
         public PPSPSClass Class { get; set; }
         public PPSPSSubject Subject { get; set; }
+        public PPSPSYearsOfStudies YearsOfStudies { get; set; }
 
     }
 }

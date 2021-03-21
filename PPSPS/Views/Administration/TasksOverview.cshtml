@@ -24,6 +24,7 @@
                     <tr>
                         <th scope="col">Název práce</th>
                         <th scope="col">Třída</th>
+                        <th scope="col">Ročník</th>
                         <th scope="col">Předmět</th>
                         <th scope="col">Datum zadání</th>
                         <th scope="col">Datum odevzdání</th>
@@ -36,6 +37,7 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Class.ClassName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.YearsOfStudies.Years)</td>
                             <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>

@@ -37,11 +37,18 @@
           </select>
           <span asp-validation-for="ClassId" class="text-danger"></span>
           <select asp-for="SubjectId" class="custom-select mr-sm-2" required>
-            <option>Předmět</option>
+            <option disabled selected>Předmět</option>
             <option value="6edbf5ec-422a-485e-9db1-98b9308c5c57">APS</option>
             <option value="7ea9b6c7-edae-46be-a0fc-d52d57abaaff">OSY</option>
             <option value="abd88f7c-fe8a-4417-aaf5-74d3d899ef40">HW</option>
             <option value="f4b6e873-f5df-4a1c-bc15-edfc6530a261">PVA</option>
+          </select>
+          <select asp-for="YearsOfStudiesId" class="custom-select mr-sm-2" required>
+            <option disabled selected>Ročník</option>
+            <option value="2021c33e-1db6-4ffd-999a-5191c09cb700">2018/2019</option>
+            <option value="5605981e-bc24-4a43-96fe-df13f688e194">2020/2021</option>
+            <option value="eaf7b682-2863-4394-88e3-fdec2470c699">2019/2020</option>
+            <option value="fe338637-2f47-4ef3-8277-9afeb10afd2f">2017/2018</option>
           </select>
         </div>
       </div>

@@ -30,7 +30,7 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,ClassId,SubjectId,File")] PPSPSTask task)
+        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,ClassId,SubjectId,YearsOfStudiesId,File")] PPSPSTask task)
         {
             task.Id = Guid.NewGuid().ToString();
             task.TeacherId = User.Identity.GetUserId<string>();
@@ -59,6 +59,7 @@ namespace PPSPS.Controllers
             var users = _context.Tasks
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
+                .Include(y => y.YearsOfStudies)
                 .AsNoTracking();
             return View(await users.ToListAsync());
         }
@@ -92,7 +93,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId, t => t.YearsOfStudiesId))
             {
                 try
                 {
@@ -116,6 +117,7 @@ namespace PPSPS.Controllers
             var assignment = _context.Assignments
                 .Include(u => u.User)
                 .Include(t => t.Task)
+
                 .AsNoTracking();
             return View(await assignment.ToListAsync());
         }

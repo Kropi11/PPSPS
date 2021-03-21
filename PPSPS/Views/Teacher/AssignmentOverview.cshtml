@@ -8,34 +8,34 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <dt class="col-sm-2">
-                Jméno
+            <dt class="col-sm-3">
+                <label asp-for="User.FirstName" class="control-label"></label>
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.User.FirstName)
             </dd>
-            <dt class="col-sm-2">
-                Příjmení
+            <dt class="col-sm-3">
+                <label asp-for="User.LastName" class="control-label"></label>
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.User.LastName)
             </dd>
-            <dt class="col-sm-2">
-                E-mail
+            <dt class="col-sm-3">
+                <label asp-for="User.Email" class="control-label"></label>
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.User.Email)
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.User.Email.Length)
             </dd>
-            <dt class="col-sm-2">
-                Třída
+            <dt class="col-sm-3">
+                <label asp-for="User.ClassId" class="control-label"></label>
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.User.ClassId)
             </dd>
-            <dt class="col-sm-2">
-                Známka
+            <dt class="col-sm-3">
+                <label asp-for="Grade" class="control-label"></label>
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.Grade)
             </dd>
         </div>

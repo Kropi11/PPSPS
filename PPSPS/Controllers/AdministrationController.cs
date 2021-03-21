@@ -156,6 +156,7 @@ namespace PPSPS.Controllers
             var users = _context.Tasks
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
+                .Include(y => y.YearsOfStudies)
                 .AsNoTracking();
             return View(await users.ToListAsync());
         }
@@ -189,7 +190,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId, t => t.YearsOfStudiesId, t => t.File))
             {
                 try
                 {
@@ -303,6 +304,7 @@ namespace PPSPS.Controllers
                 .Include(u => u.Teacher)
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
+                .Include(y => y.YearsOfStudies)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
 
@@ -371,6 +373,10 @@ namespace PPSPS.Controllers
 
             var task = await _context.Tasks
                 .AsNoTracking()
+                .Include(u => u.Teacher)
+                .Include(c => c.Class)
+                .Include(s => s.Subject)
+                .Include(y => y.YearsOfStudies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (task == null)
             {
