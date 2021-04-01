@@ -39,17 +39,22 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <select class="custom-select" id="Class" required>
+                        <select asp-for="Input.ClassId" class="custom-select mr-sm-2" required>
                             <option disabled selected>Třída</option>
-                            <option value="A1">A1</option>
-                            <option value="A2">A2</option>
-                            <option value="A3">A3</option>
-                            <option value="A4">A4</option>
-                            <option value="B1">B1</option>
-                            <option value="B2">B2</option>
-                            <option value="B3">B3</option>
-                            <option value="B4">B4</option>
+                            <option value="a0b92553-eb27-41fc-a7d2-81b6e0b8cb75">A4.E</option>
+                            <option value="575f6392-1d2f-4574-a462-8990f89eccab">B3.I</option>
+                            <option value="ffd35095-641a-4ad0-9735-0a368d3b786c">B4.I</option>
+                            <option value="afcbaa95-16e6-4dfa-9964-581601b4a1ff">C1.E</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Input.ClassId" class="control-label">Třída</label>
+                        <select asp-for="Input.ClassId" class="form-control" asp-items="ViewBag.ClassId">
+                            <option value="">Třída</option>
+                        </select>
+                        <span asp-validation-for="Input.ClassId" class="text-danger" />
                     </div>
                 </div>
             </div>

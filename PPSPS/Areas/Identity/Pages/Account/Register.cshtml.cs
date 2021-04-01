@@ -21,7 +21,7 @@ namespace PPSPS.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<PPSPSUser> _signInManager;
+      private readonly SignInManager<PPSPSUser> _signInManager;
         private readonly UserManager<PPSPSUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;

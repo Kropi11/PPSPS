@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PPSPS.Data;
@@ -25,6 +27,9 @@ namespace PPSPS.Controllers
         // GET
         public IActionResult TaskCreate()
         {
+            PopulateClassesDropDownList();
+            PopulateSubjectDropDownList();
+            PopulateYearsOfStudiesDropDownList();
             return View();
         }
 
@@ -51,6 +56,9 @@ namespace PPSPS.Controllers
                                              "zkontaktujte svého správce systému.");
             }
 
+            PopulateClassesDropDownList(task.ClassId);
+            PopulateSubjectDropDownList(task.SubjectId);
+            PopulateYearsOfStudiesDropDownList(task.YearsOfStudiesId);
             return View(task);
         }
 
@@ -77,6 +85,9 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
+            PopulateClassesDropDownList(task.ClassId);
+            PopulateSubjectDropDownList(task.SubjectId);
+            PopulateYearsOfStudiesDropDownList(task.YearsOfStudiesId);
             return View(task);
         }
 
@@ -109,6 +120,9 @@ namespace PPSPS.Controllers
                 }
             }
 
+            PopulateClassesDropDownList(taskToUpdate.YearsOfStudiesId);
+            PopulateSubjectDropDownList(taskToUpdate.YearsOfStudiesId);
+            PopulateYearsOfStudiesDropDownList(taskToUpdate.YearsOfStudiesId);
             return View(taskToUpdate);
         }
 
@@ -141,6 +155,32 @@ namespace PPSPS.Controllers
             }
 
             return View(assignment);
+        }
+        private void PopulateClassesDropDownList(object selectedClass = null)
+        {
+            var classesQuery = from c in _context.Classes
+                orderby c.ClassName
+                select c;
+            ViewBag.ClassId =
+                new SelectList(classesQuery.AsNoTracking(), "Id", "ClassName", selectedClass);
+        }
+
+        private void PopulateSubjectDropDownList(object selectedSubject = null)
+        {
+            var subjectsQuery = from s in _context.Subjects
+                orderby s.SubjectAbbreviation
+                select s;
+            ViewBag.SubjectId =
+                new SelectList(subjectsQuery.AsNoTracking(), "Id", "SubjectAbbreviation", selectedSubject);
+        }
+
+        private void PopulateYearsOfStudiesDropDownList(object selectedYearsOfStudies = null)
+        {
+            var YearsQuery = from y in _context.YearsOfStudies
+                orderby y.FirstSemester, y.SecondSemester
+                select y;
+            ViewBag.YearsOfStudiesId =
+                new SelectList(YearsQuery.AsNoTracking(), "Id", "Years", selectedYearsOfStudies);
         }
     }
 }

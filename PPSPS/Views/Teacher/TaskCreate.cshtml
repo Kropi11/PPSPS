@@ -25,28 +25,20 @@
       <div class="row">
         <label asp-for="ClassId" class="font-weight-bolder col-sm-2 col-form-label">Organizace</label>
         <div class="col-auto my-1 form-inline">
-          <select asp-for="ClassId" class="custom-select mr-sm-2" required>
-            <option disabled selected>Třída</option>
-            <option value="a0b92553-eb27-41fc-a7d2-81b6e0b8cb75">A4.E</option>
-            <option value="575f6392-1d2f-4574-a462-8990f89eccab">B3.I</option>
-            <option value="ffd35095-641a-4ad0-9735-0a368d3b786c">B4.I</option>
-            <option value="afcbaa95-16e6-4dfa-9964-581601b4a1ff">C1.E</option>
+          <select asp-for="ClassId" class="form-control" asp-items="ViewBag.ClassId">
+            <option value="">Třída</option>
           </select>
-          <span asp-validation-for="ClassId" class="text-danger"></span>
-          <select asp-for="SubjectId" class="custom-select mr-sm-2" required>
-            <option disabled selected>Předmět</option>
-            <option value="6edbf5ec-422a-485e-9db1-98b9308c5c57">APS</option>
-            <option value="7ea9b6c7-edae-46be-a0fc-d52d57abaaff">OSY</option>
-            <option value="abd88f7c-fe8a-4417-aaf5-74d3d899ef40">HW</option>
-            <option value="f4b6e873-f5df-4a1c-bc15-edfc6530a261">PVA</option>
+          <span asp-validation-for="ClassId" class="text-danger" />
+
+          <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.SubjectId">
+            <option value="">Předmět</option>
           </select>
-          <select asp-for="YearsOfStudiesId" class="custom-select mr-sm-2" required>
-            <option disabled selected>Ročník</option>
-            <option value="2021c33e-1db6-4ffd-999a-5191c09cb700">2018/2019</option>
-            <option value="5605981e-bc24-4a43-96fe-df13f688e194">2020/2021</option>
-            <option value="eaf7b682-2863-4394-88e3-fdec2470c699">2019/2020</option>
-            <option value="fe338637-2f47-4ef3-8277-9afeb10afd2f">2017/2018</option>
+          <span asp-validation-for="SubjectId" class="text-danger" />
+
+          <select asp-for="YearsOfStudiesId" class="form-control" asp-items="ViewBag.YearsOfStudiesId">
+            <option value="">Ročník</option>
           </select>
+          <span asp-validation-for="YearsOfStudiesId" class="text-danger" />
         </div>
       </div>
       <div class="row">

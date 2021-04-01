@@ -24,7 +24,12 @@
                 }
                  else
                 {
-                    <input asp-for="Email" class="form-control" disabled />
+                    <div class="input-group">
+                        <input asp-for="Email" class="form-control" disabled />
+                        <div class="input-group-append">
+                            <span class="input-group-text text-danger font-weight-bold">x</span>
+                        </div>
+                    </div>
                     <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Zaslat ověřovací e-mail.</button>
                 }
             </div>

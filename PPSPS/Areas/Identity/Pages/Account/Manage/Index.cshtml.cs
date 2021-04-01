@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using PPSPS.Areas.Identity.Data;
+using PPSPS.Data;
 
 namespace PPSPS.Areas.Identity.Pages.Account.Manage
 {
@@ -14,13 +17,17 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<PPSPSUser> _userManager;
         private readonly SignInManager<PPSPSUser> _signInManager;
+        private readonly AuthDBContext _context;
+
 
         public IndexModel(
             UserManager<PPSPSUser> userManager,
-            SignInManager<PPSPSUser> signInManager)
+            SignInManager<PPSPSUser> signInManager,
+            AuthDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [Display(Name = "E-mail / Uživatelské jméno")]
@@ -40,6 +47,9 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Příjmení")]
             public string LastName { get; set; }
 
+            [Display(Name = "Třída")]
+            public string ClassId { get; set; }
+
             [Phone]
             [Display(Name = "Telefonní číslo")]
             public string PhoneNumber { get; set; }
@@ -57,8 +67,18 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                ClassId = user.ClassId,
                 PhoneNumber = phoneNumber
             };
+        }
+
+         private void PopulateClassesDropDownList(object selectedClass = null)
+        {
+            var classesQuery = from c in _context.Classes
+                orderby c.ClassName
+                select c;
+            //ViewBag.ClassId =
+                //new SelectList(classesQuery.AsNoTracking(), "Id", "ClassName", selectedClass);
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -70,6 +90,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             }
 
             await LoadAsync(user);
+            PopulateClassesDropDownList(user.ClassId);
             return Page();
         }
 
@@ -101,6 +122,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Váš profil byl aktualizován";
+
             return RedirectToPage();
         }
     }

@@ -37,9 +37,9 @@ namespace PPSPS.Controllers
             }
 
             var user = await _context.Users
+                .Include(c => c.Class)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+                .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();

@@ -212,6 +212,8 @@ namespace PPSPS.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -220,6 +222,32 @@ namespace PPSPS.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSAssignment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<DateTime>("DateSubmission")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TaskId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Assignments");
                 });
 
             modelBuilder.Entity("PPSPS.Models.PPSPSClass", b =>
@@ -231,7 +259,7 @@ namespace PPSPS.Migrations
                         .HasColumnType("varchar(5)")
                         .HasMaxLength(5);
 
-                    b.Property<string>("ClassTeacher")
+                    b.Property<string>("ClassTeacherId")
                         .HasColumnType("varchar(767)");
 
                     b.HasKey("Id");
@@ -262,7 +290,7 @@ namespace PPSPS.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(767)");
 
-                    b.Property<string>("Class")
+                    b.Property<string>("ClassId")
                         .HasColumnType("varchar(767)");
 
                     b.Property<DateTime>("DateDeadline")
@@ -275,13 +303,51 @@ namespace PPSPS.Migrations
                         .HasColumnType("varchar(250)")
                         .HasMaxLength(250);
 
+                    b.Property<byte[]>("File")
+                        .HasColumnType("longblob");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("varchar(767)");
+
                     b.Property<string>("TaskName")
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("YearsOfStudiesId")
+                        .HasColumnType("varchar(767)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.HasIndex("YearsOfStudiesId");
+
                     b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSYearsOfStudies", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("FirstSemester")
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(4);
+
+                    b.Property<string>("SecondSemester")
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(4);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("YearsOfStudies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -333,6 +399,43 @@ namespace PPSPS.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PPSPS.Areas.Identity.Data.PPSPSUser", b =>
+                {
+                    b.HasOne("PPSPS.Models.PPSPSClass", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSAssignment", b =>
+                {
+                    b.HasOne("PPSPS.Models.PPSPSTask", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId");
+
+                    b.HasOne("PPSPS.Areas.Identity.Data.PPSPSUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSTask", b =>
+                {
+                    b.HasOne("PPSPS.Models.PPSPSClass", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("PPSPS.Models.PPSPSSubject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.HasOne("PPSPS.Areas.Identity.Data.PPSPSUser", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId");
+
+                    b.HasOne("PPSPS.Models.PPSPSYearsOfStudies", "YearsOfStudies")
+                        .WithMany()
+                        .HasForeignKey("YearsOfStudiesId");
                 });
 #pragma warning restore 612, 618
         }

@@ -68,6 +68,7 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
+            PopulateClassesDropDownList(user.ClassId);
             return View(user);
         }
 
@@ -100,6 +101,7 @@ namespace PPSPS.Controllers
                 }
             }
 
+            PopulateClassesDropDownList(userToUpdate.ClassId);
             return View(userToUpdate);
         }
 
@@ -174,6 +176,9 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
+            PopulateClassesDropDownList(task.ClassId);
+            PopulateSubjectDropDownList(task.SubjectId);
+            PopulateYearsOfStudiesDropDownList(task.YearsOfStudiesId);
             return View(task);
         }
 
@@ -206,6 +211,9 @@ namespace PPSPS.Controllers
                 }
             }
 
+            PopulateClassesDropDownList(taskToUpdate.ClassId);
+            PopulateSubjectDropDownList(taskToUpdate.SubjectId);
+            PopulateYearsOfStudiesDropDownList(taskToUpdate.YearsOfStudiesId);
             return View(taskToUpdate);
         }
 
@@ -730,6 +738,33 @@ namespace PPSPS.Controllers
             }
 
             return View(years);
+        }
+
+        private void PopulateClassesDropDownList(object selectedClass = null)
+        {
+            var classesQuery = from c in _context.Classes
+                orderby c.ClassName
+                select c;
+            ViewBag.ClassId =
+                new SelectList(classesQuery.AsNoTracking(), "Id", "ClassName", selectedClass);
+        }
+
+        private void PopulateSubjectDropDownList(object selectedSubject = null)
+        {
+            var subjectsQuery = from s in _context.Subjects
+                orderby s.SubjectAbbreviation
+                select s;
+            ViewBag.SubjectId =
+                new SelectList(subjectsQuery.AsNoTracking(), "Id", "SubjectAbbreviation", selectedSubject);
+        }
+
+        private void PopulateYearsOfStudiesDropDownList(object selectedYearsOfStudies = null)
+        {
+            var YearsQuery = from y in _context.YearsOfStudies
+                orderby y.FirstSemester, y.SecondSemester
+                select y;
+            ViewBag.YearsOfStudiesId =
+                new SelectList(YearsQuery.AsNoTracking(), "Id", "Years", selectedYearsOfStudies);
         }
     }
 }
