@@ -48,10 +48,10 @@
         <label class="font-weight-bolder col-sm-2 col-form-label">Odevzdat</label>
         <div class="col-auto my-1 form-inline">
           <label asp-for="DateEntered" class="col-sm-1 col-form-label"></label>
-          <input asp-for="DateEntered" type="datetime-local" class="custom-select mr-sm-2" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
+          <input asp-for="DateEntered" type="text" class="custom-select mr-sm-2" required>
           <span asp-validation-for="DateEntered" class="text-danger"></span>
           <label asp-for="DateDeadline" class="col-sm-1 col-form-label"></label>
-          <input asp-for="DateDeadline" type="datetime-local" class="custom-select mr-sm-2" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
+          <input asp-for="DateDeadline" type="text" class="custom-select mr-sm-2" required>
           <span asp-validation-for="DateDeadline" class="text-danger"></span>
         </div>
       </div>

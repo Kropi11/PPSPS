@@ -64,12 +64,12 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> TasksOverview()
         {
-            var users = _context.Tasks
+            var tasks = _context.Tasks
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
                 .AsNoTracking();
-            return View(await users.ToListAsync());
+            return View(await tasks.ToListAsync());
         }
 
         public async Task<IActionResult> TaskEdit(string? id)
@@ -132,6 +132,7 @@ namespace PPSPS.Controllers
                 .Include(u => u.User)
                 .Include(t => t.Task)
 
+                .Where(t => t.Task.TeacherId == User.Identity.GetUserId<string>())
                 .AsNoTracking();
             return View(await assignment.ToListAsync());
         }

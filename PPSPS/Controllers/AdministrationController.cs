@@ -28,11 +28,16 @@ namespace PPSPS.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> UsersOverview()
+        public async Task<IActionResult> UsersOverview(string sortOrder)
         {
+
             var users = _context.Users
                 .Include(c => c.Class)
                 .AsNoTracking();
+
+            ViewData["LastNameSortParm"] = String.IsNullOrEmpty(sortOrder);
+            users = users.OrderBy(u => u.LastName);
+
             return View(await users.ToListAsync());
         }
 

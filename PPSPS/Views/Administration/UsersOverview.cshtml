@@ -22,7 +22,7 @@
                 <table  id="UsersOverview" class="table table-hover table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Příjmení</th>
+                        <th scope="col" asp-route-sortOrder="@ViewData["LastNameSortParm"]">Příjmení</th>
                         <th scope="col">Jméno</th>
                         <th scope="col">E-mail</th>
                         <th colspan="3" scope="col" />

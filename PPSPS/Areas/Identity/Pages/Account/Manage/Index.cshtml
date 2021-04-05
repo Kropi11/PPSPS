@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <select asp-for="Input.ClassId" class="custom-select mr-sm-2" required>
+                        <select asp-for="Input.ClassId" class="custom-select mr-sm-2" required disabled>
                             <option disabled selected>Třída</option>
                             <option value="a0b92553-eb27-41fc-a7d2-81b6e0b8cb75">A4.E</option>
                             <option value="575f6392-1d2f-4574-a462-8990f89eccab">B3.I</option>
@@ -50,7 +50,6 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="Input.ClassId" class="control-label">Třída</label>
                         <select asp-for="Input.ClassId" class="form-control" asp-items="ViewBag.ClassId">
                             <option value="">Třída</option>
                         </select>

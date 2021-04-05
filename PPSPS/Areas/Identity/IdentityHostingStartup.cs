@@ -22,7 +22,7 @@ namespace PPSPS.Areas.Identity
 
                 services.AddDefaultIdentity<PPSPSUser>(options =>
                     {
-                        options.SignIn.RequireConfirmedAccount = true;
+                        options.SignIn.RequireConfirmedAccount = false;
                         options.Password.RequireLowercase = false;
                         options.Password.RequireUppercase = false;
                         options.Password.RequireNonAlphanumeric = false;
