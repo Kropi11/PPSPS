@@ -20,6 +20,6 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string ClassTeacherId { get; set; }
 
-        ///public PPSPSUser ClassTeacher { get; set; }
+        public PPSPSUserView ClassTeacher { get; set; }
     }
 }

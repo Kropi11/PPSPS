@@ -225,7 +225,7 @@ namespace PPSPS.Controllers
         public async Task<IActionResult> ClassesOverview()
         {
             var classes = _context.Classes
-                //.Include(u => u.ClassTeacher)
+                .Include(u => u.ClassTeacher)
                 .AsNoTracking();
             return View(await classes.ToListAsync());
         }
@@ -337,6 +337,7 @@ namespace PPSPS.Controllers
             }
 
             var classes = await _context.Classes
+                .Include(u => u.ClassTeacher)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (classes == null)
@@ -436,6 +437,7 @@ namespace PPSPS.Controllers
             }
 
             var classes = await _context.Classes
+                .Include(u => u.ClassTeacher)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 

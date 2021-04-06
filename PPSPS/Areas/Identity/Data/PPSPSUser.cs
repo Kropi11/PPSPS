@@ -24,10 +24,6 @@ namespace PPSPS.Areas.Identity.Data
         public string LastName { get; set; }
 
         [PersonalData]
-        [Display(Name = "E-mail")]
-        public string Email { get; set; }
-
-        [PersonalData]
         [Display(Name = "Třída")]
         [Column(TypeName = "nvarchar(767)")]
         public string ClassId { get; set; }

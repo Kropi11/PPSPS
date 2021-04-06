@@ -20,7 +20,7 @@
             <label asp-for="ClassTeacherId" class="control-label"></label>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClassTeacherId) (@Html.DisplayFor(model => model.ClassTeacherId))
+            @Html.DisplayFor(model => model.ClassTeacher.LastName) @Html.DisplayFor(model => model.ClassTeacher.FirstName) (@Html.DisplayFor(model => model.ClassTeacher.Email))
         </dd>
     </dl>
     <dl>
