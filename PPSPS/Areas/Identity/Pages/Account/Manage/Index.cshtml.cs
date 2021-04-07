@@ -50,6 +50,9 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Třída")]
             public string ClassId { get; set; }
 
+            [Display(Name = "Třída")]
+            public string ClassName { get; set; }
+
             [Phone]
             [Display(Name = "Telefonní číslo")]
             public string PhoneNumber { get; set; }
@@ -59,7 +62,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            var classes = await _context.Classes.ToListAsync();
 
             Username = userName;
 
@@ -71,16 +74,6 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber
             };
         }
-
-         private void PopulateClassesDropDownList(object selectedClass = null)
-        {
-            var classesQuery = from c in _context.Classes
-                orderby c.ClassName
-                select c;
-            //ViewBag.ClassId =
-                //new SelectList(classesQuery.AsNoTracking(), "Id", "ClassName", selectedClass);
-        }
-
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -90,7 +83,6 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             }
 
             await LoadAsync(user);
-            PopulateClassesDropDownList(user.ClassId);
             return Page();
         }
 

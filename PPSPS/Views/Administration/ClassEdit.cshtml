@@ -17,9 +17,10 @@
                 <span asp-validation-for="ClassName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClassTeacherId" class="control-label"></label>
-                <input asp-for="ClassTeacherId" maxlength="100" class="form-control" />
-                <span asp-validation-for="ClassTeacherId" class="text-danger"></span>
+                <select asp-for="ClassTeacherId" class="form-control" asp-items="ViewBag.ClassTeacherId">
+                    <option value="">Třídní učitel</option>
+                </select>
+                <span asp-validation-for="ClassTeacherId" class="text-danger" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Uložit změny" class="btn btn-primary" />

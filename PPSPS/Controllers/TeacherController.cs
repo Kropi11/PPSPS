@@ -68,7 +68,10 @@ namespace PPSPS.Controllers
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
+                    .Where(t => t.TeacherId == User.Identity.GetUserId<string>())
+                .OrderByDescending(t => t.DateEntered)
                 .AsNoTracking();
+
             return View(await tasks.ToListAsync());
         }
 
@@ -126,13 +129,13 @@ namespace PPSPS.Controllers
             return View(taskToUpdate);
         }
 
-        public async Task<IActionResult> AssignmentsOverview()
+        public async Task<IActionResult> AssignmentsOverview(string? id)
         {
             var assignment = _context.Assignments
                 .Include(u => u.User)
                 .Include(t => t.Task)
-
-                .Where(t => t.Task.TeacherId == User.Identity.GetUserId<string>())
+                    .Where(a => a.TaskId == id)
+                .OrderBy(u => u.User.LastName)
                 .AsNoTracking();
             return View(await assignment.ToListAsync());
         }
@@ -146,6 +149,7 @@ namespace PPSPS.Controllers
 
             var assignment = await _context.Assignments
                 .Include(u => u.User)
+                    .ThenInclude(u => u.Class)
                 .Include(t => t.Task)
 
                 .AsNoTracking()

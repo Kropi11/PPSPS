@@ -33,10 +33,8 @@ namespace PPSPS.Controllers
 
             var users = _context.Users
                 .Include(c => c.Class)
+                .OrderBy(u => u.LastName)
                 .AsNoTracking();
-
-            ViewData["LastNameSortParm"] = String.IsNullOrEmpty(sortOrder);
-            users = users.OrderBy(u => u.LastName);
 
             return View(await users.ToListAsync());
         }
@@ -164,6 +162,7 @@ namespace PPSPS.Controllers
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
+                .OrderByDescending(t => t.DateEntered)
                 .AsNoTracking();
             return View(await users.ToListAsync());
         }
@@ -226,6 +225,7 @@ namespace PPSPS.Controllers
         {
             var classes = _context.Classes
                 .Include(u => u.ClassTeacher)
+                .OrderBy(c => c.ClassName)
                 .AsNoTracking();
             return View(await classes.ToListAsync());
         }
@@ -272,6 +272,7 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
+            PopulateClassTeacherDropDownList(classes.ClassTeacherId);
             return View(classes);
         }
 
@@ -448,9 +449,14 @@ namespace PPSPS.Controllers
 
             return View(classes);
         }
+
         public async Task<IActionResult> SubjectsOverview()
         {
-            return View(await _context.Subjects.ToListAsync());
+            var subject = _context.Subjects
+                .OrderBy(s => s.SubjectAbbreviation)
+                .AsNoTracking();
+
+            return View(await subject.ToListAsync());
         }
 
         public IActionResult SubjectCreate()
@@ -598,7 +604,8 @@ namespace PPSPS.Controllers
         public async Task<IActionResult> YearsOfStudiesOverview()
         {
             var years = _context.YearsOfStudies
-                .AsNoTracking();
+                .OrderByDescending(y => y.FirstSemester)
+                                                .AsNoTracking();
             return View(await years.ToListAsync());
         }
 
@@ -772,6 +779,15 @@ namespace PPSPS.Controllers
                 select y;
             ViewBag.YearsOfStudiesId =
                 new SelectList(YearsQuery.AsNoTracking(), "Id", "Years", selectedYearsOfStudies);
+        }
+
+        private void PopulateClassTeacherDropDownList(object selectedClassTeacher = null)
+        {
+            var ClassTeacherQuery = from u in _context.Users
+                orderby u.Email
+                select u;
+            ViewBag.ClassTeacherId =
+                new SelectList(ClassTeacherQuery.AsNoTracking(), "Id", "Email", selectedClassTeacher);
         }
     }
 }

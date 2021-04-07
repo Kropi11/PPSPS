@@ -29,31 +29,16 @@
                 <label asp-for="Username"></label>
                 <input asp-for="Username" class="form-control" disabled />
             </div>
-            <!-- Telefonní číslo
             <div class="form-group">
                 <label asp-for="Input.PhoneNumber"></label>
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <select asp-for="Input.ClassId" class="custom-select mr-sm-2" required disabled>
-                            <option disabled selected>Třída</option>
-                            <option value="a0b92553-eb27-41fc-a7d2-81b6e0b8cb75">A4.E</option>
-                            <option value="575f6392-1d2f-4574-a462-8990f89eccab">B3.I</option>
-                            <option value="ffd35095-641a-4ad0-9735-0a368d3b786c">B4.I</option>
-                            <option value="afcbaa95-16e6-4dfa-9964-581601b4a1ff">C1.E</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <select asp-for="Input.ClassId" class="form-control" asp-items="ViewBag.ClassId">
-                            <option value="">Třída</option>
-                        </select>
-                        <span asp-validation-for="Input.ClassId" class="text-danger" />
+                        <label asp-for="Input.ClassId"></label>
+                        <input asp-for="Input.ClassId" class="form-control" disabled />
                     </div>
                 </div>
             </div>

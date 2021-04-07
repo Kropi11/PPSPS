@@ -28,6 +28,39 @@
         <dt class="col-sm-2">
             Žáci
         </dt>
+            <div class="row d-flex justify-content-center">
+        <dd class="col-sm-10">
+                <table id="UsersOverview" class="table table-sm table-hover">
+                    <thead class="thead">
+                    <tr>
+                        <th scope="col" asp-route-sortOrder="@ViewData["LastNameSortParm"]">Příjmení</th>
+                        <th scope="col">Jméno</th>
+                        <th scope="col">E-mail</th>
+                        <th colspan="3" scope="col"/>
+                    </tr>
+                    </thead>
+                    <tbody id="Table">
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <tr>
+                            <td>Html.DisplayFor(modelItem => item.)</td>
+                            <td>Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>Html.DisplayFor(modelItem => item.Email)</td>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("UserOverview", "Administration", new {}))'">
+                                <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
+                            </td>
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Administration", new {})'">
+                                <i class="bi bi-pencil-square" style="color: #0056b3"></i>
+                            </td>
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserDelete", "Administration", new {})'">
+                                <i class="bi bi-trash" style="color: #b21f2d"></i>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+        </dd>
+            </div>
     </dl>
     <hr />
 
