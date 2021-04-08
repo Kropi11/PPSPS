@@ -65,7 +65,6 @@ namespace PPSPS.Controllers
         public async Task<IActionResult> TasksOverview()
         {
             var tasks = _context.Tasks
-                .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
                     .Where(t => t.TeacherId == User.Identity.GetUserId<string>())
@@ -107,7 +106,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId, t => t.YearsOfStudiesId))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId, t => t.YearsOfStudiesId, t => t.File))
             {
                 try
                 {
@@ -167,7 +166,7 @@ namespace PPSPS.Controllers
                 orderby c.ClassName
                 select c;
             ViewBag.ClassId =
-                new SelectList(classesQuery.AsNoTracking(), "Id", "ClassName", selectedClass);
+                new SelectList(classesQuery.AsNoTracking(), "ClassName", "ClassName", selectedClass);
         }
 
         private void PopulateSubjectDropDownList(object selectedSubject = null)

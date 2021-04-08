@@ -56,8 +56,8 @@
         <label asp-for="File" class="font-weight-bolder col-sm-2 col-form-label"></label>
         <div class="col-auto my-1 form-inline">
           <div class="input-group mb-3">
-            <input asp-for="File" type="file" class="btn" multiple>
-            <span validation-asp-for="File" class="text-danger"></span>
+            <input asp-for="File" type="file" class="btn">
+            <span asp-validation-for="File" class="text-danger"></span>
           </div>
         </div>
       </div>

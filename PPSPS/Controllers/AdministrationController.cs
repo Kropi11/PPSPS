@@ -71,7 +71,7 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
-            PopulateClassesDropDownList(user.ClassId);
+            PopulateClassesWithIdDropDownList(user.ClassId);
             return View(user);
         }
 
@@ -104,7 +104,7 @@ namespace PPSPS.Controllers
                 }
             }
 
-            PopulateClassesDropDownList(userToUpdate.ClassId);
+            PopulateClassesWithIdDropDownList(userToUpdate.ClassId);
             return View(userToUpdate);
         }
 
@@ -159,7 +159,6 @@ namespace PPSPS.Controllers
         public async Task<IActionResult> TasksOverview()
         {
             var users = _context.Tasks
-                .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
                 .OrderByDescending(t => t.DateEntered)
@@ -180,7 +179,7 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
-            PopulateClassesDropDownList(task.ClassId);
+            PopulateClassesWithoutIdDropDownList(task.ClassId);
             PopulateSubjectDropDownList(task.SubjectId);
             PopulateYearsOfStudiesDropDownList(task.YearsOfStudiesId);
             return View(task);
@@ -215,7 +214,7 @@ namespace PPSPS.Controllers
                 }
             }
 
-            PopulateClassesDropDownList(taskToUpdate.ClassId);
+            PopulateClassesWithoutIdDropDownList(taskToUpdate.ClassId);
             PopulateSubjectDropDownList(taskToUpdate.SubjectId);
             PopulateYearsOfStudiesDropDownList(taskToUpdate.YearsOfStudiesId);
             return View(taskToUpdate);
@@ -232,12 +231,13 @@ namespace PPSPS.Controllers
 
         public IActionResult ClassCreate()
         {
+            PopulateClassTeacherDropDownList();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClassCreate([Bind("ClassName, ClassTeacher")] PPSPSClass classes)
+        public async Task<IActionResult> ClassCreate([Bind("ClassName, YearOfEntry, ClassTeacherId")] PPSPSClass classes)
         {
             classes.Id = Guid.NewGuid().ToString();
             try
@@ -246,7 +246,7 @@ namespace PPSPS.Controllers
                 {
                     _context.Add(classes);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(ClassCreate));
+                    return RedirectToAction(nameof(ClassesOverview));
                 }
             }
             catch (DbUpdateException /* ex */)
@@ -257,6 +257,7 @@ namespace PPSPS.Controllers
                                              "obraťte se na správce systému.");
             }
 
+            PopulateClassTeacherDropDownList(classes.ClassTeacherId);
             return View(classes);
         }
         public async Task<IActionResult> ClassEdit(string? id)
@@ -289,7 +290,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSClass>(
                 classToUpdate,
                 "",
-                c => c.ClassName, c => c.ClassTeacherId))
+                c => c.ClassName, c => c.YearOfEntry, c => c.ClassTeacherId))
             {
                 try
                 {
@@ -316,7 +317,6 @@ namespace PPSPS.Controllers
 
             var task = await _context.Tasks
                 .Include(u => u.Teacher)
-                .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
                 .AsNoTracking()
@@ -389,7 +389,6 @@ namespace PPSPS.Controllers
             var task = await _context.Tasks
                 .AsNoTracking()
                 .Include(u => u.Teacher)
-                .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -754,7 +753,16 @@ namespace PPSPS.Controllers
             return View(years);
         }
 
-        private void PopulateClassesDropDownList(object selectedClass = null)
+        private void PopulateClassesWithoutIdDropDownList(object selectedClass = null)
+        {
+            var classesQuery = from c in _context.Classes
+                orderby c.ClassName
+                select c;
+            ViewBag.ClassId =
+                new SelectList(classesQuery.AsNoTracking(), "ClassName", "ClassName", selectedClass);
+        }
+
+        private void PopulateClassesWithIdDropDownList(object selectedClass = null)
         {
             var classesQuery = from c in _context.Classes
                 orderby c.ClassName

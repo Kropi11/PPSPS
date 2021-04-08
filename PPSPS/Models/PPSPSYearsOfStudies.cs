@@ -9,13 +9,11 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string Id { get; set; }
 
-        [StringLength(4)]
-        [Column(TypeName = "varchar(10)")]
-        public string FirstSemester { get; set; }
+        [Column(TypeName = "int")]
+        public int FirstSemester { get; set; }
 
-        [StringLength(4)]
-        [Column(TypeName = "varchar(10)")]
-        public string SecondSemester { get; set; }
+        [Column(TypeName = "int")]
+        public int SecondSemester { get; set; }
 
         [Display(Name = "Ročník")]
         public string Years

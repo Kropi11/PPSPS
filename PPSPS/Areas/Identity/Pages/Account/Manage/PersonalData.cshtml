@@ -9,6 +9,8 @@
 
 <div class="row">
     <div class="col-md-6">
+        @if (!User.IsInRole("Student"))
+        {
         <p>Váš účet obsahuje osobní údaje, které jste nám poskytli. Tato stránka vám umožňuje tato data stáhnout nebo odstranit.</p>
         <p>
             <strong>Smazáním těchto údajů trvale odstraníte váš účet, který již nebude možné obnovit.</strong>
@@ -16,9 +18,16 @@
         <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
             <button class="btn btn-primary" type="submit">Stáhnout</button>
         </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">Smazat</a>
-        </p>
+            <p>
+                <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">Smazat</a>
+            </p>
+        }
+        else {
+        <p>Váš účet obsahuje osobní údaje, které jste nám poskytli. Tato stránka vám umožňuje tato data stáhnout.</p>
+            <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
+                <button class="btn btn-primary" type="submit">Stáhnout</button>
+            </form>
+        }
     </div>
 </div>
 

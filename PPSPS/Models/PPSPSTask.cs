@@ -49,11 +49,12 @@ namespace PPSPS.Models
 
         [Column(TypeName = "longblob")]
         [Display(Name = "Přílohy")]
-        public string File { get; set; }
+        public byte[] File { get; set; }
 
         public PPSPSUser Teacher { get; set; }
         public PPSPSClass Class { get; set; }
         public PPSPSSubject Subject { get; set; }
+        public PPSPSAssignment Assignment { get; set; }
         public PPSPSYearsOfStudies YearsOfStudies { get; set; }
 
     }

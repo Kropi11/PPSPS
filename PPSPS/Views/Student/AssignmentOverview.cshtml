@@ -1,0 +1,138 @@
+﻿@model PPSPS.Models.PPSPSTask
+
+@{
+    ViewData["Title"] = "Detail zadání";
+}
+
+<h1>Detail práce</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.TaskName)</h4>
+    <hr />
+    <div id="AssignmentOverview">
+        <div class="card">
+            <div class="card-header" id="AssignedHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Assigned" aria-expanded="false" aria-controls="Assigned">
+                        Zadání
+                    </button>
+                </h5>
+            </div>
+            <div id="Assigned" class="collapse" aria-labelledby="AssignedHeading" aria-expanded="false" data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            <label asp-for="TaskName" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.TaskName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Description" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="ClassId" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ClassId) (@Html.DisplayFor(model => model.YearsOfStudies.Years))
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="SubjectId" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Subject.SubjectName) (@Html.DisplayFor(model => model.Subject.SubjectAbbreviation))
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="TeacherId" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Teacher.LastName) @Html.DisplayFor(model => model.Teacher.FirstName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            Termín
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.DateEntered) - @Html.DisplayFor(model => model.DateDeadline)
+                        </dd>
+                        @if (Model.File != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="File" class="control-label"></label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.File)
+                            </dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="EvaluationHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Evaluation" aria-controls="Evaluation">
+                        Hodnocení
+                    </button>
+                </h5>
+            </div>
+            <div id="Evaluation" class="collapse" aria-labelledby="EvaluationHeading" aria-expanded="false"  data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            <label asp-for="Assignment.Grade" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @if (Model.Assignment.Grade == 0)
+                            {
+                                <p class="text-warning">Práce doposud nebyla hodnocena.</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Assignment.Grade)
+                            }
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Assignment.DateSubmission" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Assignment.DateSubmission)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Assignment.Note" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Assignment.Note)
+                        </dd>
+                        @if (Model.File != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="Assignment.File" class="control-label"></label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Assignment.File)
+                            </dd>
+                        }
+                        else
+                        {
+                            <label asp-for="Assignment.File" class="font-weight-bolder col-sm-2 col-form-label"></label>
+                            <div class="col-auto my-1 form-inline">
+                                <div class="input-group mb-3">
+                                    <input asp-for="Assignment.File" type="file" class="btn">
+                                    <span asp-validation-for="Assignment.File" class="text-danger"></span>
+                                </div>
+                            </div>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+</div>
+<div>
+    <a asp-action="AssignmentsOverview">Zpět na přehled</a>
+</div>
