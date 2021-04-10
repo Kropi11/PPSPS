@@ -48,9 +48,8 @@ namespace PPSPS.Controllers
                     return RedirectToAction(nameof(TaskCreate));
                 }
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                              "Zkuste to znovu později, pokud problém přetrvává, " +
                                              "zkontaktujte svého správce systému.");
@@ -113,9 +112,8 @@ namespace PPSPS.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(TasksOverview));
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                                  "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "zkontaktujte svého správce systému.");

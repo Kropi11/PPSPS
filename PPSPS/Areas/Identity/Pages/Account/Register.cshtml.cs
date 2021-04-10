@@ -24,18 +24,21 @@ namespace PPSPS.Areas.Identity.Pages.Account
       private readonly SignInManager<PPSPSUser> _signInManager;
         private readonly UserManager<PPSPSUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<PPSPSUser> userManager,
             SignInManager<PPSPSUser> signInManager,
             ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -96,6 +99,7 @@ namespace PPSPS.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user,"Student");
                     _logger.LogInformation("Uživatel vytvořil nový účet s heslem.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

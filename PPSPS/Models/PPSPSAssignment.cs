@@ -36,7 +36,6 @@ namespace PPSPS.Models
         [Display(Name = "Práce")]
         public byte[] File { get; set; }
 
-
         public PPSPSUser User { get; set; }
         public PPSPSTask Task { get; set; }
     }

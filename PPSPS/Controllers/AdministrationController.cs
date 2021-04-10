@@ -30,7 +30,6 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> UsersOverview(string sortOrder)
         {
-
             var users = _context.Users
                 .Include(c => c.Class)
                 .OrderBy(u => u.LastName)
@@ -95,9 +94,8 @@ namespace PPSPS.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(UsersOverview));
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                                  "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "obraťte se na správce systému.");
@@ -149,9 +147,8 @@ namespace PPSPS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(UsersOverview));
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(UserDelete), new { id = id, saveChangesError = true });
             }
         }
@@ -163,6 +160,8 @@ namespace PPSPS.Controllers
                 .Include(y => y.YearsOfStudies)
                 .OrderByDescending(t => t.DateEntered)
                 .AsNoTracking();
+
+            PopulateClassesWithoutIdDropDownList();
             return View(await users.ToListAsync());
         }
 
@@ -205,9 +204,8 @@ namespace PPSPS.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(TasksOverview));
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                                  "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "zkontaktujte svého správce systému.");
@@ -249,9 +247,8 @@ namespace PPSPS.Controllers
                     return RedirectToAction(nameof(ClassesOverview));
                 }
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException  ex)
             {
-                //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                              "Zkuste to znovu později a pokud problém přetrvává, " +
                                              "obraťte se na správce systému.");
@@ -297,9 +294,8 @@ namespace PPSPS.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(ClassesOverview));
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                                  "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "obraťte se na správce systému.");
@@ -372,9 +368,8 @@ namespace PPSPS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(ClassesOverview));
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(ClassDelete), new { id = id, saveChangesError = true });
             }
         }
@@ -423,9 +418,8 @@ namespace PPSPS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(TasksOverview));
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(TaskDelete), new { id = id, saveChangesError = true });
             }
         }
@@ -477,9 +471,8 @@ namespace PPSPS.Controllers
                     return RedirectToAction(nameof(SubjectsOverview));
                 }
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                              "Zkuste to znovu později a pokud problém přetrvává, " +
                                              "obraťte se na správce systému.");
@@ -512,7 +505,7 @@ namespace PPSPS.Controllers
 
             return View(subject);
         }
-        // POST: Students/Delete/5
+
         [HttpPost, ActionName("SubjectDelete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubjectDelete(string? id)
@@ -529,9 +522,8 @@ namespace PPSPS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(SubjectsOverview));
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(SubjectDelete), new { id = id, saveChangesError = true });
             }
         }
@@ -571,9 +563,8 @@ namespace PPSPS.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(SubjectsOverview));
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                                  "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "obraťte se na správce systému.");
@@ -627,9 +618,8 @@ namespace PPSPS.Controllers
                     return RedirectToAction(nameof(YearsOfStudiesOverview));
                 }
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                              "Zkuste to znovu později a pokud problém přetrvává, " +
                                              "obraťte se na správce systému.");
@@ -674,9 +664,8 @@ namespace PPSPS.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(YearsOfStudiesOverview));
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
                     ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                                  "Zkuste to znovu později a pokud problém přetrvává, " +
                                                  "obraťte se na správce systému.");
@@ -710,7 +699,7 @@ namespace PPSPS.Controllers
 
             return View(years);
         }
-        // POST: Students/Delete/5
+
         [HttpPost, ActionName("YearOfStudiesDelete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> YearOfStudiesDelete(string? id)
@@ -727,9 +716,8 @@ namespace PPSPS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(YearsOfStudiesOverview));
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException ex)
             {
-                //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(YearOfStudiesDelete), new { id = id, saveChangesError = true });
             }
         }

@@ -62,7 +62,6 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var classes = await _context.Classes.ToListAsync();
 
             Username = userName;
 

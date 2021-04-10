@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 using PPSPS.Areas.Identity.Data;
 
 namespace PPSPS.Models
 {
-    public class aspnetuserroles
+    public class PPSPSUserRole : IdentityRole
     {
         [ForeignKey("UserId")]
         [Column(TypeName = "varchar(767)")]
