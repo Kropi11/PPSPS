@@ -12,12 +12,12 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string Id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "Název práce nesmí mít víc, jak 100 znaků.")]
         [Display(Name = "Název práce")]
         [Column(TypeName = "varchar(100)")]
         public string TaskName { get; set; }
 
-        [StringLength(250)]
+        [StringLength(250, ErrorMessage = "Zadání nesmí mít víc, jak 250 znaků.")]
         [Display(Name = "Zadání")]
         [Column(TypeName = "varchar(250)")]
         public string Description { get; set; }
@@ -47,9 +47,9 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string YearsOfStudiesId { get; set; }
 
-        [Column(TypeName = "longblob")]
+        [Column(TypeName = "varchar(767)")]
         [Display(Name = "Přílohy")]
-        public byte[] File { get; set; }
+        public string File { get; set; }
 
         public PPSPSUser Teacher { get; set; }
         public PPSPSClass Class { get; set; }
