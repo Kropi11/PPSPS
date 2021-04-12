@@ -37,6 +37,10 @@ namespace PPSPS.Models
         public string ClassId { get; set; }
 
         [Column(TypeName = "varchar(767)")]
+        [Display(Name = "Skupina")]
+        public string GroupId { get; set; }
+
+        [Column(TypeName = "varchar(767)")]
         [Display(Name = "Předmět")]
         public string SubjectId { get; set; }
 
@@ -55,6 +59,7 @@ namespace PPSPS.Models
         public PPSPSClass Class { get; set; }
         public PPSPSSubject Subject { get; set; }
         public PPSPSAssignment Assignment { get; set; }
+        public PPSPSGroup Group { get; set; }
         public PPSPSYearsOfStudies YearsOfStudies { get; set; }
 
     }

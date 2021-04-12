@@ -34,7 +34,7 @@ namespace PPSPS.Controllers
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
-        public async Task<IActionResult> AssignmentsOverview()
+        public async Task<IActionResult> SubmittedTasksOverview()
         {
             string id = User.Identity.GetUserId<string>();
             var assignment = _context.Assignments
@@ -43,6 +43,16 @@ namespace PPSPS.Controllers
                 .OrderBy(t => t.Task.DateEntered)
                 .AsNoTracking();
             return View(await assignment.ToListAsync());
+        }
+
+        public async Task<IActionResult> AssignmentsOverview()
+        {
+            var tasks = _context.Tasks
+                    .Where(t => t.ClassId == "B4.I")
+                    .Where(y => y.YearsOfStudiesId == "5605981e-bc24-4a43-96fe-df13f688e194")
+                .OrderBy(t => t.DateEntered)
+                .AsNoTracking();
+            return View(await tasks.ToListAsync());
         }
 
         public async Task<IActionResult> AssignmentOverview(string? id)
@@ -57,6 +67,28 @@ namespace PPSPS.Controllers
                 .Include(c => c.Class)
                 .Include(s => s.Subject)
                 .Include(a => a.Assignment)
+                .Include(y => y.YearsOfStudies)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return View(task);
+        }
+
+        public async Task<IActionResult> TaskOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.Tasks
+                .Include(u => u.Teacher)
+                .Include(s => s.Subject)
                 .Include(y => y.YearsOfStudies)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);

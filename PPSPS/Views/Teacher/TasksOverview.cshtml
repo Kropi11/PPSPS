@@ -24,6 +24,7 @@
                     <tr>
                         <th scope="col">Název práce</th>
                         <th scope="col">Třída</th>
+                        <th scope="col">Skupina</th>
                         <th scope="col">Ročník</th>
                         <th scope="col">Předmět</th>
                         <th scope="col">Datum zadání</th>
@@ -37,6 +38,7 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
                             <td>@Html.DisplayFor(modelItem => item.ClassId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Group.GroupAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.YearsOfStudies.Years)</td>
                             <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
@@ -46,6 +48,9 @@
                             </td>
                             <td class="textCenter" onclick="location.href = '@Url.Action("TaskEdit", "Teacher",new {id = item.Id})'">
                                 <i class="bi bi-pencil-square" style="color: #0056b3"></i>
+                            </td>
+                             <td class="textCenter" onclick="location.href = '@Url.Action("TaskDelete", "Teacher",new {id = item.Id})'">
+                                <i class="bi bi-trash" style="color: #b21f2d"></i>
                             </td>
                         </tr>
                     }

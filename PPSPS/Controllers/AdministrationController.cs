@@ -28,7 +28,7 @@ namespace PPSPS.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> UsersOverview(string sortOrder)
+        public async Task<IActionResult> UsersOverview()
         {
             var users = _context.Users
                 .Include(c => c.Class)
@@ -47,6 +47,7 @@ namespace PPSPS.Controllers
 
             var user = await _context.Users
                 .Include(c => c.Class)
+                .Include(g => g.Group)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
@@ -71,6 +72,7 @@ namespace PPSPS.Controllers
             }
 
             PopulateClassesWithIdDropDownList(user.ClassId);
+            PopulateGroupDropDownList(user.GroupId);
             return View(user);
         }
 
@@ -87,7 +89,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSUser>(
                 userToUpdate,
                 "",
-                s => s.FirstName, s => s.LastName, s => s.Email, s => s.EmailConfirmed, c => c.ClassId))
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.EmailConfirmed, c => c.ClassId, g => g.GroupId))
             {
                 try
                 {
@@ -401,7 +403,7 @@ namespace PPSPS.Controllers
 
             return View(task);
         }
-        // POST: Students/Delete/5
+
         [HttpPost, ActionName("TaskDelete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TaskDelete(string? id)
@@ -741,6 +743,157 @@ namespace PPSPS.Controllers
             return View(years);
         }
 
+        public async Task<IActionResult> GroupsOverview()
+        {
+            var group = _context.Groups
+                .OrderBy(s => s.GroupName)
+                .AsNoTracking();
+
+            return View(await group.ToListAsync());
+        }
+
+        public IActionResult GroupCreate()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GroupOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var group = await _context.Groups
+                .AsNoTracking()
+                .FirstOrDefaultAsync(g => g.Id == id);
+
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            return View(group);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GroupCreate([Bind("GroupName, GroupAbbreviation")] PPSPSGroup group)
+        {
+            group.Id = Guid.NewGuid().ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(group);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(GroupsOverview));
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                             "Zkuste to znovu později a pokud problém přetrvává, " +
+                                             "obraťte se na správce systému.");
+            }
+
+            return View(group);
+        }
+
+        public async Task<IActionResult> GroupEdit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var groups = await _context.Groups.FindAsync(id);
+            if (groups == null)
+            {
+                return NotFound();
+            }
+
+            return View(groups);
+        }
+
+        [HttpPost, ActionName("GroupEdit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GroupEdit_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var groupToUpdate = await _context.Groups.FirstOrDefaultAsync(g => g.Id == id);
+            if (await TryUpdateModelAsync<PPSPSGroup>(
+                groupToUpdate,
+                "",
+                g => g.GroupName, g => g.GroupAbbreviation))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(GroupsOverview));
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "obraťte se na správce systému.");
+                }
+            }
+
+            return View(groupToUpdate);
+        }
+
+        public async Task<IActionResult> GroupDelete(string? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await _context.Groups
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
+                    "obraťte se na správce systému.";;
+            }
+
+            return View(subject);
+        }
+
+        [HttpPost, ActionName("GroupDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GroupDelete(string? id)
+        {
+            var group = await _context.Groups.FindAsync(id);
+            if (group == null)
+            {
+                return RedirectToAction(nameof(GroupsOverview));
+            }
+
+            try
+            {
+                _context.Groups.Remove(group);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(GroupsOverview));
+            }
+            catch (DbUpdateException ex)
+            {
+                return RedirectToAction(nameof(GroupDelete), new { id = id, saveChangesError = true });
+            }
+        }
+
         private void PopulateClassesWithoutIdDropDownList(object selectedClass = null)
         {
             var classesQuery = from c in _context.Classes
@@ -784,6 +937,15 @@ namespace PPSPS.Controllers
                 select u;
             ViewBag.ClassTeacherId =
                 new SelectList(ClassTeacherQuery.AsNoTracking(), "Id", "Email", selectedClassTeacher);
+        }
+
+        private void PopulateGroupDropDownList(object selectedGroup = null)
+        {
+            var GroupQuery = from g in _context.Groups
+                orderby g.GroupAbbreviation
+                select g;
+            ViewBag.GroupId =
+                new SelectList(GroupQuery.AsNoTracking(), "Id", "GroupAbbreviation", selectedGroup);
         }
     }
 }

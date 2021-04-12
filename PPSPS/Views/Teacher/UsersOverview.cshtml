@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PPSPS.Areas.Identity.Data.PPSPSUser>
+
+@{
+    ViewData["Title"] = "Přehled uživatelů";
+}
+
+    <!-- Obsah stránky -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 text-center">
+            <form class="form-inline justify-content-center">
+                <div class="form-group">
+                    <input class="form-control" id="tableSearch" type="text" placeholder="Hledat ... ">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="tab-content" id="TabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <br/>
+                <table  id="UsersOverview" class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" asp-route-sortOrder="@ViewData["LastNameSortParm"]">Příjmení</th>
+                        <th scope="col">Jméno</th>
+                        <th scope="col">E-mail</th>
+                        <th colspan="2" scope="col" />
+                    </tr>
+                    </thead>
+                    <tbody id="Table">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("UserOverview", "Teacher",new {id = item.Id}))'">
+                                <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
+                            </td>
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Teacher",new {id = item.Id})'">
+                                <i class="bi bi-pencil-square" style="color: #0056b3"></i>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

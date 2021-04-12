@@ -34,17 +34,26 @@
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
+            <div class="row">
             @if (Model.Input.ClassId != null)
             {
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Input.ClassId"></label>
                             <input asp-for="Input.ClassId" class="form-control" disabled/>
                         </div>
                     </div>
-                </div>
             }
+            @if (Model.Input.GroupId != null)
+            {
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Input.GroupId"></label>
+                            <input asp-for="Input.GroupId" class="form-control" disabled/>
+                        </div>
+                    </div>
+            }
+            </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Uložit</button>
         </form>
     </div>

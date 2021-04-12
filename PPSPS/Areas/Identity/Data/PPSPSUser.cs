@@ -28,6 +28,12 @@ namespace PPSPS.Areas.Identity.Data
         [Column(TypeName = "nvarchar(767)")]
         public string ClassId { get; set; }
 
+        [PersonalData]
+        [Display(Name = "Skupina")]
+        [Column(TypeName = "nvarchar(767)")]
+        public string GroupId { get; set; }
+
         public PPSPSClass Class { get; set; }
+        public PPSPSGroup Group { get; set; }
     }
 }

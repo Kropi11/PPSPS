@@ -1,0 +1,31 @@
+﻿@model PPSPS.Models.PPSPSGroup
+
+@{
+    ViewData["Title"] = "Detail skupiny";
+}
+
+<h1>Detail skupiny</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.GroupName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label asp-for="GroupName" class="control-label"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="GroupAbbreviation" class="control-label"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GroupAbbreviation)
+        </dd>
+    </dl>
+    <hr />
+
+</div>
+<div>
+    <a asp-action="GroupsOverview">Zpět na přehled</a>
+</div>

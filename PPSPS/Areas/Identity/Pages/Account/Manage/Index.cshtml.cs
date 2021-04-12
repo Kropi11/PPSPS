@@ -53,6 +53,9 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Třída")]
             public string ClassName { get; set; }
 
+            [Display(Name = "Skupina")]
+            public string GroupId { get; set; }
+
             [Phone]
             [Display(Name = "Telefonní číslo")]
             public string PhoneNumber { get; set; }
@@ -70,6 +73,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 ClassId = user.ClassId,
+                GroupId = user.GroupId,
                 PhoneNumber = phoneNumber
             };
         }

@@ -1,0 +1,37 @@
+﻿@model PPSPS.Models.PPSPSGroup
+@{
+    ViewData["Title"] = "Upravit skupinu";
+}
+
+<h1>Upravit skupinu</h1>
+
+<h4>@Html.DisplayFor(model => model.GroupName)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="GroupEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GroupName" class="control-label"></label>
+                <input asp-for="GroupName" maxlength="45" class="form-control" />
+                <span asp-validation-for="GroupName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupAbbreviation" class="control-label"></label>
+                <input asp-for="GroupAbbreviation" maxlength="20" class="form-control" />
+                <span asp-validation-for="GroupAbbreviation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Uložit změny" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GroupsOverview">Zpět na přehled</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
