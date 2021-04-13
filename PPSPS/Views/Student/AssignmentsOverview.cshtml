@@ -39,7 +39,7 @@
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Student",new {id = item.Id}))'">
-                                <i class="bi bi-upload"></i>
+                                <i class="bi bi-upload" style="color: #012e97"/>
                             </td>
                         </tr>
                     }

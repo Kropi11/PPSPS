@@ -31,7 +31,6 @@ namespace PPSPS.Controllers
         public async Task<IActionResult> UsersOverview()
         {
             var users = _context.Users
-                .Include(c => c.Class)
                 .OrderBy(u => u.LastName)
                 .AsNoTracking();
 
@@ -89,7 +88,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSUser>(
                 userToUpdate,
                 "",
-                s => s.FirstName, s => s.LastName, s => s.Email, s => s.EmailConfirmed, c => c.ClassId, g => g.GroupId))
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.PhoneNumber, s => s.EmailConfirmed, c => c.ClassId, g => g.GroupId))
             {
                 try
                 {
@@ -159,6 +158,7 @@ namespace PPSPS.Controllers
         {
             var users = _context.Tasks
                 .Include(s => s.Subject)
+                .Include(g => g.Group)
                 .Include(y => y.YearsOfStudies)
                 .OrderByDescending(t => t.DateEntered)
                 .AsNoTracking();
@@ -182,6 +182,7 @@ namespace PPSPS.Controllers
 
             PopulateClassesWithoutIdDropDownList(task.ClassId);
             PopulateSubjectDropDownList(task.SubjectId);
+            PopulateGroupDropDownList(task.GroupId);
             PopulateYearsOfStudiesDropDownList(task.YearsOfStudiesId);
             return View(task);
         }
@@ -199,7 +200,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.SubjectId, t => t.YearsOfStudiesId, t => t.File))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.GroupId, t => t.SubjectId, t => t.YearsOfStudiesId, t => t.File))
             {
                 try
                 {
@@ -316,6 +317,7 @@ namespace PPSPS.Controllers
             var task = await _context.Tasks
                 .Include(u => u.Teacher)
                 .Include(s => s.Subject)
+                .Include(g => g.Group)
                 .Include(y => y.YearsOfStudies)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);

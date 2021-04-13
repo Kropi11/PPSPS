@@ -28,6 +28,15 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ClassId) (@Html.DisplayFor(model => model.YearsOfStudies.Years))
         </dd>
+         @if (Model.GroupId != null)
+        {
+            <dt class="col-sm-2">
+                <label asp-for="GroupId" class="control-label"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Group.GroupName)
+            </dd>
+        }
         <dt class="col-sm-2">
             <label asp-for="SubjectId" class="control-label"></label>
         </dt>

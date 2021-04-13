@@ -38,7 +38,7 @@
                             <td>@Html.DisplayFor(modelItem => item.DateSubmission)</td>
                             <td>@Html.DisplayFor(modelItem => item.Grade)</td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Teacher",new {id = item.Id}))'">
-                                <i class="bi bi-upload" />
+                                <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
                             </td>
                         </tr>
                     }

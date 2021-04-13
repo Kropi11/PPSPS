@@ -50,9 +50,6 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Třída")]
             public string ClassId { get; set; }
 
-            [Display(Name = "Třída")]
-            public string ClassName { get; set; }
-
             [Display(Name = "Skupina")]
             public string GroupId { get; set; }
 

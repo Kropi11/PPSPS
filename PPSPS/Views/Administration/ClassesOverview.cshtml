@@ -36,13 +36,13 @@
                             <td>@Html.DisplayFor(modelItem => item.YearOfEntry)</td>
                             <td>@Html.DisplayFor(modelItem => item.ClassTeacher.LastName) @Html.DisplayFor(modelItem => item.ClassTeacher.FirstName)</td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("ClassOverview", "Administration",new {id = item.Id}))'">
-                                <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
+                                <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
                             </td>
                             <td class="textCenter" onclick="location.href = '@Url.Action("ClassEdit", "Administration",new {id = item.Id})'">
-                                <i class="bi bi-pencil-square" style="color: #0056b3"></i>
+                                <i class="bi bi-pencil-square" style="color: #0056b3"/>
                             </td>
                             <td class="textCenter" onclick="location.href = '@Url.Action("ClassDelete", "Administration",new {id = item.Id})'">
-                                <i class="bi bi-trash" style="color: #b21f2d"></i>
+                                <i class="bi bi-trash" style="color: #b21f2d"/>
                             </td>
                         </tr>
                     }

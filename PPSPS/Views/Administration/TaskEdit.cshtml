@@ -33,6 +33,11 @@
           </select>
           <span asp-validation-for="ClassId" class="text-danger" />
 
+          <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId">
+            <option value="">Skupina</option>
+          </select>
+          <span asp-validation-for="GroupId" class="text-danger" />
+
           <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.SubjectId">
             <option value="">Předmět</option>
           </select>
