@@ -4,96 +4,181 @@
     ViewData["Title"] = "Hodnocení práce";
 }
 
-<!-- Obsah stránky -->
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <dt class="col-sm-2">
-                <label asp-for="User.FirstName" class="control-label"></label>
-            </dt>
-            <dd  class="col-sm-10">
-                @Html.DisplayFor(model => model.User.FirstName)
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="User.LastName" class="control-label"></label>
-            </dt>
-            <dd  class="col-sm-10">
-                @Html.DisplayFor(model => model.User.LastName)
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="User.Email" class="control-label"></label>
-            </dt>
-            <dd  class="col-sm-10">
-                @Html.DisplayFor(model => model.User.Email)
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="User.ClassId" class="control-label"></label>
-            </dt>
-            <dd  class="col-sm-10">
-                @Html.DisplayFor(model => model.User.Class.ClassName)
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="User.GroupId" class="control-label"></label>
-            </dt>
-            <dd  class="col-sm-10">
-                @Html.DisplayFor(model => model.User.Group.GroupName)
-            </dd>
-            <dt class="col-sm-2">
-                <label asp-for="Grade" class="control-label"></label>
-            </dt>
-            <dd  class="col-sm-10">
-                @Html.DisplayFor(model => model.Grade)
-            </dd>
-        </div>
-        <div class="col-6 col-md-4">
-            <p class="font-weight-bolder" style="margin: auto; padding-top: 2%">Hodnocení</p>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary" style="background-color: #70C27C; color: #000000">
-                    <input type="radio" name="options" id="option1" autocomplete="off">1
-                </label>
-                <label class="btn btn-secondary" style="background-color: #C6DB81; color: #000000">
-                    <input type="radio" name="options" id="option2" autocomplete="off">2
-                </label>
-                <label class="btn btn-secondary" style="background-color: #FEDE81; color: #000000">
-                    <input type="radio" name="options" id="option3" autocomplete="off">3
-                </label>
-                <label class="btn btn-secondary" style="background-color: #F98A71; color: #000000">
-                    <input type="radio" name="options" id="option4" autocomplete="off">4
-                </label>
-                <label class="btn btn-secondary" style="background-color: #F8696B; color: #000000">
-                    <input type="radio" name="options" id="option5" autocomplete="off">5
-                </label>
+<h1>Hodnocení práce</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Task.TaskName)</h4>
+    <hr />
+    <div id="AssignmentOverview">
+        <div class="card">
+            <div class="card-header" id="StudentHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Student" aria-expanded="false" aria-controls="Student">
+                        <h5 style="color: #000000">Student</h5>
+                    </button>
+                </h5>
             </div>
-            <p class="font-weight-bolder" style="margin: auto; padding-top: 2%;">Poznámka</p>
-            <textarea class="form-control" id="Poznamka" rows="3"></textarea>
-            <div class="btn-group" role="group" aria-label="Interaction">
-                <button type="button" class="btn btn-secondary" style="background: darkblue" asp-area="" asp-controller="Home" action="User">Uložit</button>
-                <button type="button" class="btn btn-secondary" asp-area="" asp-controller="Home" action="User">Zrušit</button>
+            <div id="Student" class="collapse" aria-labelledby="StudentHeading" aria-expanded="false" data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            <label asp-for="User.FirstName" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.User.FirstName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="User.LastName" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.User.LastName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="User.Email" class="control-label">E-mail</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.User.Email)
+                        </dd>
+                        @if (Model.User.PhoneNumber != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="User.PhoneNumber" class="control-label">Telefonní číslo</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.User.PhoneNumber)
+                            </dd>
+                        }
+                        @if (Model.User.ClassId != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="User.ClassId" class="control-label"></label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.User.Class.ClassName)
+                            </dd>
+                        }
+                        @if (Model.User.GroupId != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="User.GroupId" class="control-label"></label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.User.Group.GroupName)
+                            </dd>
+                        }
+                    </dl>
+                </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-header" id="AssignedHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Assigned" aria-expanded="false" aria-controls="Assigned">
+                        <h5 style="color: #000000">Zadání</h5>
+                    </button>
+                </h5>
+            </div>
+            <div id="Assigned" class="collapse" aria-labelledby="AssignedHeading" aria-expanded="false" data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            <label asp-for="Task.TaskName" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Task.TaskName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Task.Description" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Task.Description)
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Task.ClassId" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Task.ClassId) (@Html.DisplayFor(model => model.Task.YearsOfStudies.Years))
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Task.SubjectId" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Task.Subject.SubjectName) (@Html.DisplayFor(model => model.Task.Subject.SubjectAbbreviation))
+                        </dd>
+                        <dt class="col-sm-2">
+                            <label asp-for="Task.TeacherId" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Task.Teacher.LastName) @Html.DisplayFor(model => model.Task.Teacher.FirstName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            Termín
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Task.DateEntered) - @Html.DisplayFor(model => model.Task.DateDeadline)
+                        </dd>
+                        @if (Model.File != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="File" class="control-label"></label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.File)
+                            </dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="EvaluationHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Evaluation" aria-controls="Evaluation">
+                        <h5 style="color: #000000">Hodnocení</h5>
+                    </button>
+                </h5>
+            </div>
+            <div id="Evaluation" class="collapse" aria-labelledby="EvaluationHeading" aria-expanded="false"  data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <form asp-action="AssignmentOverview" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <fieldset class="form-group">
+                            <div class="form-group row">
+                                <label asp-for="Grade" class="font-weight-bolder col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <select asp-for="Grade" class="form-control" required>
+                                        <option value="0" selected disabled>Známka</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <span asp-validation-for="Grade" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Note" class="font-weight-bolder col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <textarea asp-for="Note" maxlength="250" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Note" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Uložit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr />
     </div>
 </div>
-<div style="text-align: center;">
-    <hr>
-    <div class="btn-group" role="group" aria-label="Interaction">
-        <a class="btn btn-secondary" style="background-color: dodgerblue" data-toggle="collapse" href="#collapsePDF" role="button" aria-expanded="false" aria-controls="collapsePDF">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-            </svg>
-            Zobrazit/Skrýt PDF
-        </a>
-        <a type="button" class="btn btn-secondary" asp-area="" asp-controller="Home" action="User" download="~/B2_Kropacek_Richard_SLO.pdf">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-            </svg>
-            Stáhnout
-        </a>
-    </div>
-    <div class="collapse" id="collapsePDF">
-        <div class="card card-body">
-            <embed src="" style="text-align: center;" type="application/pdf" width="100%" height="750px">
-        </div>
-    </div>
+<div>
+    <a asp-action="TasksOverview">Zpět na přehled</a>
 </div>

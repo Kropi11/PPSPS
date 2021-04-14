@@ -22,30 +22,10 @@ namespace PPSPS.Controllers
             _context = context;
             _userManager = userManager;
         }
-        // GET
+
         public IActionResult Index()
         {
             return View();
-        }
-
-        public async Task<IActionResult> UserOverview()
-        {
-            string id = _userManager.GetUserId(User);
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .Include(c => c.Class)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
         }
     }
 }

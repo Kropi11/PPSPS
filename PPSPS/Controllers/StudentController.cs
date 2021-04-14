@@ -39,6 +39,7 @@ namespace PPSPS.Controllers
             string id = User.Identity.GetUserId<string>();
             var assignment = _context.Assignments
                 .Include(t => t.Task)
+                    .ThenInclude(s => s.Subject)
                     .Where(u => u.UserId == id)
                 .OrderBy(t => t.Task.DateEntered)
                 .AsNoTracking();
@@ -47,15 +48,22 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> AssignmentsOverview()
         {
+            var users = _context.Users
+                .FindAsync(User.Identity.GetUserId<string>());
+
+            var classes = _context.Classes
+                .FirstOrDefaultAsync(m => m.Id == users.Result.ClassId);
+
             var tasks = _context.Tasks
-                    .Where(t => t.ClassId == "B4.I")
-                    .Where(y => y.YearsOfStudiesId == "5605981e-bc24-4a43-96fe-df13f688e194")
+                .Include(s => s.Subject)
+                .Where(t => t.ClassId == classes.Result.ClassName)
+                .Where(d => d.DateDeadline >= DateTime.Now)
                 .OrderBy(t => t.DateEntered)
                 .AsNoTracking();
             return View(await tasks.ToListAsync());
         }
 
-        public async Task<IActionResult> AssignmentOverview(string? id)
+        public async Task<IActionResult> TaskOverview(string? id)
         {
             if (id == null)
             {
@@ -79,7 +87,7 @@ namespace PPSPS.Controllers
             return View(task);
         }
 
-        public async Task<IActionResult> TaskOverview(string? id)
+        public async Task<IActionResult> AssignmentOverview(string? id)
         {
             if (id == null)
             {
@@ -99,6 +107,32 @@ namespace PPSPS.Controllers
             }
 
             return View(task);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignmentOverview(string? id, [Bind("Id, UserId, TaskId")] PPSPSAssignment assignment)
+        {
+            assignment.Id = Guid.NewGuid().ToString();
+            assignment.UserId = User.Identity.GetUserId<string>();
+            assignment.TaskId = id;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(assignment);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(SubmittedTasksOverview));
+                }
+            }
+            catch (DbUpdateException  ex)
+            {
+                ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                             "Zkuste to znovu později a pokud problém přetrvává, " +
+                                             "obraťte se na správce systému.");
+            }
+
+            return View();
         }
     }
 }

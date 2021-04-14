@@ -36,25 +36,22 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Task.TaskName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Task.ClassId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Task.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.Task.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.Task.DateDeadline)</td>
                             <td>@Html.DisplayFor(modelItem => item.Grade)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Student",new {id = item.Task.Id}))'">
-                                @if (true)
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Student",new {id = item.Task.Id}))'">
+                                @if (false)
                                 {
-                                    <i class="bi bi-check" style="color: #1c7430" />
-                                    <i class="bi bi-dash-circle" style="color: #ffc200" />
+                                    <i class="bi bi-dash-circle" style="color: #ffc200" data-bs-toggle="tooltip" data-bs-placement="right" title="Čeká na hodnocení"/>
                                 }
                                 else if (false)
                                 {
-                                    <i class="bi bi-check-all" style="color: #1c7430" />
-                                    <i class="bi bi-check-circle" style="color: #1c7430" />
+                                    <i class="bi bi-check-circle" style="color: #1c7430" data-bs-toggle="tooltip" data-bs-placement="right" title="Odevzdaná a hodnocená"/>
                                 }
-                                else if (false)
+                                else if (true)
                                 {
-                                    <i class="bi bi-x" style="color: #940000" />
-                                    <i class="bi bi-x-circle" style="color: #940000" />
+                                    <i class="bi bi-x-circle" style="color: #940000" data-bs-toggle="tooltip" data-bs-placement="right" title="Neodevzdaná"/>
                                 }
                             </td>
                         </tr>

@@ -35,11 +35,11 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.ClassId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Student",new {id = item.Id}))'">
-                                <i class="bi bi-upload" style="color: #012e97"/>
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Student",new {id = item.Id}))'">
+                                <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
                             </td>
                         </tr>
                     }

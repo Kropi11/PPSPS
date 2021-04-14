@@ -17,7 +17,7 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string TaskId { get; set; }
 
-        [Range(0, 5)]
+        [Range(0, 5, ErrorMessage = "Známka musí být v rozsahu 1 - 5")]
         [Display(Name = "Známka")]
         [Column(TypeName = "int")]
         public int Grade { get; set; }

@@ -273,21 +273,30 @@ namespace PPSPS.Controllers
             return View(await assignment.ToListAsync());
         }
 
-        public async Task<IActionResult> AssignmentOverview(string? id)
+        public async Task<IActionResult>AssignmentOverview(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
+             var assignment = await _context.Assignments
                 .Include(u => u.User)
                     .ThenInclude(u => u.Class)
+                .Include(u => u.User)
+                    .ThenInclude(g => g.Group)
                 .Include(t => t.Task)
                     .ThenInclude(g => g.Group)
+                .Include(t => t.Task)
+                    .ThenInclude(t => t.Teacher)
+                .Include(t => t.Task)
+                    .ThenInclude(s => s.Subject)
+                .Include(t => t.Task)
+                    .ThenInclude(y => y.YearsOfStudies)
 
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == id);
+
             if (assignment == null)
             {
                 return NotFound();
@@ -295,6 +304,38 @@ namespace PPSPS.Controllers
 
             return View(assignment);
         }
+
+        [HttpPost, ActionName("AssignmentOverview")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignmentOverview_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var assignmentToUpdate = await _context.Assignments.FirstOrDefaultAsync(a => a.Id == id);
+            if (await TryUpdateModelAsync<PPSPSAssignment>(
+                assignmentToUpdate,
+                "",
+                a => a.Grade, a => a.Note))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(AssignmentOverview));
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "zkontaktujte svého správce systému.");
+                }
+            }
+
+            return View(assignmentToUpdate);
+        }
+
         private void PopulateClassesWithoutIdDropDownList(object selectedClass = null)
         {
             var classesQuery = from c in _context.Classes
