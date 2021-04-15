@@ -67,6 +67,8 @@
                             </dd>
                         }
                     </dl>
+                    <hr/>
+                    <a href="#" onclick="location.href = '@(Url.Action("UserOverview", "Teacher", new {id = Model.User.Id}))'">Zobrazit profil studenta.</a>
                 </div>
             </div>
         </div>
@@ -127,6 +129,47 @@
                                 @Html.DisplayFor(model => model.File)
                             </dd>
                         }
+                    </dl>
+                    <hr/>
+                    <a href="#"  onclick="location.href = '@(Url.Action("AssignmentsOverview", "Teacher", new {id = Model.Task.Id}))'">Zobrazit další práce s tímto zadáním.</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="SolutionHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Solution" aria-controls="Solution">
+                        <h5 style="color: #000000">Řešení</h5>
+                    </button>
+                </h5>
+            </div>
+            <div id="Solution" class="collapse" aria-labelledby="SolutionHeading" aria-expanded="false"  data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            <label asp-for="DateSubmission" class="control-label"></label>
+                        </dt>
+                        @{
+                            if (Model.DateSubmission > Model.Task.DateDeadline)
+                            {
+                                <dd class="col-sm-10 text-danger">
+                                    @Html.DisplayFor(model => model.DateSubmission)
+                                </dd>
+                            }
+                            else
+                            {
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.DateSubmission)
+                                </dd>
+                            }
+                        }
+                        <dt class="col-sm-2">
+                            <label asp-for="File" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.File)
+                        </dd>
                     </dl>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-﻿@model PPSPS.Models.PPSPSTask
+﻿@model PPSPS.Models.PPSPSAssignment
 
 @{
     ViewData["Title"] = "Detail zadání";
@@ -7,7 +7,7 @@
 <h1>Detail práce</h1>
 
 <div>
-    <h4>@Html.DisplayFor(model => model.TaskName)</h4>
+    <h4>@Html.DisplayFor(model => model.Task.TaskName)</h4>
     <hr />
     <div id="AssignmentOverview">
         <div class="card">
@@ -22,40 +22,40 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-2">
-                            <label asp-for="TaskName" class="control-label"></label>
+                            <label asp-for="Task.TaskName" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.TaskName)
+                            @Html.DisplayFor(model => model.Task.TaskName)
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="Description" class="control-label"></label>
+                            <label asp-for="Task.Description" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Description)
+                            @Html.DisplayFor(model => model.Task.Description)
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="ClassId" class="control-label"></label>
+                            <label asp-for="Task.ClassId" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.ClassId) (@Html.DisplayFor(model => model.YearsOfStudies.Years))
+                            @Html.DisplayFor(model => model.Task.ClassId) (@Html.DisplayFor(model => model.Task.YearsOfStudies.Years))
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="SubjectId" class="control-label"></label>
+                            <label asp-for="Task.SubjectId" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Subject.SubjectName) (@Html.DisplayFor(model => model.Subject.SubjectAbbreviation))
+                            @Html.DisplayFor(model => model.Task.Subject.SubjectName) (@Html.DisplayFor(model => model.Task.Subject.SubjectAbbreviation))
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="TeacherId" class="control-label"></label>
+                            <label asp-for="Task.TeacherId" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Teacher.LastName) @Html.DisplayFor(model => model.Teacher.FirstName)
+                            @Html.DisplayFor(model => model.Task.Teacher.LastName) @Html.DisplayFor(model => model.Task.Teacher.FirstName)
                         </dd>
                         <dt class="col-sm-2">
                             Termín
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.DateEntered) - @Html.DisplayFor(model => model.DateDeadline)
+                            @Html.DisplayFor(model => model.Task.DateEntered) - @Html.DisplayFor(model => model.Task.DateDeadline)
                         </dd>
                         @if (Model.File != null)
                         {
@@ -72,6 +72,37 @@
         </div>
 
         <div class="card">
+            <div class="card-header" id="SolutionHeading">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#Solution" aria-controls="Solution">
+                        <h5 style="color: #000000">Řešení</h5>
+                    </button>
+                </h5>
+            </div>
+            <div id="Solution" class="collapse" aria-labelledby="SolutionHeading" aria-expanded="false"  data-parent="#AssignmentOverview">
+                <div class="card-body">
+                    <form asp-action="TaskOverview" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <fieldset class="form-group">
+                        <div class="form-group row">
+                                <label asp-for="File" class="font-weight-bolder col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <textarea asp-for="File" maxlength="250" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="File" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Uložit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
             <div class="card-header" id="EvaluationHeading">
                 <h5 class="mb-0">
                     <button class="btn btn-link" data-toggle="collapse" data-target="#Evaluation" aria-controls="Evaluation">
@@ -83,46 +114,46 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-2">
-                            <label asp-for="Assignment.Grade" class="control-label"></label>
+                            <label asp-for="Grade" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @if (Model.Assignment.Grade == 0)
+                            @if (Model.Grade == 0)
                             {
                                 <p class="text-warning">Práce doposud nebyla hodnocena.</p>
                             }
                             else
                             {
-                                @Html.DisplayFor(model => model.Assignment.Grade)
+                                @Html.DisplayFor(model => model.Grade)
                             }
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="Assignment.DateSubmission" class="control-label"></label>
+                            <label asp-for="DateSubmission" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Assignment.DateSubmission)
+                            @Html.DisplayFor(model => model.DateSubmission)
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="Assignment.Note" class="control-label"></label>
+                            <label asp-for="Note" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Assignment.Note)
+                            @Html.DisplayFor(model => model.Note)
                         </dd>
                         @if (Model.File != null)
                         {
                             <dt class="col-sm-2">
-                                <label asp-for="Assignment.File" class="control-label"></label>
+                                <label asp-for="File" class="control-label"></label>
                             </dt>
                             <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.Assignment.File)
+                                @Html.DisplayFor(model => model.File)
                             </dd>
                         }
                         else
                         {
-                            <label asp-for="Assignment.File" class="font-weight-bolder col-sm-2 col-form-label"></label>
+                            <label asp-for="File" class="font-weight-bolder col-sm-2 col-form-label"></label>
                             <div class="col-auto my-1 form-inline">
                                 <div class="input-group mb-3">
-                                    <input asp-for="Assignment.File" type="file" class="btn">
-                                    <span asp-validation-for="Assignment.File" class="text-danger"></span>
+                                    <input asp-for="File" type="file" class="btn">
+                                    <span asp-validation-for="File" class="text-danger"></span>
                                 </div>
                             </div>
                         }

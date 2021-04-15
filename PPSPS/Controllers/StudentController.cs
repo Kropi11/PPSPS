@@ -43,6 +43,7 @@ namespace PPSPS.Controllers
                     .Where(u => u.UserId == id)
                 .OrderBy(t => t.Task.DateEntered)
                 .AsNoTracking();
+
             return View(await assignment.ToListAsync());
         }
 
@@ -70,12 +71,13 @@ namespace PPSPS.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Tasks
-                .Include(u => u.Teacher)
-                .Include(c => c.Class)
-                .Include(s => s.Subject)
-                .Include(a => a.Assignment)
-                .Include(y => y.YearsOfStudies)
+            var task = await _context.Assignments
+                .Include(t => t.Task)
+                    .ThenInclude(u => u.Teacher)
+                .Include(t => t.Task)
+                    .ThenInclude(s => s.Subject)
+                .Include(t => t.Task)
+                    .ThenInclude(y => y.YearsOfStudies)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
 
@@ -85,6 +87,38 @@ namespace PPSPS.Controllers
             }
 
             return View(task);
+        }
+
+        [HttpPost, ActionName("TaskOverview")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskOverview_Post(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var assignmentToUpdate = await _context.Assignments.FirstOrDefaultAsync(a => a.Id == id);
+            if (await TryUpdateModelAsync<PPSPSAssignment>(
+                assignmentToUpdate,
+                "",
+                a => a.File, a => a.DateSubmission))
+            {
+                try
+                {
+                    assignmentToUpdate.DateSubmission = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(TaskOverview));
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
+                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
+                                                 "obraťte se na správce systému.");
+                }
+            }
+
+            return View(assignmentToUpdate);
         }
 
         public async Task<IActionResult> AssignmentOverview(string? id)

@@ -116,7 +116,7 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,ClassId,SubjectId,YearsOfStudiesId,File")] PPSPSTask task)
+        public async Task<IActionResult> TaskCreate([Bind("TaskName,Description,DateEntered,DateDeadline,ClassId,SubjectId,GroupId,YearsOfStudiesId,File")] PPSPSTask task)
         {
             task.Id = Guid.NewGuid().ToString();
             task.TeacherId = User.Identity.GetUserId<string>();
@@ -126,7 +126,7 @@ namespace PPSPS.Controllers
                 {
                     _context.Add(task);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(TaskCreate));
+                    return RedirectToAction(nameof(TasksOverview));
                 }
             }
             catch (DbUpdateException ex)
