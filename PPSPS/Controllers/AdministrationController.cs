@@ -16,7 +16,7 @@ using PPSPS.Models;
 
 namespace PPSPS.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Directorate")]
     public class AdministrationController : Controller
     {
         private readonly ILogger<AdministrationController> _logger;
@@ -435,7 +435,9 @@ namespace PPSPS.Controllers
             }
 
             var classes = await _context.Classes
-                .Include(u => u.ClassTeacher)
+                .Include(t => t.ClassTeacher)
+                .Include(u => u.User)
+                    .Where(u => u.User.ClassId == id)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 

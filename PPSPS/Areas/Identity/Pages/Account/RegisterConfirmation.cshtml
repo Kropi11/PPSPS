@@ -9,8 +9,8 @@
     if (@Model.DisplayConfirmAccountLink)
     {
 <p>
-    Tato aplikace aktuálně nemá funkci skutečného odesílání e-mailu, v <a href="https://aka.ms/aspaccountconf">této dokumentaci</a> je popsáno, jak nakonfigurovat skutečné odesílání e-mailu.
-    Normálně by toto bylo zasláno na Váš e-mailem: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Kliknutím sem potvrďte svůj účet</a>
+    Pro dokončení procesu registrace je zapotřebí potvrdit svůj účet. Pokud je @Html.DisplayFor(model => model.Email) Váš e-mail, dokončení prosím registraci pomocí odkazu níže.
+    <a id="confirm-link" href="@Model.EmailConfirmationUrl">Kliknutím sem potvrďte svůj účet.</a>
 </p>
     }
     else

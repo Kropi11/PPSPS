@@ -42,24 +42,21 @@
                         <th scope="col">Příjmení</th>
                         <th scope="col">Jméno</th>
                         <th scope="col">E-mail</th>
-                        <th colspan="3" scope="col"/>
+                        <th colspan="2" scope="col"/>
                     </tr>
                     </thead>
                     <tbody id="Table">
-                    @for (int i = 0; i < 10; i++)
+                    @foreach (var item in Model.User.Id)
                     {
                         <tr>
-                            <td>Html.DisplayFor(modelItem => item.)</td>
-                            <td>Html.DisplayFor(modelItem => item.FirstName)</td>
-                            <td>Html.DisplayFor(modelItem => item.Email)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("UserOverview", "Administration", new {}))'">
+                            <td>@Html.DisplayFor(item => item.User.LastName)</td>
+                            <td>@Html.DisplayFor(item => item.User.FirstName)</td>
+                            <td>@Html.DisplayFor(item => item.User.Email)</td>
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserOverview", "Teacher", new {id = Model.User.Id})'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
                             </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Administration", new {})'">
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Teacher", new {id = Model.User.Id})'">
                                 <i class="bi bi-pencil-square" style="color: #0056b3"></i>
-                            </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("UserDelete", "Administration", new {})'">
-                                <i class="bi bi-trash" style="color: #b21f2d"></i>
                             </td>
                         </tr>
                     }

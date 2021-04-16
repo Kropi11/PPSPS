@@ -163,6 +163,7 @@ html { height: 100%;}
             transition: width .2s ease-in;
 
 }
+
 .sidebar-nav li:first-child a {
     color: #fff;
     background-color: #1a1a1a;
@@ -170,10 +171,10 @@ html { height: 100%;}
 .sidebar-nav li:nth-child(-n+4):before {
     background-color: #43619d;
 }
-.sidebar-nav li:nth-child(n+5):nth-child(-n+7):before {
+.sidebar-nav li:nth-child(n+5):nth-child(-n+5):before {
     background-color: #cea700;
 }
-.sidebar-nav li:nth-child(n+8):before {
+.sidebar-nav li:nth-child(n+6):before {
     background-color: #076d4a;
 }
 
