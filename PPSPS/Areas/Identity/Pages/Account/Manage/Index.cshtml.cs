@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PPSPS.Areas.Identity.Data;
 using PPSPS.Data;
+using PPSPS.Models;
 
 namespace PPSPS.Areas.Identity.Pages.Account.Manage
 {
@@ -74,6 +75,7 @@ namespace PPSPS.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber
             };
         }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);

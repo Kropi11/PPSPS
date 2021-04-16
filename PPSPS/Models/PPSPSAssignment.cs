@@ -32,9 +32,9 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(250)")]
         public string Note { get; set; }
 
-        [Column(TypeName = "varchar(767)")]
+        [Column(TypeName = "longblob")]
         [Display(Name = "Práce")]
-        public string File { get; set; }
+        public byte[] File { get; set; }
 
         public PPSPSUser User { get; set; }
         public PPSPSTask Task { get; set; }

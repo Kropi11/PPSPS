@@ -4,16 +4,14 @@ using PPSPS.Areas.Identity.Data;
 
 namespace PPSPS.Models
 {
-    public class PPSPSUserRole : IdentityRole
+    public class PPSPSRoles
     {
-        [ForeignKey("UserId")]
+        [ForeignKey("Id")]
         [Column(TypeName = "varchar(767)")]
-        public string UserId { get; set; }
+        public string Id { get; set; }
 
-        [ForeignKey("RoleId")]
-        [Column(TypeName = "varchar(767)")]
+        [ForeignKey("Name")]
+        [Column(TypeName = "VARCHAR(256)")]
         public string RoleId { get; set; }
-
-        public PPSPSRoles Roles { get; set; }
     }
 }

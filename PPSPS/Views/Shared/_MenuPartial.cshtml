@@ -21,17 +21,17 @@
                     <li><a asp-area="" asp-controller="Student" asp-action="SubmittedTasksOverview">Přehled přihlášených prací</a></li>
                 }
                 @if (User.IsInRole("Teacher")){
-                    <li><a asp-area="" asp-controller="Teacher" asp-action="UsersOverview">Přehled uživatelů</a></li>
-                    <li><a asp-area="" asp-controller="Teacher" asp-action="TasksOverview">Přehled zadání</a></li>
-                    <li><a asp-area="" asp-controller="Teacher" asp-action="TaskCreate">Vytvořit zadání</a></li>
+                    <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="UsersOverview">Přehled uživatelů</a></li>
+                    <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="TasksOverview">Přehled zadání</a></li>
+                    <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="TaskCreate">Vytvořit zadání</a></li>
                 }
                 @if (User.IsInRole("Administrator") || User.IsInRole("Directorate")){
-                    <li><a asp-area="" asp-controller="Administration" asp-action="UsersOverview">Přehled uživatelů</a></li>
-                    <li><a asp-area="" asp-controller="Administration" asp-action="TasksOverview">Přehled zadání</a></li>
-                    <li><a asp-area="" asp-controller="Administration" asp-action="ClassesOverview">Přehled tříd</a></li>
-                    <li><a asp-area="" asp-controller="Administration" asp-action="GroupsOverview">Přehled skupin</a></li>
-                    <li><a asp-area="" asp-controller="Administration" asp-action="SubjectsOverview">Přehled předmětů</a></li>
-                    <li><a asp-area="" asp-controller="Administration" asp-action="YearsOfStudiesOverview">Přehled ročníků</a></li>
+                    <li class="greenitem"><a asp-area="" asp-controller="Administration" asp-action="UsersOverview">Přehled uživatelů</a></li>
+                    <li class="greenitem"><a asp-area="" asp-controller="Administration" asp-action="TasksOverview">Přehled zadání</a></li>
+                    <li class="greenitem"><a asp-area="" asp-controller="Administration" asp-action="ClassesOverview">Přehled tříd</a></li>
+                    <li class="greenitem"><a asp-area="" asp-controller="Administration" asp-action="GroupsOverview">Přehled skupin</a></li>
+                    <li class="greenitem"><a asp-area="" asp-controller="Administration" asp-action="SubjectsOverview">Přehled předmětů</a></li>
+                    <li class="greenitem"><a asp-area="" asp-controller="Administration" asp-action="YearsOfStudiesOverview">Přehled ročníků</a></li>
                 }
             </ul>
         </nav>

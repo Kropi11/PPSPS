@@ -79,31 +79,58 @@
                     </button>
                 </h5>
             </div>
-            <div id="Solution" class="collapse" aria-labelledby="SolutionHeading" aria-expanded="false"  data-parent="#AssignmentOverview">
+            <div id="Solution" class="collapse" aria-labelledby="SolutionHeading" aria-expanded="false" data-parent="#AssignmentOverview">
                 <div class="card-body">
-                    @if(Model.Grade != 0){
-                        <form asp-action="TaskOverview" class="needs-validation">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <fieldset class="form-group">
-                                <div class="form-group row">
-                                    <label asp-for="File" class="font-weight-bolder col-sm-2 col-form-label"></label>
-                                    <div class="col-sm-10">
-                                        <textarea asp-for="File" maxlength="250" class="form-control" rows="3"></textarea>
-                                        <span asp-validation-for="File" class="text-danger"></span>
-                                    </div>
+                    <dl class="row">
+                        @if (Model.Grade == 0)
+                        {
+                            if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success alert-dismissible" style="margin-top:20px">
+                                    @ViewBag.Message
                                 </div>
-                            </fieldset>
-                            <div class="form-group row">
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Uložit</button>
-                                </div>
-                            </div>
-                        </form>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(model => model.File)
-                    }
+                            }
+                            <dt class="col-sm-2">
+                                <label asp-for="DateSubmission" class="control-label">Vložit soubor</label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                <form method="post" enctype="multipart/form-data">
+                                    <input type="file" name="files" required/>
+                                    <input asp-for="Task.Assignment.Id" name="id" hidden/>
+                                    <button class="btn btn-success" type="submit" asp-controller="Student" asp-action="UploadToDatabase">Nahrát</button>
+                                </form>
+                            </dd>
+                        }
+                        <dt class="col-sm-2">
+                            <label asp-for="File" class="control-label"></label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Soubor</th>
+                                    <th>Typ souboru</th>
+                                    <th>Datum nahrání</th>
+                                    <th/>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                foreach (var item in Model.File)
+                                {
+                                <tr>
+                                    <td>Html.DisplayFor(model => "")</td>
+                                    <td>file.FileName@file.Extension</td>
+                                    <td>file.FileType</td>
+                                    <td>file.DateSubmission</td>
+                                    <td>
+                                        <a type="button" class="btn btn-primary" asp-controller="Student" asp-action="DownloadFileFromDatabase" asp-route-id="file.Id">Stáhnout</a>
+                                    </td>
+                                </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </dd>
+                    </dl>
                 </div>
             </div>
         </div>
@@ -138,30 +165,14 @@
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.DateSubmission)
                         </dd>
+                        @if (Model.Note != null)
+                        {
                         <dt class="col-sm-2">
                             <label asp-for="Note" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.Note)
                         </dd>
-                        @if (Model.File != null)
-                        {
-                            <dt class="col-sm-2">
-                                <label asp-for="File" class="control-label"></label>
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.File)
-                            </dd>
-                        }
-                        else
-                        {
-                            <label asp-for="File" class="font-weight-bolder col-sm-2 col-form-label"></label>
-                            <div class="col-auto my-1 form-inline">
-                                <div class="input-group mb-3">
-                                    <input asp-for="File" type="file" class="btn">
-                                    <span asp-validation-for="File" class="text-danger"></span>
-                                </div>
-                            </div>
                         }
                     </dl>
                 </div>

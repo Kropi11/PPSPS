@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Http;
 using PPSPS.Areas.Identity.Data;
 using PPSPS.Data;
 using PPSPS.Models;
@@ -89,36 +91,48 @@ namespace PPSPS.Controllers
             return View(task);
         }
 
-        [HttpPost, ActionName("TaskOverview")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskOverview_Post(string? id)
+        public async Task<IActionResult> DownloadFileFromDatabase(string id)
         {
-            if (id == null)
+            var file = await _context.Files
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (file == null)
             {
-                return NotFound();
+                return null;
             }
 
-            var assignmentToUpdate = await _context.Assignments.FirstOrDefaultAsync(a => a.Id == id);
-            if (await TryUpdateModelAsync<PPSPSAssignment>(
-                assignmentToUpdate,
-                "",
-                a => a.File, a => a.DateSubmission))
+            return File(file.File, file.FileType, file.FileName+file.Extension);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadToDatabase(List<IFormFile> files,string id)
+        {
+            foreach (var file in files)
             {
-                try
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                var extension = Path.GetExtension(file.FileName);
+                var fileModel = new PPSPSFile()
                 {
-                    assignmentToUpdate.DateSubmission = DateTime.Now;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(TaskOverview));
-                }
-                catch (DbUpdateException ex)
+                    Id = Guid.NewGuid().ToString(),
+                    DateSubmission = DateTime.Now,
+                    FileName = fileName,
+                    FileType = file.ContentType,
+                    Extension = extension,
+                    AssignmentId = id
+                };
+                using (var dataStream = new MemoryStream())
                 {
-                    ModelState.AddModelError("", "Nebylo možné uložit změny. " +
-                                                 "Zkuste to znovu později a pokud problém přetrvává, " +
-                                                 "obraťte se na správce systému.");
+                    await file.CopyToAsync(dataStream);
+                    fileModel.File = dataStream.ToArray();
                 }
+
+                _context.Files.Add(fileModel);
+                _context.SaveChanges();
             }
 
-            return View(assignmentToUpdate);
+            TempData["Message"] = "Soubor byl úspěšně nahrán do databáze.";
+            return RedirectToAction(nameof(TaskOverview), new { id = id });
         }
 
         public async Task<IActionResult> AssignmentOverview(string? id)
@@ -167,6 +181,14 @@ namespace PPSPS.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> Filesave()
+        {
+            var assignment = _context.Files
+                .AsNoTracking();
+
+            return View(await assignment.ToListAsync());
         }
     }
 }
