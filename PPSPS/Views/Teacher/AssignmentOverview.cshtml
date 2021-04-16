@@ -120,15 +120,6 @@
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.Task.DateEntered) - @Html.DisplayFor(model => model.Task.DateDeadline)
                         </dd>
-                        @if (Model.Task.File != null)
-                        {
-                            <dt class="col-sm-2">
-                                <label asp-for="Task.File" class="control-label"></label>
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.Task.File)
-                            </dd>
-                        }
                     </dl>
                     <hr/>
                     <a href="#"  onclick="location.href = '@(Url.Action("AssignmentsOverview", "Teacher", new {id = Model.Task.Id}))'">Zobrazit další práce s tímto zadáním.</a>
@@ -148,27 +139,33 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-2">
-                            <label asp-for="DateSubmission" class="control-label"></label>
-                        </dt>
-                        @{
-                            if (Model.DateSubmission > Model.Task.DateDeadline)
-                            {
-                                <dd class="col-sm-10 text-danger">
-                                    @Html.DisplayFor(model => model.DateSubmission)
-                                </dd>
-                            }
-                            else
-                            {
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.DateSubmission)
-                                </dd>
-                            }
-                        }
-                        <dt class="col-sm-2">
                             <label asp-for="File" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.File)
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Soubor</th>
+                                    <th>Typ souboru</th>
+                                    <th>Datum nahrání</th>
+                                    <th/>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                foreach (var item in Model.File)
+                                {
+                                <tr>
+                                    <td>Html.DisplayFor(model => "")</td>
+                                    <td>file.FileName@file.Extension</td>
+                                    <td>file.FileType</td>
+                                    <td>file.DateSubmission</td>
+                                    <td>
+                                        <a type="button" class="btn btn-primary" asp-controller="Student" asp-action="DownloadFileFromDatabase" asp-route-id="file.Id">Stáhnout</a>
+                                    </td>
+                                </tr>
+                                }
+                                </tbody>
+                            </table>
                         </dd>
                     </dl>
                 </div>

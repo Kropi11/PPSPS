@@ -51,10 +51,6 @@ namespace PPSPS.Models
         [Column(TypeName = "varchar(767)")]
         public string YearsOfStudiesId { get; set; }
 
-        [Column(TypeName = "varchar(767)")]
-        [Display(Name = "Přílohy")]
-        public string File { get; set; }
-
         public PPSPSUser Teacher { get; set; }
         public PPSPSClass Class { get; set; }
         public PPSPSSubject Subject { get; set; }

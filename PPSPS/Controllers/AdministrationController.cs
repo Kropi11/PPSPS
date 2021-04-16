@@ -200,7 +200,7 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.GroupId, t => t.SubjectId, t => t.YearsOfStudiesId, t => t.File))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.GroupId, t => t.SubjectId, t => t.YearsOfStudiesId))
             {
                 try
                 {
