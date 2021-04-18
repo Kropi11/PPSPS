@@ -8,6 +8,9 @@ namespace PPSPS.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "ppsps");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -23,16 +26,44 @@ namespace PPSPS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Classes",
+                name: "Files",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(767)", nullable: false),
-                    ClassName = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: true),
-                    ClassTeacherId = table.Column<string>(type: "varchar(767)", nullable: true)
+                    FileName = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Extension = table.Column<string>(type: "varchar(10)", nullable: true),
+                    FileType = table.Column<string>(type: "varchar(250)", nullable: true),
+                    File = table.Column<byte[]>(type: "longblob", nullable: true),
+                    DateSubmission = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(767)", nullable: false),
+                    GroupName = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true),
+                    GroupAbbreviation = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(767)", nullable: false),
+                    RoleId = table.Column<string>(type: "VARCHAR(256)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,12 +84,40 @@ namespace PPSPS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(767)", nullable: false),
-                    FirstSemester = table.Column<string>(type: "varchar(10)", maxLength: 4, nullable: true),
-                    SecondSemester = table.Column<string>(type: "varchar(10)", maxLength: 4, nullable: true)
+                    FirstSemester = table.Column<int>(type: "int", nullable: false),
+                    SecondSemester = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_YearsOfStudies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "aspnetusers",
+                schema: "ppsps",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(767)", nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_aspnetusers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,12 +142,34 @@ namespace PPSPS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Classes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(767)", nullable: false),
+                    ClassName = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
+                    YearOfEntry = table.Column<int>(type: "int", nullable: false),
+                    ClassTeacherId = table.Column<string>(type: "varchar(767)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Classes_aspnetusers_ClassTeacherId",
+                        column: x => x.ClassTeacherId,
+                        principalSchema: "ppsps",
+                        principalTable: "aspnetusers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
@@ -102,8 +183,8 @@ namespace PPSPS.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    ClassId = table.Column<string>(type: "nvarchar(767)", nullable: true)
+                    ClassId = table.Column<string>(type: "nvarchar(767)", nullable: true),
+                    GroupId = table.Column<string>(type: "nvarchar(767)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,6 +193,12 @@ namespace PPSPS.Migrations
                         name: "FK_AspNetUsers_Classes_ClassId",
                         column: x => x.ClassId,
                         principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -211,10 +298,10 @@ namespace PPSPS.Migrations
                     DateEntered = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateDeadline = table.Column<DateTime>(type: "datetime", nullable: false),
                     ClassId = table.Column<string>(type: "varchar(767)", nullable: true),
+                    GroupId = table.Column<string>(type: "varchar(767)", nullable: true),
                     SubjectId = table.Column<string>(type: "varchar(767)", nullable: true),
                     TeacherId = table.Column<string>(type: "varchar(767)", nullable: true),
-                    YearsOfStudiesId = table.Column<string>(type: "varchar(767)", nullable: true),
-                    File = table.Column<byte[]>(type: "longblob", nullable: true)
+                    YearsOfStudiesId = table.Column<string>(type: "varchar(767)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -223,6 +310,12 @@ namespace PPSPS.Migrations
                         name: "FK_Tasks_Classes_ClassId",
                         column: x => x.ClassId,
                         principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tasks_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -253,11 +346,18 @@ namespace PPSPS.Migrations
                     UserId = table.Column<string>(type: "varchar(767)", nullable: true),
                     TaskId = table.Column<string>(type: "varchar(767)", nullable: true),
                     Grade = table.Column<int>(type: "int", nullable: false),
-                    DateSubmission = table.Column<DateTime>(type: "datetime", nullable: false)
+                    Note = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true),
+                    FileId = table.Column<string>(type: "varchar(767)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assignments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Assignments_Files_FileId",
+                        column: x => x.FileId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Assignments_Tasks_TaskId",
                         column: x => x.TaskId,
@@ -301,7 +401,13 @@ namespace PPSPS.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_ClassId",
                 table: "AspNetUsers",
-                column: "ClassId");
+                column: "ClassId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_GroupId",
+                table: "AspNetUsers",
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -315,9 +421,15 @@ namespace PPSPS.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assignments_FileId",
+                table: "Assignments",
+                column: "FileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Assignments_TaskId",
                 table: "Assignments",
-                column: "TaskId");
+                column: "TaskId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assignments_UserId",
@@ -325,9 +437,19 @@ namespace PPSPS.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_ClassTeacherId",
+                table: "Classes",
+                column: "ClassTeacherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ClassId",
                 table: "Tasks",
                 column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_GroupId",
+                table: "Tasks",
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_SubjectId",
@@ -366,7 +488,13 @@ namespace PPSPS.Migrations
                 name: "Assignments");
 
             migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "Tasks");
@@ -382,6 +510,13 @@ namespace PPSPS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Classes");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "aspnetusers",
+                schema: "ppsps");
         }
     }
 }

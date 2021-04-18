@@ -174,6 +174,9 @@ namespace PPSPS.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("GroupId")
+                        .HasColumnType("nvarchar(767)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(100)");
 
@@ -212,7 +215,10 @@ namespace PPSPS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("ClassId")
+                        .IsUnique();
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -229,11 +235,15 @@ namespace PPSPS.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(767)");
 
-                    b.Property<DateTime>("DateSubmission")
-                        .HasColumnType("datetime");
+                    b.Property<string>("FileId")
+                        .HasColumnType("varchar(767)");
 
                     b.Property<int>("Grade")
                         .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("varchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("TaskId")
                         .HasColumnType("varchar(767)");
@@ -243,7 +253,10 @@ namespace PPSPS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("TaskId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -256,15 +269,76 @@ namespace PPSPS.Migrations
                         .HasColumnType("varchar(767)");
 
                     b.Property<string>("ClassName")
-                        .HasColumnType("varchar(5)")
-                        .HasMaxLength(5);
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(10);
 
                     b.Property<string>("ClassTeacherId")
                         .HasColumnType("varchar(767)");
 
+                    b.Property<int>("YearOfEntry")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassTeacherId");
+
                     b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSFile", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<DateTime>("DateSubmission")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Extension")
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<byte[]>("File")
+                        .HasColumnType("longblob");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("varchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSGroup", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("GroupAbbreviation")
+                        .HasColumnType("varchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("varchar(45)")
+                        .HasMaxLength(45);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSRoles", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("VARCHAR(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("PPSPS.Models.PPSPSSubject", b =>
@@ -303,8 +377,8 @@ namespace PPSPS.Migrations
                         .HasColumnType("varchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<byte[]>("File")
-                        .HasColumnType("longblob");
+                    b.Property<string>("GroupId")
+                        .HasColumnType("varchar(767)");
 
                     b.Property<string>("SubjectId")
                         .HasColumnType("varchar(767)");
@@ -323,6 +397,8 @@ namespace PPSPS.Migrations
 
                     b.HasIndex("ClassId");
 
+                    b.HasIndex("GroupId");
+
                     b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
@@ -332,18 +408,74 @@ namespace PPSPS.Migrations
                     b.ToTable("Tasks");
                 });
 
+            modelBuilder.Entity("PPSPS.Models.PPSPSUserView", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("aspnetusers","ppsps");
+                });
+
             modelBuilder.Entity("PPSPS.Models.PPSPSYearsOfStudies", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(767)");
 
-                    b.Property<string>("FirstSemester")
-                        .HasColumnType("varchar(10)")
-                        .HasMaxLength(4);
+                    b.Property<int>("FirstSemester")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SecondSemester")
-                        .HasColumnType("varchar(10)")
-                        .HasMaxLength(4);
+                    b.Property<int>("SecondSemester")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -404,19 +536,34 @@ namespace PPSPS.Migrations
             modelBuilder.Entity("PPSPS.Areas.Identity.Data.PPSPSUser", b =>
                 {
                     b.HasOne("PPSPS.Models.PPSPSClass", "Class")
+                        .WithOne("User")
+                        .HasForeignKey("PPSPS.Areas.Identity.Data.PPSPSUser", "ClassId");
+
+                    b.HasOne("PPSPS.Models.PPSPSGroup", "Group")
                         .WithMany()
-                        .HasForeignKey("ClassId");
+                        .HasForeignKey("GroupId");
                 });
 
             modelBuilder.Entity("PPSPS.Models.PPSPSAssignment", b =>
                 {
-                    b.HasOne("PPSPS.Models.PPSPSTask", "Task")
+                    b.HasOne("PPSPS.Models.PPSPSFile", "File")
                         .WithMany()
-                        .HasForeignKey("TaskId");
+                        .HasForeignKey("FileId");
+
+                    b.HasOne("PPSPS.Models.PPSPSTask", "Task")
+                        .WithOne("Assignment")
+                        .HasForeignKey("PPSPS.Models.PPSPSAssignment", "TaskId");
 
                     b.HasOne("PPSPS.Areas.Identity.Data.PPSPSUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("PPSPS.Models.PPSPSClass", b =>
+                {
+                    b.HasOne("PPSPS.Models.PPSPSUserView", "ClassTeacher")
+                        .WithMany()
+                        .HasForeignKey("ClassTeacherId");
                 });
 
             modelBuilder.Entity("PPSPS.Models.PPSPSTask", b =>
@@ -424,6 +571,10 @@ namespace PPSPS.Migrations
                     b.HasOne("PPSPS.Models.PPSPSClass", "Class")
                         .WithMany()
                         .HasForeignKey("ClassId");
+
+                    b.HasOne("PPSPS.Models.PPSPSGroup", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId");
 
                     b.HasOne("PPSPS.Models.PPSPSSubject", "Subject")
                         .WithMany()
