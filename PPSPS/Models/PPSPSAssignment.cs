@@ -22,21 +22,17 @@ namespace PPSPS.Models
         [Column(TypeName = "int")]
         public int Grade { get; set; }
 
-        [Display(Name = "Datum odevzdání")]
-        [Column(TypeName = "datetime")]
-        [DisplayFormat(DataFormatString = "{0:dd. MM. yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime DateSubmission { get; set; }
-
         [StringLength(250, ErrorMessage = "Poznámka nesmí mít víc, jak 250 znaků.")]
         [Display(Name = "Poznámka")]
         [Column(TypeName = "varchar(250)")]
         public string Note { get; set; }
 
-        [Column(TypeName = "longblob")]
+        [Column(TypeName = "varchar(767)")]
         [Display(Name = "Práce")]
-        public byte[] File { get; set; }
+        public string FileId { get; set; }
 
         public PPSPSUser User { get; set; }
         public PPSPSTask Task { get; set; }
+        public PPSPSFile File { get; set; }
     }
 }

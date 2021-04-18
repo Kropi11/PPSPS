@@ -35,8 +35,17 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.User.LastName)</td>
                             <td>@Html.DisplayFor(modelItem => item.User.FirstName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DateSubmission)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Grade)</td>
+                            <td>@Html.DisplayFor(modelItem => item.File.DateSubmission)</td>
+                            <td class="textCenter">
+                                @if (item.Grade != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Grade)
+                                }
+                                else
+                                {
+                                    <text>-</text>
+                                }
+                            </td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Teacher",new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
                             </td>

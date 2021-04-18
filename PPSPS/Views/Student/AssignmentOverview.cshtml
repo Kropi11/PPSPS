@@ -27,6 +27,11 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ClassId) (@Html.DisplayFor(model => model.YearsOfStudies.Years))
+            @if(@Model.GroupId != "all")
+            {
+                <text>- </text> @Html.DisplayFor(model => model.Group.GroupAbbreviation)
+
+            }
         </dd>
         <dt class="col-sm-2">
             <label asp-for="SubjectId" class="control-label"></label>

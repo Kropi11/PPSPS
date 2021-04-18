@@ -9,6 +9,12 @@
 <div>
     <h4>@Html.DisplayFor(model => model.Task.TaskName)</h4>
     <hr />
+     @if (ViewBag.Message != null)
+     {
+         <div class="alert alert-success alert-dismissible" style="margin-top:20px">
+             @ViewBag.Message
+         </div>
+     }
     <div id="AssignmentOverview">
         <div class="card">
             <div class="card-header" id="AssignedHeading">
@@ -57,15 +63,6 @@
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.Task.DateEntered) - @Html.DisplayFor(model => model.Task.DateDeadline)
                         </dd>
-                        @if (Model.File != null)
-                        {
-                            <dt class="col-sm-2">
-                                <label asp-for="File" class="control-label"></label>
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.File)
-                            </dd>
-                        }
                     </dl>
                 </div>
             </div>
@@ -82,29 +79,22 @@
             <div id="Solution" class="collapse" aria-labelledby="SolutionHeading" aria-expanded="false" data-parent="#AssignmentOverview">
                 <div class="card-body">
                     <dl class="row">
-                        @if (Model.Grade == 0)
+                        @if (Model.File == null)
                         {
-                            if (ViewBag.Message != null)
-                            {
-                                <div class="alert alert-success alert-dismissible" style="margin-top:20px">
-                                    @ViewBag.Message
-                                </div>
-                            }
                             <dt class="col-sm-2">
-                                <label asp-for="DateSubmission" class="control-label">Vložit soubor</label>
+                                <label asp-for="File.DateSubmission" class="control-label">Vložit soubor</label>
                             </dt>
                             <dd class="col-sm-10">
                                 <form method="post" enctype="multipart/form-data">
                                     <input type="file" name="files" required/>
                                     <input asp-for="Task.Assignment.Id" name="id" hidden/>
+                                    <input asp-for="Task.Assignment.FileId" name="fileid" hidden/>
                                     <button class="btn btn-success" type="submit" asp-controller="Student" asp-action="UploadToDatabase">Nahrát</button>
                                 </form>
                             </dd>
                         }
-                        <dt class="col-sm-2">
-                            <label asp-for="File" class="control-label"></label>
-                        </dt>
-                        <dd class="col-sm-10">
+                        else
+                        {
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -115,21 +105,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                foreach (var item in Model.File)
-                                {
                                 <tr>
-                                    <td>Html.DisplayFor(model => "")</td>
-                                    <td>file.FileName@file.Extension</td>
-                                    <td>file.FileType</td>
-                                    <td>file.DateSubmission</td>
+                                    <td>@Html.DisplayFor(model => model.File.FileName)@Html.DisplayFor(model => model.Task.Assignment.File.Extension)</td>
+                                    <td>@Html.DisplayFor(model => model.File.FileType)</td>
+                                    <td>@Html.DisplayFor(model => model.File.DateSubmission)</td>
                                     <td>
-                                        <a type="button" class="btn btn-primary" asp-controller="Student" asp-action="DownloadFileFromDatabase" asp-route-id="file.Id">Stáhnout</a>
+                                        <a type="button" class="btn btn-primary" asp-controller="Student" asp-action="DownloadFileFromDatabase" asp-route-id="@Model.File.Id">Stáhnout</a>
                                     </td>
                                 </tr>
-                                }
                                 </tbody>
                             </table>
-                        </dd>
+                        }
                     </dl>
                 </div>
             </div>
@@ -160,10 +146,10 @@
                             }
                         </dd>
                         <dt class="col-sm-2">
-                            <label asp-for="DateSubmission" class="control-label"></label>
+                            <label asp-for="File.DateSubmission" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.DateSubmission)
+                            @Html.DisplayFor(model => model.File.DateSubmission)
                         </dd>
                         @if (Model.Note != null)
                         {

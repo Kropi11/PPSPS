@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="row">
-        <label asp-for="ClassId" class="font-weight-bolder col-sm-2 col-form-label">Organizace</label>
+        <label for="Organizace" class="font-weight-bolder col-sm-2 col-form-label">Organizace</label>
         <div class="col-auto my-1 form-inline">
           <select asp-for="ClassId" class="form-control" asp-items="ViewBag.ClassId">
             <option value="">Třída</option>
@@ -34,7 +34,7 @@
           <span asp-validation-for="ClassId" class="text-danger" />
 
           <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId">
-            <option value="">Skupina</option>
+            <option value="all">Celá třída</option>
           </select>
           <span asp-validation-for="GroupId" class="text-danger" />
 

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using PPSPS.Areas.Identity.Data
 @model IEnumerable<PPSPS.Models.PPSPSTask>
 
 @{
@@ -38,7 +39,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Student",new {id = item.Id}))'">
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Student", new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
                             </td>
                         </tr>

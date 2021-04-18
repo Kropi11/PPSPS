@@ -36,6 +36,28 @@ namespace PPSPS.Controllers
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var users = _context.Users
+                .FindAsync(User.Identity.GetUserId<string>());
+
+            var classes = _context.Classes
+                .FirstOrDefaultAsync(m => m.Id == users.Result.ClassId);
+
+            var groups = _context.Groups
+                .FirstOrDefaultAsync(m => m.Id == users.Result.GroupId);
+
+           var tasks = _context.Tasks
+               .Include(s => s.Subject)
+                    .Where(t => t.ClassId == classes.Result.ClassName)
+                    .Where(g => g.GroupId == groups.Result.Id || g.GroupId == "all")
+                    .Where(d => d.DateDeadline >= DateTime.Now)
+                .OrderBy(t => t.DateEntered)
+                .Take(5)
+                .AsNoTracking();
+            return View(await tasks.ToListAsync());
+        }
+
         public async Task<IActionResult> SubmittedTasksOverview()
         {
             string id = User.Identity.GetUserId<string>();
@@ -57,10 +79,14 @@ namespace PPSPS.Controllers
             var classes = _context.Classes
                 .FirstOrDefaultAsync(m => m.Id == users.Result.ClassId);
 
+            var groups = _context.Groups
+                .FirstOrDefaultAsync(m => m.Id == users.Result.GroupId);
+
             var tasks = _context.Tasks
                 .Include(s => s.Subject)
-                .Where(t => t.ClassId == classes.Result.ClassName)
-                .Where(d => d.DateDeadline >= DateTime.Now)
+                    .Where(t => t.ClassId == classes.Result.ClassName)
+                    .Where(g => g.GroupId == groups.Result.Id || g.GroupId == "all")
+                    .Where(d => d.DateDeadline >= DateTime.Now)
                 .OrderBy(t => t.DateEntered)
                 .AsNoTracking();
             return View(await tasks.ToListAsync());
@@ -80,6 +106,7 @@ namespace PPSPS.Controllers
                     .ThenInclude(s => s.Subject)
                 .Include(t => t.Task)
                     .ThenInclude(y => y.YearsOfStudies)
+                .Include(f => f.File)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
 
@@ -106,7 +133,7 @@ namespace PPSPS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadToDatabase(List<IFormFile> files,string id)
+        public async Task<IActionResult> UploadToDatabase(List<IFormFile> files,string id,string fileid)
         {
             foreach (var file in files)
             {
@@ -114,12 +141,11 @@ namespace PPSPS.Controllers
                 var extension = Path.GetExtension(file.FileName);
                 var fileModel = new PPSPSFile()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = fileid,
                     DateSubmission = DateTime.Now,
                     FileName = fileName,
                     FileType = file.ContentType,
                     Extension = extension,
-                    AssignmentId = id
                 };
                 using (var dataStream = new MemoryStream())
                 {
@@ -132,7 +158,7 @@ namespace PPSPS.Controllers
             }
 
             TempData["Message"] = "Soubor byl úspěšně nahrán do databáze.";
-            return RedirectToAction(nameof(TaskOverview), new { id = id });
+            return RedirectToAction(nameof(TaskOverview), new { id = id});
         }
 
         public async Task<IActionResult> AssignmentOverview(string? id)
@@ -145,6 +171,7 @@ namespace PPSPS.Controllers
             var task = await _context.Tasks
                 .Include(u => u.Teacher)
                 .Include(s => s.Subject)
+                .Include(g => g.Group)
                 .Include(y => y.YearsOfStudies)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
@@ -164,6 +191,7 @@ namespace PPSPS.Controllers
             assignment.Id = Guid.NewGuid().ToString();
             assignment.UserId = User.Identity.GetUserId<string>();
             assignment.TaskId = id;
+            assignment.FileId = Guid.NewGuid().ToString();
             try
             {
                 if (ModelState.IsValid)
@@ -181,14 +209,6 @@ namespace PPSPS.Controllers
             }
 
             return View();
-        }
-
-        public async Task<IActionResult> Filesave()
-        {
-            var assignment = _context.Files
-                .AsNoTracking();
-
-            return View(await assignment.ToListAsync());
         }
     }
 }

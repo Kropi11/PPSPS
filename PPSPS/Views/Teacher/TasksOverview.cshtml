@@ -38,7 +38,16 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
                             <td>@Html.DisplayFor(modelItem => item.ClassId)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Group.GroupAbbreviation)</td>
+                            <td class="textCenter">
+                                @if (item.Group != null)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Group.GroupAbbreviation)
+                                }
+                                else
+                                {
+                                    <text>-</text>
+                                }
+                            </td>
                             <td>@Html.DisplayFor(modelItem => item.YearsOfStudies.Years)</td>
                             <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateEntered)</td>

@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNet.Identity;
 using PPSPS.Areas.Identity.Data;
 using PPSPS.Data;
 
@@ -14,17 +17,30 @@ namespace PPSPS.Controllers
     {
         private readonly ILogger<StudentController> _logger;
         private readonly AuthDBContext _context;
-        private readonly UserManager<PPSPSUser> _userManager;
 
-        public HomeController(ILogger<StudentController> logger, AuthDBContext context, UserManager<PPSPSUser> userManager)
+        public HomeController(ILogger<StudentController> logger, AuthDBContext context)
         {
             _logger = logger;
             _context = context;
-            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (User.IsInRole("Administrator") || User.IsInRole("Directorate"))
+            {
+                return RedirectToAction("Index", "Administration");
+            }
+
+            if (User.IsInRole("Teacher"))
+            {
+                return RedirectToAction("Index", "Teacher");
+            }
+
+            if (User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Student");
+            }
+
             return View();
         }
     }

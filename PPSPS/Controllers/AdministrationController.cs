@@ -28,6 +28,19 @@ namespace PPSPS.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var users = _context.Tasks
+                .Include(s => s.Subject)
+                .Include(g => g.Group)
+                .Include(y => y.YearsOfStudies)
+                .OrderByDescending(t => t.DateEntered)
+                .Take(5)
+                .AsNoTracking();
+
+            return View(await users.ToListAsync());
+        }
+
         public async Task<IActionResult> UsersOverview()
         {
             var users = _context.Users
@@ -48,7 +61,7 @@ namespace PPSPS.Controllers
                 .Include(c => c.Class)
                 .Include(g => g.Group)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();

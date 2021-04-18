@@ -6,7 +6,6 @@
     ViewData["Title"] = "Přehled prací";
 }
 
-    <!-- Obsah stránky -->
 <div class="container">
     <div class="row">
         <div class="col-sm-10 offset-sm-1 text-center">
@@ -43,24 +42,28 @@
                             <td>@Html.DisplayFor(modelItem => item.Task.Subject.SubjectAbbreviation)</td>
                             <td>@Html.DisplayFor(modelItem => item.Task.DateEntered)</td>
                             <td>@Html.DisplayFor(modelItem => item.Task.DateDeadline)</td>
-                            <td>
+                            <td class="textCenter">
                                 @if (item.Grade != 0)
                                 {
                                     @Html.DisplayFor(modelItem => item.Grade)
+                                }
+                                else
+                                {
+                                    <text>-</text>
                                 }
                             </td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Student", new {id = item.Id}))'">
                                 @if (item.Grade == 0 && item.File != null)
                                 {
-                                    <i class="bi bi-dash-circle" style="color: #ffc200" data-bs-toggle="tooltip" data-bs-placement="right" title="Čeká na hodnocení"/>
-                                }
-                                else if (item.Grade == 0 && item.File == null)
-                                {
-                                    <i class="bi bi-x-circle" style="color: #940000" data-bs-toggle="tooltip" data-bs-placement="right" title="Neodevzdaná"/>
+                                    <i class="bi bi-dash-circle text-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Čeká na hodnocení"/>
                                 }
                                 else if (item.Grade != 0)
                                 {
-                                    <i class="bi bi-check-circle" style="color: #1c7430" data-bs-toggle="tooltip" data-bs-placement="right" title="Odevzdaná a hodnocená"/>
+                                    <i class="bi bi-check-circle text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Odevzdaná a hodnocená"/>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x-circle text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Neodevzdaná"/>
                                 }
                             </td>
                         </tr>

@@ -25,6 +25,20 @@ namespace PPSPS.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var tasks = _context.Tasks
+                .Include(s => s.Subject)
+                .Include(g => g.Group)
+                .Include(y => y.YearsOfStudies)
+                    .Where(t => t.TeacherId == User.Identity.GetUserId<string>())
+                .OrderByDescending(t => t.DateEntered)
+                .Take(5)
+                .AsNoTracking();
+
+            return View(await tasks.ToListAsync());
+        }
+
         public async Task<IActionResult> UsersOverview()
         {
             var users = _context.Users
@@ -268,6 +282,7 @@ namespace PPSPS.Controllers
                 .Include(t => t.Task)
                     .ThenInclude(g => g.Group)
                     .Where(a => a.TaskId == id)
+                .Include(f => f.File)
                 .OrderBy(u => u.User.LastName)
                 .AsNoTracking();
             return View(await assignment.ToListAsync());
@@ -293,6 +308,7 @@ namespace PPSPS.Controllers
                     .ThenInclude(s => s.Subject)
                 .Include(t => t.Task)
                     .ThenInclude(y => y.YearsOfStudies)
+                .Include(f => f.File)
 
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == id);
@@ -334,6 +350,33 @@ namespace PPSPS.Controllers
             }
 
             return View(assignmentToUpdate);
+        }
+
+        public async Task<IActionResult> DownloadFileFromDatabase(string id)
+        {
+            var file = await _context.Files
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (file == null)
+            {
+                return null;
+            }
+
+            return File(file.File, file.FileType, file.FileName + file.Extension);
+        }
+
+        public async Task<IActionResult> DeleteFileFromDatabase(string id)
+        {
+            var file = await _context.Files
+                .Where(f => f.Id == id)
+                .FirstOrDefaultAsync();
+
+            _context.Files.Remove(file);
+            _context.SaveChanges();
+
+            TempData["Message"] = $"Soubor {file.FileName + file.Extension} byl úspěšně smazán z databáze.";
+            return RedirectToAction(nameof(AssignmentOverview), new { id = "17e3ccb5-d4ed-4f6d-8783-98e041ebb39f"});
         }
 
         private void PopulateClassesWithoutIdDropDownList(object selectedClass = null)
