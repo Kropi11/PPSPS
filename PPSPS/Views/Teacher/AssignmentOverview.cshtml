@@ -45,15 +45,6 @@
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.User.Email)
                         </dd>
-                        @if (Model.User.PhoneNumber != null)
-                        {
-                            <dt class="col-sm-2">
-                                <label asp-for="User.PhoneNumber" class="control-label">Telefonní číslo</label>
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.User.PhoneNumber)
-                            </dd>
-                        }
                         @if (Model.User.ClassId != null)
                         {
                             <dt class="col-sm-2">
@@ -107,6 +98,11 @@
                         </dt>
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.Task.ClassId) (@Html.DisplayFor(model => model.Task.YearsOfStudies.Years))
+                            @if(@Model.Task.GroupId != "all")
+                            {
+                                <text>- </text> @Html.DisplayFor(model => model.Task.Group.GroupAbbreviation)
+
+                            }
                         </dd>
                         <dt class="col-sm-2">
                             <label asp-for="Task.SubjectId" class="control-label"></label>
@@ -199,7 +195,7 @@
                                 <label asp-for="Grade" class="font-weight-bolder col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
                                     <select asp-for="Grade" class="form-control" required>
-                                        <option value="0" selected disabled>Známka</option>
+                                        <option value="0" selected>Nehodnoceno</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>

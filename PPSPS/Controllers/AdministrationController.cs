@@ -101,7 +101,8 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSUser>(
                 userToUpdate,
                 "",
-                s => s.FirstName, s => s.LastName, s => s.Email, s => s.PhoneNumber, s => s.EmailConfirmed, c => c.ClassId, g => g.GroupId))
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.PhoneNumber, s => s.EmailConfirmed,
+                c => c.ClassId, g => g.GroupId))
             {
                 try
                 {
@@ -163,7 +164,7 @@ namespace PPSPS.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return RedirectToAction(nameof(UserDelete), new { id = id, saveChangesError = true });
+                return RedirectToAction(nameof(UserDelete), new {id = id, saveChangesError = true});
             }
         }
 
@@ -213,7 +214,8 @@ namespace PPSPS.Controllers
             if (await TryUpdateModelAsync<PPSPSTask>(
                 taskToUpdate,
                 "",
-                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId, t => t.GroupId, t => t.SubjectId, t => t.YearsOfStudiesId))
+                t => t.TaskName, t => t.Description, t => t.DateEntered, t => t.DateDeadline, t => t.ClassId,
+                t => t.GroupId, t => t.SubjectId, t => t.YearsOfStudiesId))
             {
                 try
                 {
@@ -251,7 +253,8 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClassCreate([Bind("ClassName, YearOfEntry, ClassTeacherId")] PPSPSClass classes)
+        public async Task<IActionResult> ClassCreate([Bind("ClassName, YearOfEntry, ClassTeacherId")]
+            PPSPSClass classes)
         {
             classes.Id = Guid.NewGuid().ToString();
             try
@@ -263,7 +266,7 @@ namespace PPSPS.Controllers
                     return RedirectToAction(nameof(ClassesOverview));
                 }
             }
-            catch (DbUpdateException  ex)
+            catch (DbUpdateException ex)
             {
                 ModelState.AddModelError("", "Nebylo možné uložit změny. " +
                                              "Zkuste to znovu později a pokud problém přetrvává, " +
@@ -273,6 +276,7 @@ namespace PPSPS.Controllers
             PopulateClassTeacherDropDownList(classes.ClassTeacherId);
             return View(classes);
         }
+
         public async Task<IActionResult> ClassEdit(string? id)
         {
             if (id == null)
@@ -320,6 +324,7 @@ namespace PPSPS.Controllers
 
             return View(classToUpdate);
         }
+
         public async Task<IActionResult> TaskOverview(string? id)
         {
             if (id == null)
@@ -363,11 +368,13 @@ namespace PPSPS.Controllers
             {
                 ViewData["ErrorMessage"] =
                     "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
-                    "obraťte se na správce systému.";;
+                    "obraťte se na správce systému.";
+                ;
             }
 
             return View(classes);
         }
+
         // POST: Students/Delete/5
         [HttpPost, ActionName("ClassDelete")]
         [ValidateAntiForgeryToken]
@@ -387,7 +394,7 @@ namespace PPSPS.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return RedirectToAction(nameof(ClassDelete), new { id = id, saveChangesError = true });
+                return RedirectToAction(nameof(ClassDelete), new {id = id, saveChangesError = true});
             }
         }
 
@@ -402,6 +409,7 @@ namespace PPSPS.Controllers
                 .AsNoTracking()
                 .Include(u => u.Teacher)
                 .Include(s => s.Subject)
+                .Include(g => g.Group)
                 .Include(y => y.YearsOfStudies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (task == null)
@@ -413,7 +421,8 @@ namespace PPSPS.Controllers
             {
                 ViewData["ErrorMessage"] =
                     "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
-                    "obraťte se na správce systému.";;
+                    "obraťte se na správce systému.";
+                ;
             }
 
             return View(task);
@@ -437,9 +446,10 @@ namespace PPSPS.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return RedirectToAction(nameof(TaskDelete), new { id = id, saveChangesError = true });
+                return RedirectToAction(nameof(TaskDelete), new {id = id, saveChangesError = true});
             }
         }
+
         public async Task<IActionResult> ClassOverview(string? id)
         {
             if (id == null)
@@ -450,7 +460,7 @@ namespace PPSPS.Controllers
             var classes = await _context.Classes
                 .Include(t => t.ClassTeacher)
                 .Include(u => u.User)
-                    .Where(u => u.User.ClassId == id)
+                .Where(u => u.User.ClassId == id)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -478,7 +488,8 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SubjectCreate([Bind("SubjectName, SubjectAbbreviation")] PPSPSSubject subject)
+        public async Task<IActionResult> SubjectCreate([Bind("SubjectName, SubjectAbbreviation")]
+            PPSPSSubject subject)
         {
             subject.Id = Guid.NewGuid().ToString();
             try
@@ -519,7 +530,8 @@ namespace PPSPS.Controllers
             {
                 ViewData["ErrorMessage"] =
                     "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
-                    "obraťte se na správce systému.";;
+                    "obraťte se na správce systému.";
+                ;
             }
 
             return View(subject);
@@ -543,9 +555,10 @@ namespace PPSPS.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return RedirectToAction(nameof(SubjectDelete), new { id = id, saveChangesError = true });
+                return RedirectToAction(nameof(SubjectDelete), new {id = id, saveChangesError = true});
             }
         }
+
         public async Task<IActionResult> SubjectEdit(string? id)
         {
             if (id == null)
@@ -592,6 +605,7 @@ namespace PPSPS.Controllers
 
             return View(subjectToUpdate);
         }
+
         public async Task<IActionResult> SubjectOverview(string? id)
         {
             if (id == null)
@@ -610,11 +624,12 @@ namespace PPSPS.Controllers
 
             return View(subject);
         }
+
         public async Task<IActionResult> YearsOfStudiesOverview()
         {
             var years = _context.YearsOfStudies
                 .OrderByDescending(y => y.FirstSemester)
-                                                .AsNoTracking();
+                .AsNoTracking();
             return View(await years.ToListAsync());
         }
 
@@ -625,7 +640,8 @@ namespace PPSPS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> YearOfStudiesCreate([Bind("FirstSemester, SecondSemester")] PPSPSYearsOfStudies years)
+        public async Task<IActionResult> YearOfStudiesCreate([Bind("FirstSemester, SecondSemester")]
+            PPSPSYearsOfStudies years)
         {
             years.Id = Guid.NewGuid().ToString();
             try
@@ -713,7 +729,8 @@ namespace PPSPS.Controllers
             {
                 ViewData["ErrorMessage"] =
                     "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
-                    "obraťte se na správce systému.";;
+                    "obraťte se na správce systému.";
+                ;
             }
 
             return View(years);
@@ -737,7 +754,7 @@ namespace PPSPS.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return RedirectToAction(nameof(YearOfStudiesDelete), new { id = id, saveChangesError = true });
+                return RedirectToAction(nameof(YearOfStudiesDelete), new {id = id, saveChangesError = true});
             }
         }
 
@@ -883,7 +900,8 @@ namespace PPSPS.Controllers
             {
                 ViewData["ErrorMessage"] =
                     "Smazání se nezdařilo. Zkuste to znovu později a pokud problém přetrvává, " +
-                    "obraťte se na správce systému.";;
+                    "obraťte se na správce systému.";
+                ;
             }
 
             return View(subject);
@@ -907,7 +925,7 @@ namespace PPSPS.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return RedirectToAction(nameof(GroupDelete), new { id = id, saveChangesError = true });
+                return RedirectToAction(nameof(GroupDelete), new {id = id, saveChangesError = true});
             }
         }
 

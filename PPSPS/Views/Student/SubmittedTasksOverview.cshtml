@@ -3,7 +3,7 @@
 @model IEnumerable<PPSPS.Models.PPSPSAssignment>
 
 @{
-    ViewData["Title"] = "Přehled prací";
+    ViewData["Title"] = "Přehled mých prací";
 }
 
 <div class="container">
@@ -49,17 +49,17 @@
                                 }
                                 else
                                 {
-                                    <text>-</text>
+                                    <text>N</text>
                                 }
                             </td>
                             <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Student", new {id = item.Id}))'">
-                                @if (item.Grade == 0 && item.File != null)
-                                {
-                                    <i class="bi bi-dash-circle text-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Čeká na hodnocení"/>
-                                }
-                                else if (item.Grade != 0)
+                                @if (item.Grade != 0)
                                 {
                                     <i class="bi bi-check-circle text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Odevzdaná a hodnocená"/>
+                                }
+                                else if (item.Grade == 0 && item.File != null)
+                                {
+                                    <i class="bi bi-dash-circle text-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Čeká na hodnocení"/>
                                 }
                                 else
                                 {

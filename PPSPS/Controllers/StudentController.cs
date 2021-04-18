@@ -65,6 +65,7 @@ namespace PPSPS.Controllers
                 .Include(t => t.Task)
                     .ThenInclude(s => s.Subject)
                     .Where(u => u.UserId == id)
+                .Include(f => f.File)
                 .OrderBy(t => t.Task.DateEntered)
                 .AsNoTracking();
 
@@ -106,6 +107,8 @@ namespace PPSPS.Controllers
                     .ThenInclude(s => s.Subject)
                 .Include(t => t.Task)
                     .ThenInclude(y => y.YearsOfStudies)
+                .Include(t => t.Task)
+                    .ThenInclude(g => g.Group)
                 .Include(f => f.File)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);

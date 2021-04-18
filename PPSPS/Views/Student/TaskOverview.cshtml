@@ -1,7 +1,7 @@
 ﻿@model PPSPS.Models.PPSPSAssignment
 
 @{
-    ViewData["Title"] = "Detail zadání";
+    ViewData["Title"] = "Detail práce";
 }
 
 <h1>Detail práce</h1>
@@ -44,6 +44,11 @@
                         </dt>
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.Task.ClassId) (@Html.DisplayFor(model => model.Task.YearsOfStudies.Years))
+                            @if(@Model.Task.GroupId != "all")
+                            {
+                                <text>- </text> @Html.DisplayFor(model => model.Task.Group.GroupAbbreviation)
+
+                            }
                         </dd>
                         <dt class="col-sm-2">
                             <label asp-for="Task.SubjectId" class="control-label"></label>
@@ -136,7 +141,11 @@
                             <label asp-for="Grade" class="control-label"></label>
                         </dt>
                         <dd class="col-sm-10">
-                            @if (Model.Grade == 0)
+                            @if (Model.Grade == 0 && Model.File == null)
+                            {
+                                <p class="text-danger">Práce doposud nebyla odevzdaná.</p>
+                            }
+                            else if(Model.Grade == 0)
                             {
                                 <p class="text-warning">Práce doposud nebyla hodnocena.</p>
                             }
@@ -145,12 +154,16 @@
                                 @Html.DisplayFor(model => model.Grade)
                             }
                         </dd>
-                        <dt class="col-sm-2">
-                            <label asp-for="File.DateSubmission" class="control-label"></label>
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.File.DateSubmission)
-                        </dd>
+                        @if (Model.File != null)
+                        {
+                            <dt class="col-sm-2">
+                                <label asp-for="File.DateSubmission" class="control-label"></label>
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.File.DateSubmission)
+                            </dd>
+
+                        }
                         @if (Model.Note != null)
                         {
                         <dt class="col-sm-2">

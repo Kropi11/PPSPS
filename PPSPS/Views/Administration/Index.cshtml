@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PPSPS.Models.PPSPSTask>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<PPSPS.Models.PPSPSTask>
 
 @{
     ViewData["Title"] = "Domovská stránka";
@@ -9,7 +10,7 @@
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" onclick="location.href = '@(Url.Action("TasksOverview", "Administration"))'"><span role="button" tabindex="0">Aktuální práce</span></h5>
+                    <h5 class="card-title" onclick="location.href = '@(Url.Action("TasksOverview", "Administration"))'"><span role="button" tabindex="0">Všechny práce</span></h5>
                     <p class="card-text">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
@@ -49,5 +50,53 @@
                 </div>
             </div>
         </div>
+        @if(User.IsInRole("Teacher")){
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" onclick="location.href = '@(Url.Action("TasksOverview", "Teacher"))'"><span role="button" tabindex="0">Mé práce</span></h5>
+                        <p class="card-text">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
+                                    <br/>
+                                    <table id="TasksOverview" class="table table-hover table-striped">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Název práce</th>
+                                            <th scope="col">Třída</th>
+                                            <th scope="col">Předmět</th>
+                                            <th colspan="3" scope="col" />
+                                        </tr>
+                                        </thead>
+                                        <tbody id="Table">
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.TeacherId == User.Identity.GetUserId<string>())
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.ClassId)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
+                                                    <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentsOverview", "Teacher", new {id = item.Id}))'">
+                                                        <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
+                                                    </td>
+                                                    <td class="textCenter" onclick="location.href = '@Url.Action("TaskEdit", "Teacher", new {id = item.Id})'">
+                                                        <i class="bi bi-pencil-square" style="color: #0056b3"/>
+                                                    </td>
+                                                    <td class="textCenter" onclick="location.href = '@Url.Action("TaskDelete", "Teacher", new {id = item.Id})'">
+                                                        <i class="bi bi-trash" style="color: #b21f2d"/>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>

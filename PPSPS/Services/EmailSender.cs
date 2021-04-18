@@ -25,7 +25,7 @@ namespace PPSPS.Services
             var client = new SendGridClient("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");
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("rkropacek@sps-pi.cz", Options.SendGridUser),
+                From = new EmailAddress("ppsps@sps-pi.cz", Options.SendGridUser),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
