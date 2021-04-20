@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PPSPS.Models.PPSPSTask>
+﻿@model IEnumerable<PPSPS.Models.PPSPSAssignment>
 
 @{
     ViewData["Title"] = "Domovská stránka";
@@ -9,7 +9,7 @@
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" onclick="location.href = '@(Url.Action("AssignmentsOverview", "Student"))'"><span role="button" tabindex="0">Aktuální práce</span></h5>
+                    <h5 class="card-title" onclick="location.href = '@(Url.Action("SubmittedTasksOverview", "Student"))'"><span role="button" tabindex="0">Mé práce</span></h5>
                     <p class="card-text">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
@@ -26,14 +26,24 @@
                                     <tbody id="Table">
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                                            <td class="textCenter">@Html.DisplayFor(modelItem => item.Subject.SubjectAbbreviation)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.DateDeadline)</td>
-                                            <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Student", new {id = item.Id}))'">
-                                                <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
-                                            </td>
-                                        </tr>
+                                        if (item.Task != null)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.Task.TaskName)</td>
+                                                <td class="textCenter">@Html.DisplayFor(modelItem => item.Task.Subject.SubjectAbbreviation)</td>
+                                                @if (item.Task.DateDeadline <= DateTime.Now)
+                                                {
+                                                    <td class="text-danger">@Html.DisplayFor(modelItem => item.Task.DateDeadline)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@Html.DisplayFor(modelItem => item.Task.DateDeadline)</td>
+                                                }
+                                                <td class="textCenter" onclick="location.href = '@(Url.Action("TaskOverview", "Student", new {id = item.Id}))'">
+                                                    <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                     </tbody>
                                 </table>

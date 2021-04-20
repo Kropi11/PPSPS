@@ -38,21 +38,11 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = _context.Users
-                .FindAsync(User.Identity.GetUserId<string>());
-
-            var classes = _context.Classes
-                .FirstOrDefaultAsync(m => m.Id == users.Result.ClassId);
-
-            var groups = _context.Groups
-                .FirstOrDefaultAsync(m => m.Id == users.Result.GroupId);
-
-           var tasks = _context.Tasks
-               .Include(s => s.Subject)
-                    .Where(t => t.ClassId == classes.Result.ClassName)
-                    .Where(g => g.GroupId == groups.Result.Id || g.GroupId == "all")
-                    .Where(d => d.DateDeadline >= DateTime.Now)
-                .OrderBy(t => t.DateEntered)
+           var tasks = _context.Assignments
+               .Include(t => t.Task)
+               .ThenInclude(s => s.Subject)
+                    .Where(d => d.UserId == User.Identity.GetUserId<string>())
+                .OrderBy(t => t.Task.DateEntered)
                 .Take(5)
                 .AsNoTracking();
             return View(await tasks.ToListAsync());
