@@ -65,7 +65,7 @@
                         }
                     </dl>
                     <hr/>
-                    <a href="#" onclick="location.href = '@(Url.Action("UserOverview", "Teacher", new {id = Model.User.Id}))'">Zobrazit profil studenta.</a>
+                    <a href="#" onclick="location.href = '@(Url.Action("UserOverview", "Administration", new {id = Model.User.Id}))'">Zobrazit profil studenta.</a>
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
                         </dd>
                     </dl>
                     <hr/>
-                    <a href="#"  onclick="location.href = '@(Url.Action("AssignmentsOverview", "Teacher", new {id = Model.Task.Id}))'">Zobrazit další práce s tímto zadáním.</a>
+                    <a href="#"  onclick="location.href = '@(Url.Action("TaskOverview", "Administration", new {id = Model.Task.Id}))'">Zobrazit detail zadání.</a>
                 </div>
             </div>
         </div>
@@ -157,8 +157,8 @@
                                 <td>@Html.DisplayFor(model => model.File.FileType)</td>
                                 <td>@Html.DisplayFor(model => model.File.DateSubmission)</td>
                                 <td>
-                                    <a type="button" class="btn btn-primary" asp-controller="Teacher" asp-action="DownloadFileFromDatabase" asp-route-id="@Model.File.Id">Stáhnout</a>
-                                    <button class="btn btn-danger" style="text-decoration-color: #ffffff" onclick="location.href = '@(Url.Action("DeleteFileFromDatabase", "Teacher", new {id = Model.File.Id, pageid = Model.Id}))'">Smazat</button>
+                                    <a type="button" class="btn btn-primary" asp-controller="Administration" asp-action="DownloadFileFromDatabase" asp-route-id="@Model.File.Id">Stáhnout</a>
+                                    <button class="btn btn-danger" style="text-decoration-color: #ffffff" onclick="location.href = '@(Url.Action("DeleteFileFromDatabase", "Administration", new {id = Model.File.Id, pageid = Model.Id}))'">Smazat</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -226,5 +226,5 @@
     </div>
 </div>
 <div>
-    <a href="#"  onclick="location.href = '@(Url.Action("AssignmentsOverview", "Teacher", new {id = Model.Task.Id}))'">Zpět na přehled</a>
+    <a href="#"  onclick="location.href = '@Url.Action("UserTasksOverview", "Administration", new {id = Model.User.Id})'">Zpět na přehled</a>
 </div>

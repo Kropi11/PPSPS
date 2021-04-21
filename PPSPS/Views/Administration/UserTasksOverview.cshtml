@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PPSPS.Models.PPSPSAssignment>
+
+@{
+    ViewData["Title"] = "Přehled prací studenta";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 text-center">
+            <form class="form-inline justify-content-center">
+                <div class="form-group">
+                    <input class="form-control" id="tableSearch" type="text" placeholder="Hledat ... ">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <br/>
+                <table id="Index" class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Název práce</th>
+                        <th scope="col">Předmět</th>
+                        <th scope="col">Třída</th>
+                        <th scope="col">Ročník</th>
+                        <th scope="col">Datum odevzdání</th>
+                        <th scope="col">Známka</th>
+                        <th scope="col"><i class="bi bi-card-checklist" /></th>
+                    </tr>
+                    </thead>
+                    <tbody id="Table">
+                    @foreach (var item in Model)
+                    {
+                        if (item.Task != null)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Task.TaskName)</td>
+                                <td class="textCenter">@Html.DisplayFor(modelItem => item.Task.Subject.SubjectAbbreviation)</td>
+                                <td class="textCenter">@Html.DisplayFor(modelItem => item.Task.ClassId)</td>
+                                <td class="textCenter">@Html.DisplayFor(modelItem => item.Task.YearsOfStudies.Years)</td>
+                                @if (item.File != null)
+                                {
+                                    <td>@Html.DisplayFor(modelItem => item.File.DateSubmission)</td>
+                                }
+                                else
+                                {
+                                    <td>@Html.DisplayFor(modelItem => item.Task.DateDeadline)</td>
+                                }
+                                <td class="textCenter">
+                                    @if (item.Grade != 0)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Grade)
+                                    }
+                                    else
+                                    {
+                                        <text>N</text>
+                                    }
+                                </td>
+                                <td class="textCenter" onclick="location.href = '@(Url.Action("AssignmentOverview", "Administration", new {id = item.Id}))'">
+                                    <i class="bi bi-file-earmark-person" style="color: #1c7430"/>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

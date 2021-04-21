@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using PPSPS.Areas.Identity.Data;
 using PPSPS.Data;
 using PPSPS.Models;
+using PPSPS.Views.Student;
 
 namespace PPSPS.Controllers
 {
@@ -38,14 +39,19 @@ namespace PPSPS.Controllers
 
         public async Task<IActionResult> Index()
         {
-           var tasks = _context.Assignments
-               .Include(t => t.Task)
-               .ThenInclude(s => s.Subject)
-                    .Where(d => d.UserId == User.Identity.GetUserId<string>())
+            var tasks = _context.Assignments
+                .Include(t => t.Task)
+                .ThenInclude(s => s.Subject)
+                .Where(d => d.UserId == User.Identity.GetUserId<string>())
                 .OrderBy(t => t.Task.DateEntered)
                 .Take(5)
                 .AsNoTracking();
             return View(await tasks.ToListAsync());
+        }
+
+        public async Task<IActionResult> AssignmentsError()
+        {
+            return View();
         }
 
         public async Task<IActionResult> SubmittedTasksOverview()
@@ -53,8 +59,8 @@ namespace PPSPS.Controllers
             string id = User.Identity.GetUserId<string>();
             var assignment = _context.Assignments
                 .Include(t => t.Task)
-                    .ThenInclude(s => s.Subject)
-                    .Where(u => u.UserId == id)
+                .ThenInclude(s => s.Subject)
+                .Where(u => u.UserId == id)
                 .Include(f => f.File)
                 .OrderBy(t => t.Task.DateEntered)
                 .AsNoTracking();
@@ -67,20 +73,27 @@ namespace PPSPS.Controllers
             var users = _context.Users
                 .FindAsync(User.Identity.GetUserId<string>());
 
-            var classes = _context.Classes
-                .FirstOrDefaultAsync(m => m.Id == users.Result.ClassId);
+            if (users.Result.ClassId != null)
+            {
+                var classes = _context.Classes
+                    .FirstOrDefaultAsync(m => m.Id == users.Result.ClassId);
+                var groups = _context.Groups
+                    .FirstOrDefaultAsync(m => m.Id == users.Result.GroupId);
 
-            var groups = _context.Groups
-                .FirstOrDefaultAsync(m => m.Id == users.Result.GroupId);
-
-            var tasks = _context.Tasks
-                .Include(s => s.Subject)
+                var tasks = _context.Tasks
+                    .Include(s => s.Subject)
                     .Where(t => t.ClassId == classes.Result.ClassName)
                     .Where(g => g.GroupId == groups.Result.Id || g.GroupId == "all")
                     .Where(d => d.DateDeadline >= DateTime.Now)
-                .OrderBy(t => t.DateEntered)
-                .AsNoTracking();
-            return View(await tasks.ToListAsync());
+                    .OrderBy(t => t.DateEntered)
+                    .AsNoTracking();
+                return View(await tasks.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction(nameof(AssignmentsError));
+            }
+
         }
 
         public async Task<IActionResult> TaskOverview(string? id)

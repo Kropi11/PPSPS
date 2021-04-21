@@ -352,6 +352,24 @@ namespace PPSPS.Controllers
             return View(assignmentToUpdate);
         }
 
+        public async Task<IActionResult> UserTasksOverview(string? id)
+        {
+            var users = _context.Assignments
+                .Include(t => t.Task)
+                    .ThenInclude(s => s.Subject)
+                .Include(t => t.Task)
+                    .ThenInclude(g => g.Group)
+                .Include(t => t.Task)
+                    .ThenInclude(y => y.YearsOfStudies)
+                    .Where(a => a.UserId == id)
+                    .Where(t => t.Task.TeacherId == User.Identity.GetUserId<string>())
+                .OrderByDescending(t => t.Task.DateEntered)
+                .AsNoTracking();
+
+            PopulateClassesWithoutIdDropDownList();
+            return View(await users.ToListAsync());
+        }
+
         public async Task<IActionResult> DownloadFileFromDatabase(string id)
         {
             var file = await _context.Files
@@ -366,7 +384,7 @@ namespace PPSPS.Controllers
             return File(file.File, file.FileType, file.FileName + file.Extension);
         }
 
-        public async Task<IActionResult> DeleteFileFromDatabase(string id)
+        public async Task<IActionResult> DeleteFileFromDatabase(string id, string? pageid)
         {
             var file = await _context.Files
                 .Where(f => f.Id == id)
@@ -376,7 +394,7 @@ namespace PPSPS.Controllers
             _context.SaveChanges();
 
             TempData["Message"] = $"Soubor {file.FileName + file.Extension} byl úspěšně smazán z databáze.";
-            return RedirectToAction(nameof(AssignmentOverview), new { id = "17e3ccb5-d4ed-4f6d-8783-98e041ebb39f"});
+            return RedirectToAction(nameof(AssignmentOverview), new { id = pageid});
         }
 
         private void PopulateClassesWithoutIdDropDownList(object selectedClass = null)
