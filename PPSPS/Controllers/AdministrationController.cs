@@ -489,6 +489,21 @@ namespace PPSPS.Controllers
             return View(classes);
         }
 
+        public async Task<IActionResult> ClassUsersOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var users = _context.Users
+                .OrderBy(u => u.LastName)
+                .Where(u => u.ClassId == id)
+                .AsNoTracking();
+
+            return View(await users.ToListAsync());
+        }
+
         public async Task<IActionResult> SubjectsOverview()
         {
             var subject = _context.Subjects

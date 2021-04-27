@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PPSPS.Areas.Identity.Data.PPSPSUser>
 
 @{
-    ViewData["Title"] = "Přehled uživatelů";
+    ViewData["Title"] = "Přehled studentů";
 }
 
 <div class="container">
@@ -24,7 +24,7 @@
                         <th scope="col" asp-route-sortOrder="@ViewData["LastNameSortParm"]">Příjmení</th>
                         <th scope="col">Jméno</th>
                         <th scope="col">E-mail</th>
-                        <th colspan="3" scope="col" />
+                        <th colspan="2" scope="col" />
                     </tr>
                     </thead>
                     <tbody id="Table">
@@ -34,14 +34,11 @@
                             <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                            <td class="textCenter" onclick="location.href = '@(Url.Action("UserOverview", "Administration",new {id = item.Id}))'">
+                            <td class="textCenter" onclick="location.href = '@(Url.Action("UserOverview", "Teacher",new {id = item.Id}))'">
                                 <i class="bi bi-file-earmark-person" style="color: #1c7430"></i>
                             </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Administration",new {id = item.Id})'">
+                            <td class="textCenter" onclick="location.href = '@Url.Action("UserEdit", "Teacher",new {id = item.Id})'">
                                 <i class="bi bi-pencil-square" style="color: #0056b3"></i>
-                            </td>
-                            <td class="textCenter" onclick="location.href = '@Url.Action("UserDelete", "Administration",new {id = item.Id})'">
-                                <i class="bi bi-trash" style="color: #b21f2d"></i>
                             </td>
                         </tr>
                     }

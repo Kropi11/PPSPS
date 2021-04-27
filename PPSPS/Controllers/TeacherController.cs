@@ -370,6 +370,52 @@ namespace PPSPS.Controllers
             return View(await users.ToListAsync());
         }
 
+        public async Task<IActionResult> ClassesOverview()
+        {
+            var classes = _context.Classes
+                .Include(u => u.ClassTeacher)
+                .OrderBy(c => c.ClassName)
+                .AsNoTracking();
+            return View(await classes.ToListAsync());
+        }
+
+        public async Task<IActionResult> ClassOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var classes = await _context.Classes
+                .Include(t => t.ClassTeacher)
+                .Include(u => u.User)
+                .Where(u => u.User.ClassId == id)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (classes == null)
+            {
+                return NotFound();
+            }
+
+            return View(classes);
+        }
+
+        public async Task<IActionResult> ClassUsersOverview(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var users = _context.Users
+                .OrderBy(u => u.LastName)
+                .Where(u => u.ClassId == id)
+                .AsNoTracking();
+
+            return View(await users.ToListAsync());
+        }
+
         public async Task<IActionResult> DownloadFileFromDatabase(string id)
         {
             var file = await _context.Files

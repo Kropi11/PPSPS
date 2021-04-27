@@ -18,10 +18,11 @@
                 }
                 @if (User.IsInRole("Student")){
                     <li><a asp-area="" asp-controller="Student" asp-action="AssignmentsOverview">Přehled aktuálních prací</a></li>
-                    <li><a asp-area="" asp-controller="Student" asp-action="SubmittedTasksOverview">Přehled přihlášených prací</a></li>
+                    <li><a asp-area="" asp-controller="Student" asp-action="SubmittedTasksOverview">Přehled mých prací</a></li>
                 }
                 @if (User.IsInRole("Teacher")){
                     <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="UsersOverview">Přehled uživatelů</a></li>
+                    <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="ClassesOverview">Přehled tříd</a></li>
                     <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="TasksOverview">Přehled zadání</a></li>
                     <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="TaskCreate">Vytvořit zadání</a></li>
                 }
