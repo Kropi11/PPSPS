@@ -17,8 +17,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Domovská stránka</a></li>
                 }
                 @if (User.IsInRole("Student")){
-                    <li><a asp-area="" asp-controller="Student" asp-action="AssignmentsOverview">Přehled aktuálních prací</a></li>
                     <li><a asp-area="" asp-controller="Student" asp-action="SubmittedTasksOverview">Přehled mých prací</a></li>
+                    <li><a asp-area="" asp-controller="Student" asp-action="AssignmentsOverview">Přehled aktuálních zadání</a></li>
                 }
                 @if (User.IsInRole("Teacher")){
                     <li class="yellowitem"><a asp-area="" asp-controller="Teacher" asp-action="UsersOverview">Přehled uživatelů</a></li>

@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Http;
 using PPSPS.Areas.Identity.Data;
 using PPSPS.Data;
 using PPSPS.Models;
-using PPSPS.Views.Student;
 
 namespace PPSPS.Controllers
 {
