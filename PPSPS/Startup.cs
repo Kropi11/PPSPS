@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,11 @@ namespace PPSPS
         {
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
