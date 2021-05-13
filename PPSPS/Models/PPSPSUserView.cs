@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PPSPS.Models
 {
-    [Table("aspnetusers", Schema = "ppsps")]
+    [Table("AspNetUsers", Schema = "ppsps")]
 
     public class PPSPSUserView : IdentityUser
     {
