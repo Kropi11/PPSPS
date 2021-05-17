@@ -9,7 +9,7 @@ using PPSPS.Data;
 namespace PPSPS.Migrations
 {
     [DbContext(typeof(AuthDBContext))]
-    [Migration("20210418173537_InitialCreate")]
+    [Migration("20210517232721_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -465,7 +465,7 @@ namespace PPSPS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("aspnetusers","ppsps");
+                    b.ToTable("AspNetUsers","ppsps");
                 });
 
             modelBuilder.Entity("PPSPS.Models.PPSPSYearsOfStudies", b =>

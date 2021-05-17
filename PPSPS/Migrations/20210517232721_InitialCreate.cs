@@ -93,7 +93,7 @@ namespace PPSPS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "aspnetusers",
+                name: "AspNetUsers",
                 schema: "ppsps",
                 columns: table => new
                 {
@@ -117,7 +117,7 @@ namespace PPSPS.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_aspnetusers", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,10 +154,10 @@ namespace PPSPS.Migrations
                 {
                     table.PrimaryKey("PK_Classes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Classes_aspnetusers_ClassTeacherId",
+                        name: "FK_Classes_AspNetUsers_ClassTeacherId",
                         column: x => x.ClassTeacherId,
                         principalSchema: "ppsps",
-                        principalTable: "aspnetusers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -515,7 +515,7 @@ namespace PPSPS.Migrations
                 name: "Groups");
 
             migrationBuilder.DropTable(
-                name: "aspnetusers",
+                name: "AspNetUsers",
                 schema: "ppsps");
         }
     }

@@ -1025,6 +1025,19 @@ namespace PPSPS.Controllers
             return View(assignmentToUpdate);
         }
 
+        public async Task<IActionResult> AssignmentsOverview(string? id)
+        {
+            var assignment = _context.Assignments
+                .Include(u => u.User)
+                .Include(t => t.Task)
+                    .ThenInclude(g => g.Group)
+                    .Where(a => a.TaskId == id)
+                .Include(f => f.File)
+                .OrderBy(u => u.User.LastName)
+                .AsNoTracking();
+            return View(await assignment.ToListAsync());
+        }
+
         public async Task<IActionResult> DownloadFileFromDatabase(string id)
         {
             var file = await _context.Files

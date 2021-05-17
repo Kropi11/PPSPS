@@ -463,7 +463,7 @@ namespace PPSPS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("aspnetusers","ppsps");
+                    b.ToTable("AspNetUsers","ppsps");
                 });
 
             modelBuilder.Entity("PPSPS.Models.PPSPSYearsOfStudies", b =>
