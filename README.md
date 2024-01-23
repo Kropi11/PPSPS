@@ -4,26 +4,27 @@
 
 Tato webová aplikace vznikla jako maturitní projekt během mého posledního roku studia na SPŠ a VOŠ Písek. Práce se zabývá návrhem a implementací webové aplikace, zaměřené na správu povinných prací odevzdaných studenty. Aplikace poskytuje všem uživatelům přehled o přidělených úkolech, tématech a hodnoceních. Vyučujícím umožňuje vytvářet, upravovat, přidělovat a odstraňovat zadání. Aplikace rovněž umožňuje vyučujícím přidělovat úkoly v rámci ročníků, tříd a skupin ve třídách. Studentům naopak nabízí možnost procházet aktuální i minulé práce, které již do aplikace nahráli.
 
-## Klíčová Slova
+## Klíčová slova
 
 C#, ASP.NET Core, Razor, Entity Framework Core, ASP.NET Core Identity, HTML, JavaScript, CSS, Bootstrap, MySQL, WebApp
 
-## Funkce Aplikace
+## Funkce aplikace
 
 - **Přehledné zadávání úkolů:** Vyučující může snadno vytvářet, upravovat, a přidělovat úkoly studentům.
 - **Strukturované hodnocení:** Aplikace poskytuje uživatelům přehledné hodnocení a zpětnou vazbu k odevzdaným pracím.
 - **Organizace podle ročníků, tříd a skupin:** Vyučující může přidělovat úkoly nejen do konkrétních tříd a ročníků, ale i skupin v rámci tříd.
 - **Prohlížení aktuálních a minulých prací:** Studenti mohou sledovat své aktuální úkoly a procházet své dřívější odevzdané práce.
 
-## Technické Detaily
+## Technické detaily
 
-- **Programovací Jazyky:** C#
+- **Programovací jazyky:** C#
 - **Framework:** ASP.NET Core
 - **Šablony:** Využití Razor pro tvorbu dynamických webových stránek.
 - **Databáze:** MySQL s využitím Entity Framework Core pro snadnou správu dat.
-- **Uživatelské Rozhraní:** HTML, JavaScript, CSS, Bootstrap pro moderní a responzivní design.
-- **Správa Identit:** Využití ASP.NET Core Identity pro autentizaci a autorizaci uživatelů.
-## Instalace A Spuštění
+- **Uživatelské rozhraní:** HTML, JavaScript, CSS, Bootstrap pro moderní a responzivní design.
+- **Správa identit:** Využití ASP.NET Core Identity pro autentizaci a autorizaci uživatelů.
+
+## Instalace a spuštění
 
 Pro úspěšnou instalaci a spuštění této webové aplikace postupujte podle následujících kroků:
 
@@ -46,12 +47,12 @@ Před zahájením instalace se ujistěte, že máte nainstalovaný následujíc�
     cd PPSPS/PPSPS
     ```
 
-### Nastavení Databáze
+### Nastavení databáze
 
 1. Vytvořte prázdnou databázi MySQL pro aplikaci.
 2. Aktualizujte připojovací řetězec v souboru `appsettings.json` s příslušnými informacemi o databázi.
 
-### Spuštění Aplikace
+### Spuštění aplikace
 
 1. Otevřete příkazový řádek v hlavní složce projektu.
 2. Spusťte příkaz pro sestavení a spuštění aplikace:
@@ -61,7 +62,7 @@ Před zahájením instalace se ujistěte, že máte nainstalovaný následujíc�
 
 Aplikace by nyní měla být dostupná na [http://localhost:5000](http://localhost:5000).
 
-### Další Kroky
+### Další kroky
 
 Pro další pokyny ohledně konfigurace a používání si přečtěte [dokumentaci](./Documentation.pdf).
 
